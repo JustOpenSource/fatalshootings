@@ -13,6 +13,9 @@
     "serve-favicon": "~2.1.3",
     "debug": "~2.0.0",
     "hbs": "~2.7.0",
-    "less-middleware": "1.0.x"
+    "less-middleware": "1.0.x",
+    "nano": "6.0.x",
+    "q" : "1.0.x",
+    "underscore" : "1.7.x"
   }
 }
