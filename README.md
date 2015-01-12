@@ -16,6 +16,8 @@ Go to `localhost:3000`
 	
 ##Play with couchdb##
 
-	$ node couch_test.js
+	$ node db/utils/couch_test.js
 	
-Go to `localhost:5984/_utils/`
+Go to `localhost:5984/_utils/` for the couch db management tool.
+
+There is a module in `db/sample_data/pfdata.js` that contains a stale dataset ready for import into a couch database.
