@@ -1,0 +1,1 @@
+{"_id":"_design/test","_rev":"5-26baca8af3c9aa52950a62e0ecaef1d7","views":{"foo":{"map":"function(doc){ emit(doc.subjectsgender)}"}}}
