@@ -27,3 +27,8 @@ Go to `localhost:5984/_utils/` for the couch db management tool.
 ##Sample Data##
 
 There is a module in `db/sample_data/pfdata.js` that contains a stale dataset ready for import into a couch database.
+
+##Requirement Documentation##
+[json-schema](http://json-schema.org/)
+[jsonschema node module](https://www.npmjs.com/package/jsonschema)
+[nano](https://github.com/dscape/nano)

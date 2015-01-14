@@ -1,0 +1,16 @@
+{
+	"id": "/fe/death",
+	"type": "object",
+	"properties": {
+		"cause" : "string",
+		"cause_notes" : "string",
+		"responsible-agency" : "string",
+		"description" : "string",
+		"dated-description" : "string",
+		"disposition" : "string",
+		"source_url" : "string",
+		"event" : {
+			"type" : {"$ref" : "/fe/encounter"}
+		}
+	}
+}
