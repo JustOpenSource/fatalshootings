@@ -6,7 +6,7 @@
 		"type": { "enum": [ "male", "female", "intersex" ] },
 		"name" : "string",
 		"race" : "string",
-		"image-url" : "string",
-		"mental-illness" : "string"
+		"image_url" : "string",
+		"mental_illness" : "string"
 	}
 }
