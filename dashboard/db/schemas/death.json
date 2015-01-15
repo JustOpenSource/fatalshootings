@@ -4,9 +4,9 @@
 	"properties": {
 		"cause" : "string",
 		"cause_notes" : "string",
-		"responsible-agency" : "string",
+		"responsible_agency" : "string",
 		"description" : "string",
-		"dated-description" : "string",
+		"dated_description" : "string",
 		"disposition" : "string",
 		"source_url" : "string",
 		"event" : {
