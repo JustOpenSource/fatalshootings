@@ -1,0 +1,12 @@
+{
+	"id": "/fe/subject",
+	"type": "object",
+	"properties": {
+		"age" : "number",
+		"type": { "enum": [ "male", "female", "intersex" ] },
+		"name" : "string",
+		"race" : "string",
+		"image-url" : "string",
+		"mental-illness" : "string"
+	}
+}

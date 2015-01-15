@@ -1,0 +1,8 @@
+{
+	"id": "/fe/encounter",
+	"type": "object",
+	"properties": {
+		"address" : "string",
+		"date" : "string"
+	}
+}
