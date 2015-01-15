@@ -1,0 +1,10 @@
+{
+	"id": "/fe/loc",
+	"type": "object",
+	"properties": {
+		"city" : "string",
+		"county" : "string",
+		"state" : "string",
+		"zipcode" : "string"
+	}
+}

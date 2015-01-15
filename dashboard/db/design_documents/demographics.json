@@ -1,0 +1,7 @@
+{
+	"_id":"_design/validate",
+   	"language": "javascript",
+   	"validate" : {
+    	"entry" : "function validateEntry(e){return e+':foo'}exports.entry=validateEntry" 
+   	}
+}

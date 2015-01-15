@@ -1,0 +1,18 @@
+{
+	"id": "/fe/entry",
+	"type": "object",
+	"properties": {
+		"submitted_by": {
+			"type": "string"
+		},
+		"death" : {
+			"type" : {"$ref" : "/fe/death"}
+		},
+		"location" : {
+			"type" : {"$ref" : "/fe/location"}
+		},
+		"subject" : {
+			"type" : {"$ref" : "/fe/subject"}
+		}
+	}
+}
