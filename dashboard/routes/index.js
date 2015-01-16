@@ -9,7 +9,8 @@ router.get('/', function(req, res) {
     var routes = [
         { route: '/', description: 'The page you are on'},
         { route: '/explore/formatted', description: 'JSON of all data has reformatted to match schema.'},
-        { route: '/explore/normalized', description: 'JSON of all data that has been normalized and formatted'}
+        { route: '/explore/normalized', description: 'JSON of all data that has been normalized and formatted'},
+        { route: '/explore/normalized/specific/:id', description: 'version of /explore/normalized that allows you to pass in one or many keys as a csv as the id param' }
     ]
     res.render('index',{routes: routes });
 });

@@ -40,10 +40,10 @@ var analysisView = {
         //insert and pass through callback
         pf.insert( {'views': {'formatted': {'map': view} } }, '_design/analysis' , callback);
     },
-    get: function(callback, tried){
+    get: function(callback, tried, params){
         //default for tried variable
         tried = (typeof tried !== 'undefined') ? tried : 0;
-        
+        params = (typeof params !== 'undefined') ? params : {};
         var nano = require('nano')('http://localhost:5984');
         var pf = nano.use('pf');
         //if this is the second run through, it means that we need to create the view
@@ -53,8 +53,9 @@ var analysisView = {
                 analysisView.get(callback);
             });
         }else{
+            console.log('trying to grab the data using ',params);
             //attempt to pull data
-            pf.view('analysis','formatted',function(err,body){
+            pf.view('analysis','formatted',params,function(err,body){
                 if(err && err.statusCode === 404){
                     //missing view, retry
                     analysisView.get(callback,tried+1);
