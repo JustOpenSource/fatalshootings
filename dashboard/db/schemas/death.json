@@ -1,5 +1,5 @@
 {
-	"id": "/fe/death",
+	"id": "/fe/death/v1",
 	"type": "object",
 	"properties": {
 		"cause" : "string",

@@ -1,5 +1,5 @@
 {
-	"id": "/fe/loc",
+	"id": "/fe/loc/v1",
 	"type": "object",
 	"properties": {
 		"city" : "string",

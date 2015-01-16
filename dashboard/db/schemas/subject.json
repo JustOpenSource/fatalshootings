@@ -1,5 +1,5 @@
 {
-	"id": "/fe/subject",
+	"id": "/fe/subject/v1",
 	"type": "object",
 	"properties": {
 		"age" : "number",
