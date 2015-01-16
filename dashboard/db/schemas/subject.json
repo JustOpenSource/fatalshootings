@@ -3,7 +3,7 @@
 	"type": "object",
 	"properties": {
 		"age" : "number",
-		"type": { "enum": [ "male", "female", "intersex" ] },
+		"type": { "enum": [ "male", "female", "intersex", "unknown" ] },
 		"name" : "string",
 		"race" : "string",
 		"image_url" : "string",

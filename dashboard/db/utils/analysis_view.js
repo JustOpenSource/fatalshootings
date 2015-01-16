@@ -1,6 +1,5 @@
 var analysisView = {
     create: function(callback){
-        console.log('creating');
         var nano = require('nano')('http://localhost:5984');
         var pf = nano.use('pf');
         //create view as variable
@@ -33,7 +32,8 @@ var analysisView = {
                     race: doc.subjectsrace ? doc.subjectsrace : null,
                     image_url: doc.urlofimageofdeceased ? doc.urlofimageofdeceased : null,
                     mental_illness: doc.symptomsofmentalillness ? doc.symptomsofmentalillness : null,
-                }
+                },
+                published: true,
             };
             emit(doc._id, object);
         }
@@ -43,25 +43,26 @@ var analysisView = {
     get: function(callback, tried){
         //default for tried variable
         tried = (typeof tried !== 'undefined') ? tried : 0;
+        
         var nano = require('nano')('http://localhost:5984');
         var pf = nano.use('pf');
+        //if this is the second run through, it means that we need to create the view
         if(tried >= 1){
-            console.log('tried',tried);
             this.create(function(err,body){
                 if(err) throw err
                 analysisView.get(callback);
             });
         }else{
+            //attempt to pull data
             pf.view('analysis','formatted',function(err,body){
-                console.log('retrieving view')
                 if(err && err.statusCode === 404){
-                    console.log('gonna try again', tried);
+                    //missing view, retry
                     analysisView.get(callback,tried+1);
                 }else if(err){
-                    console.log('err');
+                    //some other error
                     throw err;
                 }else{
-                    console.log('good');
+                    //view exists, pass on results
                     callback(body);
                 }
             })
