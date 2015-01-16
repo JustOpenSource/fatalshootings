@@ -7,7 +7,6 @@ clean.section.death = function(section){
     if(typeof section !== 'undefined'){
         var c = clean.fields.death.cause(section.cause);
         output.cause = c.cause;
-        console.log('I got ',section.cause, ' and I thought that was ',c.cause,' but I still assigned ',output.cause);
         output.cause_notes = c.cause_notes;
         output.responsible_agency = section.responsible_agency ? superTrim(section.responsible_agency) : output.responsible_agency;
         output.description = section.description ? superTrim(section.description) : output.description;
@@ -269,8 +268,28 @@ var normalizer = {
             //loop through body and update rows
             var len = body.rows.length;
             for(var i = 0; i < len; i++){
+                //Array.prototype.push.apply(output.rows, [normalizer.cleanRow(body.rows[i])] );
+                //output.rows.push(normalizer.cleanRow(body.rows[i]));
+                console.log("========start row========");
+                if(i !== 0){
+                    console.log('==previous entry pre==',output.rows[output.rows.length -1].value.subject.name +' | '+output.rows[output.rows.length -1].key);
+                }
                 var data = normalizer.cleanRow(body.rows[i]);
-                output.rows.push(data);
+                if(i !== 0){
+                    console.log('==previous entry==',output.rows[output.rows.length -1].value.subject.name +' | '+output.rows[output.rows.length -1].key);
+                }
+                output.rows[output.rows.length] = data;
+                console.log('==orig=='+body.rows[i].value.subject.name +' | '+body.rows[i].key);
+                console.log('==array== '+output.rows[output.rows.length -1].value.subject.name+' | '+output.rows[output.rows.length -1].key);
+                if(i !== 0){
+                    console.log('==previous array== '+output.rows[output.rows.length -2].value.subject.name+' | '+output.rows[output.rows.length -2].key);
+                }
+                console.log("========end row========");
+                
+            }
+            var olen = output.rows.length;
+            for(var x = 0; x < olen; x++){
+                console.log('subject:',output.rows[x].value.subject.name + ' | ' +output.rows[x].key);
             }
             output.total_rows = i;
             output.offset = body.offset;
