@@ -9,6 +9,31 @@ router.get('/formatted/',function(req,res){
     });
 });
 
+router.get('/normalized/specific/:id',function(req,res){
+    var v = require('../db/utils/analysis_view');
+    var n = require('../db/utils/normalizer');
+    var params = {keys: []};
+    if(req.params.id.indexOf(',')){
+        params.keys = req.params.id.split(',');
+    }else{
+        params.keys.push(req.params.id);
+    }
+    v.get(function(body){
+        console.log('callback');
+        if(typeof body !== 'undefined'){
+            console.log('inside body');
+            var output = {
+                orig: body,
+                clean: n.cleanResults(body),
+            }
+            res.json(output);
+        }else{
+            console.log('bad body',body);
+        }
+    },0,params);
+    
+});
+
 router.get('/normalized/',function(req,res){
     var v = require('../db/utils/analysis_view');
     var n = require('../db/utils/normalizer');
