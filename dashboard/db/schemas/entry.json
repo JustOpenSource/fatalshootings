@@ -13,6 +13,9 @@
 		},
 		"subject" : {
 			"type" : {"$ref" : "/fe/subject"}
-		}
+		},
+                "published" : {
+                        "type" : "boolean"
+                }
 	}
 }
