@@ -16,9 +16,10 @@
 			}
 		},
 		"subject" : {
-			"type" : {
-				"$ref" : "/fe/subject/v1"
-			}
-		}
+			"type" : {"$ref" : "/fe/subject/v1"}
+		},
+        "published" : {
+                "type" : "boolean"
+        }
 	}
 }
