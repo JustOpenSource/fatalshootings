@@ -19,9 +19,7 @@ router.get('/normalized/specific/:id',function(req,res){
         params.keys.push(req.params.id);
     }
     v.get(function(body){
-        console.log('callback');
         if(typeof body !== 'undefined'){
-            console.log('inside body');
             var output = {
                 orig: body,
                 clean: n.cleanResults(body),

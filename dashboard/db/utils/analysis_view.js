@@ -53,7 +53,6 @@ var analysisView = {
                 analysisView.get(callback);
             });
         }else{
-            console.log('trying to grab the data using ',params);
             //attempt to pull data
             pf.view('analysis','formatted',params,function(err,body){
                 if(err && err.statusCode === 404){
