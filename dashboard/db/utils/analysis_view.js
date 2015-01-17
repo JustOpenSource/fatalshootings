@@ -62,6 +62,8 @@ var analysisView = {
                     //some other error
                     throw err;
                 }else{
+                    //body.rows = body.rows.slice(15,25);
+
                     //view exists, pass on results
                     callback(body);
                 }
