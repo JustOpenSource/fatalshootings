@@ -6,14 +6,22 @@ Sandbox to explore data from [Fatal Encounters](fatalencounters.org)
 
 Install [node](http://nodejs.org/) and [couchdb](http://couchdb.apache.org/).  
 
+For ease of development, install `supervisor` to watch your files and automatically bounce the server.
+
+	$ npm i supervisor -g
+
+Then, you can pull the package and run the server.
+
 	$ git clone https://github.com/JustOpenSource/fatalshootings.git
 	$ cd fatalshootings/dashboard
 	$ npm install
 
-	$ node bin/www
+	$ supervisor bin/www
 
 Go to `localhost:3000`
 	
+When using `supervisor` instead of `node`, the server will automatically bounce when you save files.
+
 ##Play with couchdb##
 
 The database is built using (couchdb)[http://couchdb.apache.org/] you will need to download and install it before working with the data. Once installed and running, the management tool is located at (localhost:5984/_utils/)[http://localhost:5984/_utils/]
@@ -28,6 +36,9 @@ If you are using node to install the data, you will first need to manually creat
 
 	$ node db/utils/couch_test.js
 	
+
+
+
 ###Installing Data - Manual###
 
 There is a module in `db/sample_data/pfdata.js` that contains a stale dataset ready for import into a couch database.
