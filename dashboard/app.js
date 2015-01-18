@@ -5,6 +5,8 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
+var hbsConfig = require('./config/handlebars');
+
 var routes = require('./routes/index');
 var explore = require('./routes/explore');
 
@@ -22,6 +24,8 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(require('less-middleware')(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'public')));
+
+app.use(hbsConfig);
 
 app.use('/', routes);
 app.use('/explore/', explore);

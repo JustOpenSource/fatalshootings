@@ -1,6 +1,7 @@
+var c = require('../../config/constants');
 var analysisView = {
     create: function(callback){
-        var nano = require('nano')('http://localhost:5984');
+        var nano = require('nano')(c.nano);
         var pf = nano.use('pf');
         //create view as variable
         var view = function(doc){
@@ -44,7 +45,7 @@ var analysisView = {
         //default for tried variable
         tried = (typeof tried !== 'undefined') ? tried : 0;
         params = (typeof params !== 'undefined') ? params : {};
-        var nano = require('nano')('http://localhost:5984');
+        var nano = require('nano')(c.nano);
         var pf = nano.use('pf');
         //if this is the second run through, it means that we need to create the view
         if(tried >= 1){
