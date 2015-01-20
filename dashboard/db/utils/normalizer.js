@@ -1,27 +1,27 @@
 var _ = require('underscore'),
-	cleanSection = {};
+        cleanSection = {};
 
 //DEATH
 cleanSection.death = function(section){
-	var c = cleanSection.cause(section["cause"]);
+    var c = cleanSection.cause(section["cause"]);
 
-	return {
-		"cause": c.cause,
-		"cause_notes": c.cause_notes,
-		"responsible_agency": superTrim(section["responsible_agency"]),
-		"description": superTrim(section["description"]),
-		"dated_description": superTrim(section["dated_description"]),
-		"disposition": superTrim(section["disposition"]),
-		"source_url": superTrim(section["source_url"]),
-		"event": cleanSection.event(section["event"])
-	}
+    return {
+        "cause": c.cause,
+        "cause_notes": c.cause_notes,
+        "responsible_agency": superTrim(section["responsible_agency"]),
+        "description": superTrim(section["description"]),
+        "dated_description": superTrim(section["dated_description"]),
+        "disposition": superTrim(section["disposition"]),
+        "source_url": superTrim(section["source_url"]),
+        "event": cleanSection.event(section["event"])
+    }
 }
 
 cleanSection.event = function(section){
     return  {
-	    "address": superTrim(section["address"]),
-	    "date": superTrim(section["date"])
-	}
+        "address": superTrim(section["address"]),
+        "date": superTrim(section["date"])
+    }
 }
 
 cleanSection.cause = function(cause){
@@ -184,7 +184,7 @@ cleanSection.sex = function(sex){
     	t = superTrim(sex),
     	t = t ? t.toLowerCase() : null;
 
-    if(types.indexOf(t) != -1){
+    if(types.indexOf(t) !== -1){
         cleanedSex = t;
     }
 
@@ -218,20 +218,14 @@ cleanSection.location = function(location){
 
 //super trim
 function superTrim(string, tried){
-	tried = tried || 0;
-    
+    tried = tried || 0;
     var output = '';
 
     if (string && typeof string !== "string" && tried === 0) {
-
         output = superTrim(string.toString(), tried + 1);
-    
     } else if (typeof string !== "string" && tried > 0) {
-        
         output = "error";
-    
     } else {
-    
         output = string;
     }
     
@@ -243,35 +237,34 @@ function superTrim(string, tried){
 }
 
 function cleanValue(rowValue){
-	var cleanedRowValue = {};
+    var cleanedRowValue = {};
 
-	cleanedRowValue.death = cleanSection.death(rowValue.death);
-	cleanedRowValue.subject = cleanSection.subject(rowValue.subject);
-	cleanedRowValue.location = cleanSection.location(rowValue.location);
-	cleanedRowValue.submitted_by = superTrim(rowValue.submitted_by);
-	cleanedRowValue.published = (rowValue.published === true);
+    cleanedRowValue.death = cleanSection.death(rowValue.death);
+    cleanedRowValue.subject = cleanSection.subject(rowValue.subject);
+    cleanedRowValue.location = cleanSection.location(rowValue.location);
+    cleanedRowValue.submitted_by = superTrim(rowValue.submitted_by);
+    cleanedRowValue.published = (rowValue.published === true);
 
-	return cleanedRowValue;
+    return cleanedRowValue;
 }
 
 var normalizer = {
-	cleanResults : function(d){
-		console.log();
-		var cleanedData = {},
-			cleanedRows = [],
-			uncleanedRows = d.rows;
+    cleanResults : function(d){
+        var cleanedData = {},
+            cleanedRows = [],
+            uncleanedRows = d.rows;
 
-		_.each(uncleanedRows, function(uncleanedRow, i){
-			uncleanedRow.value = cleanValue(uncleanedRow.value);
-			cleanedRows.push(uncleanedRow)
-		});
+        _.each(uncleanedRows, function(uncleanedRow, i){
+            uncleanedRow.value = cleanValue(uncleanedRow.value);
+            cleanedRows.push(uncleanedRow)
+        });
 
-		cleanedData.rows = cleanedRows;
-		cleanedData.total_rows = cleanedRows.length;
-		cleanedData.offset = d.offset;
+        cleanedData.rows = cleanedRows;
+        cleanedData.total_rows = cleanedRows.length;
+        cleanedData.offset = d.offset;
 
-		return cleanedData;
-	}
+        return cleanedData;
+    }
 }
 
 module.exports = normalizer;
