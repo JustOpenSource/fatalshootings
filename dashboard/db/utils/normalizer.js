@@ -174,13 +174,7 @@ cleanSection.subject = function(section){
 }
 
 cleanSection.race = function(race){
-	var cleanedRace = "unknown";
-
-	if(typeof race !== 'undefined'){
-		cleanedRace = race;
-	}
-
-    return cleanedRace;
+    return (typeof race !== 'undefined') ? race : 'unknown' ;
 }
 
 
@@ -198,11 +192,25 @@ cleanSection.sex = function(sex){
 }
 
 //LOCATION
+cleanSection.state = function(state){
+    var c = require('../../config/constants');
+    var output = 'unknown';
+    var s = superTrim(state);
+    if(s === 'Washington'){
+        output = 'WA';
+    }else if(s){
+        s = s.toUpperCase();
+        if(typeof c.usStates.array[s] !== 'undefined'){
+            output = s;
+        }
+    }
+    return output;
+}
 cleanSection.location = function(location){
     return {
     	"city" : superTrim(location["city"]),
-    	"country" : superTrim(location["country"]),
-    	"state" : superTrim(location["state"]) ? superTrim(location["state"]).toLowerCase() : '',
+    	"county" : superTrim(location["county"]),
+    	"state" : cleanSection.state(location["state"]),
     	"zipcode" : superTrim(location["zipcode"])
     }
 }
