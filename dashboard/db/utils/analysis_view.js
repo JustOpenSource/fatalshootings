@@ -12,7 +12,7 @@ var analysisView = {
                     cause_notes: null,
                     responsible_agency: doc.agencyresponsiblefordeath ? doc.agencyresponsiblefordeath : null,
                     description: doc.abriefdescriptionofthecircumstancessurroundingthedeath ? doc.abriefdescriptionofthecircumstancessurroundingthedeath : null,
-                    date_description: doc.dateddescription ? doc.datedescription : null,
+                    dated_description: doc.datedescription ? doc.datedescription : null,
                     disposition: doc.officialdispositionofdeathjustifiedorother ? doc.officialdispositionofdeathjustifiedorother : null,
                     source_url: doc.linktonewsarticleorphotoofofficialdocument ? doc.linktonewsarticleorphotoofofficialdocument : null,
                     event: {
