@@ -1,5 +1,6 @@
 var c = {
     nano: 'http://localhost:5984',
+    db_name: 'pfc',
     usStates: {
         json: [
             { name: 'ALABAMA', abbreviation: 'AL'},

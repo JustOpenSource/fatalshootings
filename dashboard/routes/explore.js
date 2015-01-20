@@ -27,8 +27,8 @@ router.get('/install/clean',function(req,res){
             output.title = 'Error';
             output.message = 'The table "pfc" already exists';
             res.render('explore/install',output);
-            //get all 
         }else{
+            //create table
             n.db.create('pfc',function(err,body){
                 if(err) throw err;
 
@@ -41,40 +41,55 @@ router.get('/install/clean',function(req,res){
                 output.title = 'Success';
                 output.message = 'The table "pfc" did not exist, so we created it for you.';
                 
-                v.get(function(results){
-                    if(typeof results !== 'undefined'){
-                        var clean = norm.cleanResults(results);
-                        
-                        //update output
-                        output.actions.push({label: 'Pull old rows', value: 'Grabbed '+results.total_rows+' rows'});
-                        output.actions.push({label: 'Cleaned old rows', value: 'Cleaned '+clean.total_rows+' rows'});
-                        output.message += ' We grabbed '+results.total_rows+' from the old database and turned that into '+clean.total_rows+' clean entries.';
-                        
-                        //insert rows
-                        var import_count = 0;
-                        _.each(clean.rows, function(item){
-                            var id = item.id;
-                            delete item._dmair;
-                            delete item.id;
-                            delete item.key;
-                            pfc.insert(item, id,  function(err, body, header) {
-                                if (err) {
-                                    console.log('[pf.insert] ', err.message);
-                                    return;
-                                }
-                                import_count++;
-                            });                                
-                        });
-                        output.actions.push({label: 'Inserted rows into new table',value: clean.rows.length});
-                        output.message += ' We are now inserting all the clean rows into the database for you, this process takes a minute so it is still going, you can check your console for errors.';
-                        res.render('explore/install',output);
-                    }else{
-                        output.actions.push({label: 'Pull old rows', value: 'Failed to grab data'});
-                        output.title = "Error";
-                        output.message = 'We created the table for you, however we were unable to pull results from the original table for importing';
-                        res.render('explore/install',output);
+                //create view
+                pfc.insert(
+                    {'views': 
+                        {'all': 
+                            {'map': function(doc){
+                                emit(doc._id,doc.value);;
+                            }}
+                        } 
+                    }, 
+                    '_design/basic',
+                    function(err,body){
+                        if(err) throw err;
+                        output.actions.push({label: 'Create View','value': 'Success'});
+                        output.message +=' We created a basic view for easier access.';
+                        //import results
+                        v.get(function(results){
+                            if(typeof results !== 'undefined'){
+                                var clean = norm.cleanResults(results);
+
+                                //update output
+                                output.actions.push({label: 'Pull old rows', value: 'Grabbed '+results.total_rows+' rows'});
+                                output.actions.push({label: 'Cleaned old rows', value: 'Cleaned '+clean.total_rows+' rows'});
+                                output.message += ' We grabbed '+results.total_rows+' from the old database and turned that into '+clean.total_rows+' clean entries.';
+
+                                //insert rows
+                                _.each(clean.rows, function(item){
+                                    var id = item.id;
+                                    delete item._dmair;
+                                    delete item.id;
+                                    delete item.key;
+                                    pfc.insert(item, id,  function(err, body, header) {
+                                        if (err) {
+                                            console.log('[pf.insert] ', err.message);
+                                            return;
+                                        }
+                                    });                                
+                                });
+                                output.actions.push({label: 'Inserted rows into new table',value: clean.rows.length});
+                                output.message += ' We are now inserting all the clean rows into the database for you, this process takes a minute so it is still going, you can check your console for errors.';
+                                res.render('explore/install',output);
+                            }else{
+                                output.actions.push({label: 'Pull old rows', value: 'Failed to grab data'});
+                                output.title = "Error";
+                                output.message = 'We created the table for you, however we were unable to pull results from the original table for importing';
+                                res.render('explore/install',output);
+                            }
+                        })
                     }
-                })
+                );
             });
             
         }
