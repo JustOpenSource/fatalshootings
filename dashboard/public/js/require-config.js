@@ -1,5 +1,5 @@
 requirejs.config({
-    "baseUrl": "js",
+    "baseUrl": "/js",
     "paths": {
       "app": "/app",
       "d3": "//cdnjs.cloudflare.com/ajax/libs/d3/3.4.13/d3",

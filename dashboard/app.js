@@ -7,8 +7,11 @@ var bodyParser = require('body-parser');
 
 var hbsConfig = require('./config/handlebars');
 
-var routes = require('./routes/index');
-var explore = require('./routes/explore');
+var routes = {
+    index: require('./routes/index'),
+    explore: require('./routes/explore'),
+    data: require('./routes/data')
+}
 
 var app = express();
 
@@ -27,8 +30,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(hbsConfig);
 
-app.use('/', routes);
-app.use('/explore/', explore);
+app.use('/', routes.index);
+app.use('/explore/', routes.explore);
+app.use('/data/',routes.data);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

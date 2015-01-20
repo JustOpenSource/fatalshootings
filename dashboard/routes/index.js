@@ -1,9 +1,6 @@
 var express = require('express');
 var router = express.Router();
 
-var design_name = 'analysis';
-var design_view = 'formatted';
-
 /* GET home page. */
 router.get('/', function(req, res) {
     var routes = [
@@ -12,7 +9,9 @@ router.get('/', function(req, res) {
         { route: '/explore/normalized', description: 'JSON of all data that has been normalized and formatted'},
         { route: '/explore/normalized/specific/:id', description: 'version of /explore/normalized that allows you to pass in one or many keys as a csv as the id param' },
         { route: '/explore/normalized/compare/:id', description: 'pulls data from original database, /explore/formatted, and /explore/normalized and displays side by side, allows you to pass in one key or a csv as the id param'},
-        { route: '/explore/install/clean', description: 'Installs \'pfc\' database and populates with data from /explore/normalized'}
+        { route: '/explore/install/clean', description: 'Installs \'pfc\' database and populates with data from /explore/normalized'},
+        { route: '/data/', description: 'Lists all entries in the database'},
+        { route: '/data/:id', description: "displays entry and edit screen"},   
     ]
     res.render('index',{routes: routes });
 });

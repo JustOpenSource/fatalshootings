@@ -7,6 +7,23 @@ a {
   color: #00B7FF;
 }
 
+.single-view{
+    .default{
+        display: block;
+    }
+    .edit{
+        display: none;
+    }
+}
+.single-view.editing{
+    .default{
+        display: none;
+    }
+    .edit{
+        display: block;
+    }
+}
+
 svg#elementWrapper rect {
     background-color: blue;
     display: block;

@@ -1,0 +1,124 @@
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h2 class="panel-title">Death</h2>
+    </div>
+    <div class="panel-body">
+        <div class="row">
+            <div class="col-sm-3 text-right">
+                <label for="result[death][cause]">Cause of Death</label>
+            </div>
+            <div class="col-sm-9">
+                <div class="default">
+                    {{results.value.death.cause}}
+                </div>
+                <div class="edit form-group">
+                    <span>This is a dropdown</span>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-3 text-right">
+                <label for="result[death][cause_notes]">Cause of Death (notes)</label>
+            </div>
+            <div class="col-sm-9">
+                <div class="default">
+                    {{results.value.death.cause_notes}}
+                </div>
+                <div class="edit form-group">
+                    <input type="text" class="form-control" name="result[death][cause_notes]" value="{{results.value.death.cause_notes}}"/>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-3 text-right">
+                <label for="result[death][responsible_agency]">Responsible Agency</label>
+            </div>
+            <div class="col-sm-9">
+                <div class="default">
+                    {{results.value.death.responsible_agency}}
+                </div>
+                <div class="edit form-group">
+                    <input type="text" class="form-control" name="result[death][responsible_agency]" value="{{results.value.death.responsible_agency}}"/>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-3 text-right">
+                <label for="result[death][description]">Description</label>
+            </div>
+            <div class="col-sm-9">
+                <div class="default">
+                    {{results.value.death.description}}
+                </div>
+                <div class="edit form-group">
+                    <textarea class="form-control" name="result[death][description]" rows="5">{{results.value.death.description}}</textarea>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-3 text-right">
+                <label for="result[death][dated_description]">Dated Description</label>
+            </div>
+            <div class="col-sm-9">
+                <div class="default">
+                    {{results.value.death.dated_description}}
+                </div>
+                <div class="edit form-group">
+                    <textarea class="form-control" name="result[death][dated_description]" rows="5">{{results.value.death.dated_description}}</textarea>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-3 text-right">
+                <label for="result[death][disposition]">Disposition</label>
+            </div>
+            <div class="col-sm-9">
+                <div class="default">
+                    {{results.value.death.disposition}}
+                </div>
+                <div class="edit form-group">
+                    <input type="text" class="form-control" name="result[death][disposition]" value="{{results.value.death.description}}" />
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-3 text-right">
+                <label for="result[death][source_url]">Description</label>
+            </div>
+            <div class="col-sm-9">
+                <div class="default">
+                    {{results.value.death.source_url}}
+                </div>
+                <div class="edit form-group">
+                    <input type="text" class="form-control" name="result[death][source_url]" value="{{results.value.death.source_url}}" />
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-3 text-right">
+                <label for="result[death][event][address]">Event Address</label>
+            </div>
+            <div class="col-sm-9">
+                <div class="default">
+                    {{results.value.death.event.address}}
+                </div>
+                <div class="edit form-group">
+                    <input type="text" class="form-control" name="result[death][event][address]" value="{{results.value.death.event.address}}" />
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-3 text-right">
+                <label for="result[death][event][date]">Event Date</label>
+            </div>
+            <div class="col-sm-9">
+                <div class="default">
+                    {{results.value.death.event.date}}
+                </div>
+                <div class="edit form-group">
+                    <input type="text" class="form-control" name="result[death][event][date]" value="{{results.value.death.event.date}}" />
+                </div>
+            </div>
+        </div>       
+    </div>
+</div>
