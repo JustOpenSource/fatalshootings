@@ -30,18 +30,9 @@ If you only need to pull from the database, you can grab the json from the data 
 
 You do not need node to interface with the database, but the application interfaces will be built in node (and currently, node is needed to push the sample json into the database.)  
 
-###Installing Data - Node###
+###Installing Data###
 
-If you are using node to install the data, you will first need to manually create the `pf` table in the couch db management tool. You can then run the following command to import the data
-
-	$ node db/utils/couch_test.js
-	
-
-
-
-###Installing Data - Manual###
-
-There is a module in `db/sample_data/pfdata.js` that contains a stale dataset ready for import into a couch database.
+After you have installed node, couch, this package, and started up the application, you can install the data by visiting (localhost:3000/install/)[localhost:3000/install/].
 
 ##Requirement Documentation##
 [json-schema](http://json-schema.org/)
