@@ -10,7 +10,8 @@ var hbsConfig = require('./config/handlebars');
 var routes = {
     index: require('./routes/index'),
     explore: require('./routes/explore'),
-    data: require('./routes/data')
+    data: require('./routes/data'),
+    install: require('./routes/install')
 }
 
 var app = express();
@@ -32,7 +33,8 @@ app.use(hbsConfig);
 
 app.use('/', routes.index);
 app.use('/explore/', routes.explore);
-app.use('/data/',routes.data);
+app.use('/data/', routes.data);
+app.use('/install/', routes.install);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

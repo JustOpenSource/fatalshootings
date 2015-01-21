@@ -9,7 +9,8 @@ router.route('/')
     .get(function(req,res){
         db.view('basic','all',{},function(err,body){
             if(err) throw err;
-            res.render('data/list',{results: body,link_base:'/data/'});
+            res.json(body);
+            //res.render('data/list',{results: body,link_base:'/data/'});
         })
     })
     .post(function(req,res){
