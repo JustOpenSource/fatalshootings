@@ -2,10 +2,11 @@ var express = require('express'),
     router = express.Router(),
     _ = require('underscore'),
     c = require('../config/constants.js'),
-    nano = require('nano')('http://localhost:5984'),
+    nano = require('nano')(c.nano),
     data = require('../db/sample_data/pfcdata.js');
     databaseName = c.db_name,
-    pfdb = null;
+    pfdb = null,
+    view_creator = require('../db/utils/view_creator');
 
 //ROUTES
 router.get('/',function(req, res){
@@ -16,21 +17,51 @@ var createDatabaseActions = [];
 
 //FUNCTIONS
 //create the database
+//TODO: make this self loop so it can handle a DB that is already created;
+//TODO: make this also write insert necessary views
 function createDb(res){
     nano.db.create(databaseName, function(err, body) {
         if (!err) {
             console.log(databaseName + ' created!');
             
             pfdb = nano.use(databaseName);
+            
+            var view = {},
+                view_name = 'basic';
 
-            addRecords();
+            view.views = {
+                'all': {
+                    'map': function(doc){
+                        if(doc._id.indexOf('fatality') === 0){
+                            emit(doc._id,doc.value);
+                        }
+                    }
+                },
+                'highest_id': {
+                    'map': function(doc){
+                        if(doc._id.indexOf('fatality') === 0){
+                            var out = parseInt(doc._id.replace('fatality_','')); 
+                            emit(out,out);
+                        }
+                    },
+                    'reduce': '_stats'
+                }
+            };
+            view_creator.insert(view,view_name,function(){
+                createDatabaseActions.push({
+                    label: 'View',
+                    value: 'Created "all" and "highest_id" view for "_design/basic"'
+                });
+                addRecords();
 
-            handleResponse(res, {
-                'title' : 'Success!',
-                'message' : 'Database is now available.',
-                'actions' : createDatabaseActions,
-                'database' : databaseName
+                handleResponse(res, {
+                    'title' : 'Success!',
+                    'message' : 'Database is now available.',
+                    'actions' : createDatabaseActions,
+                    'database' : databaseName
+                });
             });
+            
 
         } else {
             createDatabaseActions.push({
@@ -69,6 +100,7 @@ function addRecords(){
             }
         });
     });
+    console.log('Finished Inserting');
 }
 
 function handleResponse(res, output){
