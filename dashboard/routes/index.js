@@ -16,4 +16,11 @@ router.get('/', function(req, res) {
     res.render('index',{routes: routes });
 });
 
+router.get('/test',function(req,res){
+    var entry = require('../db/models/entry');
+    entry.create({test: false, message: 'party'},function(body){
+        res.json(body);
+    });
+});
+
 module.exports = router;
