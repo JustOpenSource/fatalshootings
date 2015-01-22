@@ -10,6 +10,7 @@ var hbsConfig = require('./config/handlebars');
 var routes = {
     index: require('./routes/index'),
     explore: require('./routes/explore'),
+    gui: require('./routes/gui'),
     data: require('./routes/data'),
     install: require('./routes/install')
 }
@@ -33,6 +34,7 @@ app.use(hbsConfig);
 
 app.use('/', routes.index);
 app.use('/explore/', routes.explore);
+app.use('/gui/', routes.gui);
 app.use('/data/', routes.data);
 app.use('/install/', routes.install);
 

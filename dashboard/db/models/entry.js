@@ -10,7 +10,7 @@ var db = nano.use(c.db_name);
 var entry = {
     read: function(params, callback){
         params = typeof params !== 'undefined' ? params : {};
-        callback = typeof callback !== 'function' ? callback : null;
+        callback = typeof callback === 'function' ? callback : function(){};
         db.view('basic','all',params,function(err,body){
             if(err) throw err;
             callback(body);
@@ -19,7 +19,7 @@ var entry = {
     update: function(id, entry, callback){
         var output = {success: false};
         var failed = false;
-        callback = typeof callback === 'function' ? callback : null;
+        callback = typeof callback === 'function' ? callback : function(){};
         if(typeof id !== 'string'){
             output.reason = 'invalid id';
             failed = true;
@@ -37,9 +37,30 @@ var entry = {
                 failed = true;
             }
         }
-            
         if(!failed){
-            //run update query
+            db.get(id,{revs_info: true},function(err,body){
+                if(err){
+                    if(err.statusCode === 404){
+                        output.reason = 'invalid id';
+                    }else{
+                        output.reason = 'db error';
+                        output.message = err;
+                    }
+                    callback(output);
+                }else{
+                    entry._rev = body._rev;
+                    db.insert(entry,id,function(err,body){
+                        if(err){
+                            output.reason = 'db error';
+                            output.message = err;
+                        }else{
+                            output.success = true;
+                            output.results = body;
+                        }
+                        callback(output);
+                    })
+                }
+            });
         }else{
             callback(output);
         }
@@ -47,7 +68,7 @@ var entry = {
     create: function(entry, callback){
         var output = {success: false};
         var failed = false;
-        callback = typeof callback === 'function' ? callback : null;
+        callback = typeof callback === 'function' ? callback : function(){};
         
         if(typeof entry !== 'object'){
             output.reason = 'entry data in wrong format';
@@ -90,7 +111,34 @@ var entry = {
         }
     },
     delete: function(id, callback){
-        
+        var output = {success: false};
+        if(typeof id !== 'string'){
+            output.reason = 'invalid id';
+            callback(output);
+        }else{
+            db.get(id,{revs_info: true},function(err,body){
+                if(err){
+                    if(err.statusCode === 404){
+                        output.reason = 'invalid id';
+                    }else{
+                        output.reason = 'db error';
+                        output.message = err;
+                    }
+                    callback(output);
+                }else{
+                    body._deleted = true;
+                    db.insert(body,id,function(err,body){
+                        if(err){
+                            output.reason = 'db error';
+                            output.message = err;
+                        }else{
+                            output.success = true;
+                            callback(output);
+                        }
+                    });
+                }
+            });
+        }
     }
 }
 module.exports = entry;
