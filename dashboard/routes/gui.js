@@ -9,7 +9,7 @@ var e = require('../db/models/entry');
 router.route('/')
     .get(function(req,res){
         e.read({},function(output){
-            res.json(output);
+            res.render('gui/list',{results: output,link_base:'/gui/'});
         })
     })
     .post(function(req,res){
@@ -21,7 +21,7 @@ router.route('/:id')
         if(_.isString(req.params.id)){
             e.read({keys: [req.params.id]},function(body){
                 if(body.total_rows > 0){
-                    res.json(body.rows[0]);
+                    res.render('gui/single',{results: body.rows[0],link_base:'/gui/'});
                 }else{
                     res.status(404).send('Not Found');
                 }
