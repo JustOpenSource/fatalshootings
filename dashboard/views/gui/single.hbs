@@ -1,3 +1,6 @@
+
+<link rel="stylesheet" type="text/css" href="theme.css">
+<input type="hidden" id="fe_entry_id" value="{{results.id}}">
 <div class="page-content single-view">
     <div class="page-header row">
         <h1>
@@ -48,30 +51,3 @@
         </div>
     </form>
 </div>
-<script type="text/javascript">
-require(['jquery'], function( jQuery ) {
-    jQuery(document).ready(function(){
-        jQuery(document).on('submit','.put-form',function(e){
-            e.preventDefault();
-            alert('form submitted');
-        });
-        jQuery(document).on('click','.edit-link',function(e){
-            e.preventDefault();
-            var form = jQuery('.put-form');
-            form.fadeOut(400,function(){
-                jQuery(this).closest('.single-view').addClass('editing');
-                form.fadeIn();
-            })
-        });
-        jQuery(document).on('click','.view-link',function(e){
-            e.preventDefault();
-            var form = jQuery('.put-form');
-            form.fadeOut(400,function(){
-                jQuery(this).closest('.single-view').removeClass('editing');
-                form.fadeIn(400);
-            })
-        });
-    });
-});
-    
-</script>
