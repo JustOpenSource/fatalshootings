@@ -12,7 +12,11 @@
                     {{results.value.death.cause}}
                 </div>
                 <div class="edit form-group">
-                    <span>This is a dropdown</span>
+                    <select>
+                        {{#each results.form.causesOfDeath}}
+                            <option value="{{this}}">{{this}}</option>
+                        {{/each}}
+                    </select>
                 </div>
             </div>
         </div>
