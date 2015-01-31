@@ -40,9 +40,19 @@ router.route('/:id')
                     //business logic
                     var process = require('./process-single');
 
-                    res.render('gui/single', {
+                    res.render('app/item/index', {
                         results: process(body.rows[0]),
-                        link_base:'/gui/'
+                        
+                        partials: {
+                            death: 'app/item/partials/death',
+                            location: 'app/item/partials/location',
+                            subject: 'app/item/partials/subject'
+                        },
+                        testt: 'foo',
+                        locals: { 
+                            title: 'testing title',
+                            init: 'item'
+                        }
                     });
 
                 } else {

@@ -17,6 +17,7 @@
     "nano": "6.0.x",
     "q": "^1.0.1",
     "serve-favicon": "^2.1.7",
-    "underscore": "1.7.x"
+    "underscore": "1.7.x",
+    "hogan-express": "*"
   }
 }

@@ -5,4 +5,4 @@ function setup(req,res,next){
     next();
 }
 
-module.exports = setup;
+//module.exports = setup;

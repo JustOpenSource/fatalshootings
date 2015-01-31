@@ -13,9 +13,9 @@
                 </div>
                 <div class="edit form-group">
                     <select>
-                        {{#each results.form.causesOfDeath}}
-                            <option value="{{this}}">{{this}}</option>
-                        {{/each}}
+                        {{#results.form.causesOfDeath}}
+                            <option value="{{.}}">{{.}}</option>
+                        {{/results.form.causesOfDeath}}
                     </select>
                 </div>
             </div>

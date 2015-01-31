@@ -6,6 +6,10 @@ function process(entry){
     //console.log(validate.schemas);
     console.log(validate.schemas['/fe/death/v1'].properties.cause.enum);
     console.log(entry);
+
+    if(!entry){
+    	return {};
+    }
     entry.form = {};
     entry.form.causesOfDeath = validate.schemas['/fe/death/v1'].properties.cause.enum;
     return entry;
