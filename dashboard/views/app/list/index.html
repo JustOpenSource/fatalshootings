@@ -1,0 +1,22 @@
+<div class="page-content">
+    <div class="container">
+        <div class="page-header">
+            <h1>Data List <small>{{ results.total_rows}} results</small></h1>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <ul class="list-group">
+                    {{#results.rows}}
+                        <li class="list-group-item clearfix">
+                            <a href="{{{../link_base}}}{{id}}">{{id}}</a>
+                            <a href="{{{../link_base}}}{{id}}" class="pull-right delete-link"><span class="btn btn-danger"><i class="glyphicon glyphicon-remove"></i></span></a>
+                        </li>
+                    {{/results.rows}}
+                </ul>
+                {{^results.rows}}
+                    <p>No results available</p>
+                {{/results.rows}}
+            </div>
+        </div>
+    </div>
+</div>

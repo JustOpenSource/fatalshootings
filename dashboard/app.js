@@ -1,3 +1,7 @@
+
+//set base global so require can use absolute paths
+global.__base = __dirname + '/';
+
 var express = require('express');
 var path = require('path');
 var favicon = require('serve-favicon');
@@ -5,15 +9,6 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var hogan = require('hogan-express');
-
-var routes = {
-    index: require('./routes/index'),
-    explore: require('./routes/explore'),
-    gui: require('./routes/gui'),
-    data: require('./routes/data'),
-    install: require('./routes/install')
-}
-
 var app = express();
 
 // view engine setup
@@ -31,11 +26,12 @@ app.use(cookieParser());
 app.use(require('less-middleware')(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', routes.index);
-app.use('/explore/', routes.explore);
-app.use('/gui/', routes.gui);
-app.use('/data/', routes.data);
-app.use('/install/', routes.install);
+//routes
+app.use('/', require('./routes/index'));
+app.use('/explore/', require('./routes/admin/normalization/explore'));
+app.use('/manage/', require('./routes/app/manage'));
+app.use('/data/', require('./routes/admin/normalization/data'));
+app.use('/install/', require('./routes/admin/install'));
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

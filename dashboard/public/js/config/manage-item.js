@@ -1,8 +1,10 @@
 require(['/js/config/require-config.js'], function($) {
 	require(['jquery'], function($) {
 
+		var put_action = '.put-form';
+		
 		function saveAction(){
-			var put_action = '.put-form';
+			
 	        $(document).on('submit', put_action, function(e){
 	            e.preventDefault();
 
@@ -14,7 +16,7 @@ require(['/js/config/require-config.js'], function($) {
 		}
 
 		function editAction(){
-			var edit_action = '.edit-form';
+			var edit_action = '.edit-link';
 	        $(document).on('click', edit_action, function(e){
 	            e.preventDefault();
 	            
