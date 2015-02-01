@@ -9,7 +9,6 @@ var _ = require('underscore');
 
 /* GET home page. */
 router.get('/formatted/',function(req,res){
-    var v = require('../../db/utils/analysis_view');
     v.get(function(body){
         res.json(body)
     });
@@ -30,7 +29,7 @@ router.get('/install/clean',function(req,res){
             output.actions.push({label: 'Install Database',value: 'Failed to install database'});
             output.title = 'Error';
             output.message = 'The table "pfc" already exists';
-            res.render('explore/install',output);
+            res.render('admin/normalization/explore/install',output);
         }else{
             //create table
             n.db.create('pfc',function(err,body){
@@ -82,12 +81,12 @@ router.get('/install/clean',function(req,res){
                                 });
                                 output.actions.push({label: 'Inserted rows into new table',value: clean.rows.length});
                                 output.message += ' We are now inserting all the clean rows into the database for you, this process takes a minute so it is still going, you can check your console for errors.';
-                                res.render('explore/install',output);
+                                res.render('admin/normalization/explore/install',output);
                             }else{
                                 output.actions.push({label: 'Pull old rows', value: 'Failed to grab data'});
                                 output.title = "Error";
                                 output.message = 'We created the table for you, however we were unable to pull results from the original table for importing';
-                                res.render('explore/install',output);
+                                res.render('admin/normalization/explore/install',output);
                             }
                         })
                     }
@@ -122,7 +121,7 @@ router.get('/normalized/compare/:id',function(req,res){
                             clean: clean.rows[index]
                         }
                     });
-                    res.render('explore/compare',{results: output });
+                    res.render('admin/normalization/explore/compare',{results: output });
                 }else{
                     console.log('not fetch',data);
                 }
@@ -155,8 +154,6 @@ router.get('/normalized/specific/:id',function(req,res){
 });
 
 router.get('/normalized/',function(req,res){
-    var v = require('../../db/utils/analysis_view');
-    var n = require('../../db/utils/normalizer');
     v.get(function(body){
         res.json(n.cleanResults(body))
     });

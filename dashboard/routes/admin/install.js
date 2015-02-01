@@ -111,7 +111,7 @@ function handleResponse(res, output){
         database: output.database || null
     };
 
-    res.render('explore/install', output);
+    res.render('admin/normalization/explore/install', output);
 }
 
 module.exports = router;
