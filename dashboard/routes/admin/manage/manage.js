@@ -4,7 +4,8 @@ var express = require('express'),
     nano = require('nano')(c.nano),
     db = nano.use(c.db_name),
     _ = require('underscore'),
-    e = require(__base + 'db/models/entry');
+    e = require(__base + 'db/models/entry'),
+    validate = require(__base + 'db/utils/validator');
 
 router.route('/')
     
@@ -12,10 +13,10 @@ router.route('/')
         
         e.read({}, function(output){
             
-            res.render('app/list/index', {
+            res.render('shared/fatality-list', {
                 results: output,
                 locals: { 
-                    title: 'testing title',
+                    title: 'List of Fatalities',
                     js: ['config/manage-list'],
                     css: ['app/manage-list']
                 }
@@ -42,21 +43,34 @@ router.route('/:id')
             e.read(readKeys, function(body){
                 
                 if(body.total_rows > 0){
-                    
-                    //business logic
-                    var process = require('./process-single');
+                    function process(entry){
+                        if(!entry){
+                            return {};
+                        }
 
-                    res.render('app/item/index', {
+                        entry.form = {};
+                        entry.schema = JSON.stringify(validate.schemas);
+                        entry.form.causesOfDeath = validate.schemas['/fe/death/v1'].properties.cause.enum;
+                        
+                        console.log('entry schema');
+                        console.log(entry.schema);
+
+                        return entry;
+                    }
+
+                    console.log('testing111111');
+
+                    res.render('shared/fatality-entry', {
                         results: process(body.rows[0]),
                         
                         partials: {
-                            death: 'app/item/partials/death',
-                            location: 'app/item/partials/location',
-                            subject: 'app/item/partials/subject'
+                            death: 'shared/fatality-entry-partials/death',
+                            location: 'shared/fatality-entry-partials/location',
+                            subject: 'shared/fatality-entry-partials/subject'
                         },
                         
                         locals: { 
-                            title: 'testing title',
+                            title: 'Fatality',
                             js: ['config/manage-item'],
                             css: ['app/manage-item']
                         }
