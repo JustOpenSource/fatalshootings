@@ -10,8 +10,8 @@ router.get('/', function(req, res) {
         { route: '/explore/normalized/specific/:id', description: 'version of /explore/normalized that allows you to pass in one or many keys as a csv as the id param' },
         { route: '/explore/normalized/compare/:id', description: 'pulls data from original database, /explore/formatted, and /explore/normalized and displays side by side, allows you to pass in one key or a csv as the id param'},
         { route: '/explore/install/clean', description: 'Installs \'pfc\' database and populates with data from /explore/normalized'},
-        { route: '/gui/', description: 'Lists all entries in the database'},
-        { route: '/gui/:id', description: "displays entry and edit screen"},
+        { route: '/manage/', description: 'Lists all entries in the database'},
+        { route: '/manage/:id', description: "displays entry and edit screen"},
         { route: '/data/', description: 'matches /gui/ but returns json instead of html'},
         { route: '/data/:id', description: 'matches /gui/:id but returns json instead of html'}
     ];

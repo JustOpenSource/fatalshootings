@@ -1,11 +1,15 @@
+var c = require(__base + 'config/constants');
+var v = require(__base + 'db/utils/analysis_view');
+var n = require(__base + 'db/utils/normalizer');
+
 var express = require('express');
 var router = express.Router();
 var _ = require('underscore');
-var c = require('../config/constants.js');
+
 
 /* GET home page. */
 router.get('/formatted/',function(req,res){
-    var v = require('../db/utils/analysis_view');
+    var v = require('../../db/utils/analysis_view');
     v.get(function(body){
         res.json(body)
     });
@@ -32,8 +36,6 @@ router.get('/install/clean',function(req,res){
             n.db.create('pfc',function(err,body){
                 if(err) throw err;
 
-                var v = require('../db/utils/analysis_view');
-                var norm = require('../db/utils/normalizer');
                 var pfc = n.use('pfc');
                 
                 //set output
@@ -98,9 +100,6 @@ router.get('/install/clean',function(req,res){
 });
 
 router.get('/normalized/compare/:id',function(req,res){
-    
-    var v = require('../db/utils/analysis_view');
-    var n = require('../db/utils/normalizer');
     var p = {keys: []};
     if(req.params.id.indexOf(',')){
         p.keys = req.params.id.split(',');
@@ -135,8 +134,6 @@ router.get('/normalized/compare/:id',function(req,res){
 });
 
 router.get('/normalized/specific/:id',function(req,res){
-    var v = require('../db/utils/analysis_view');
-    var n = require('../db/utils/normalizer');
     var params = {keys: []};
     if(req.params.id.indexOf(',')){
         params.keys = req.params.id.split(',');
@@ -158,8 +155,8 @@ router.get('/normalized/specific/:id',function(req,res){
 });
 
 router.get('/normalized/',function(req,res){
-    var v = require('../db/utils/analysis_view');
-    var n = require('../db/utils/normalizer');
+    var v = require('../../db/utils/analysis_view');
+    var n = require('../../db/utils/normalizer');
     v.get(function(body){
         res.json(n.cleanResults(body))
     });

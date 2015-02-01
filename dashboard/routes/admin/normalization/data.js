@@ -1,10 +1,11 @@
+var c = require(__base + 'config/constants');
+var e = require(__base + 'db/models/entry');
+
 var express = require('express');
 var router = express.Router();
-var c = require('../config/constants');
 var nano = require('nano')(c.nano);
 var db = nano.use(c.db_name);
 var _ = require('underscore');
-var e = require('../db/models/entry');
 
 router.route('/')
     .get(function(req,res){
