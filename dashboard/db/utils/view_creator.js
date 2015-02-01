@@ -1,30 +1,34 @@
-var c = require('../../config/constants');
-var nano = require('nano')(c.nano);
-var db = nano.use(c.db_name);
+var __base = __base || '../../',
+    c = require(__base + 'config/constants'),
+    nano = require('nano')(c.nano),
+    db = nano.use(c.db_name);
 
 var creator = {
-    insert: function(views, name, callback){
-        var failed = false;
-        calllback = typeof callback === 'function' ? callback : null;
-        if(typeof name !== 'string'){
-            failed = true;
+    insert: function(designDoc, callback){
+        var validated = false;
+
+        callback = (typeof callback === 'function') ? callback : function(){};
+        
+        if(
+            typeof designDoc.name === 'string' ||
+            typeof designDoc.views === 'object'
+        ) {
+            validated = true; 
         }
         
-        if(!failed){
-            if(typeof views !== 'object'){
-                failed = true;
-            }else{
-                views.language = 'javascript';
-            }
-        }
-        
-        if(!failed){
-            db.insert(views, '_design/'+name, function(err,body){
-                if(err) throw err;
-                callback(body);
+        if(validated) {
+            designDoc._id = '_design/' + designDoc.name;
+            designDoc.language = 'javascript';
+
+            db.insert(designDoc, designDoc._id, function(err, body){
+                if (!err) {
+                    callback(body);
+                } else {
+                    callback(false, err);
+                }
             });
-        }else{
-            callback();
+        } else {
+            callback(false, 'invalid designDoc');
         }
     }
 }

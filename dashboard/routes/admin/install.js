@@ -26,9 +26,9 @@ function createDb(res){
             
             pfdb = nano.use(databaseName);
             
-            var view = {},
-                view_name = 'basic';
+            var view = {};
 
+            view.name = "basic"
             view.views = {
                 'all': {
                     'map': function(doc){
@@ -47,23 +47,30 @@ function createDb(res){
                     'reduce': '_stats'
                 }
             };
-            view_creator.insert(view,view_name,function(){
-                createDatabaseActions.push({
-                    label: 'View',
-                    value: 'Created "all" and "highest_id" view for "_design/basic"'
-                });
-                addRecords();
+            view_creator.insert(view, function(body, errMsg){
+                if (!errMsg) {
+                    
+                    createDatabaseActions.push({
+                        label: 'View',
+                        value: 'Created "all" and "highest_id" view for "_design/basic"'
+                    });
 
-                handleResponse(res, {
-                    'title' : 'Success!',
-                    'message' : 'Database is now available.',
-                    'actions' : createDatabaseActions,
-                    'database' : databaseName
-                });
+                    addRecords();
+
+                    handleResponse(res, {
+                        'title' : 'Success!',
+                        'message' : 'Database is now available.',
+                        'actions' : createDatabaseActions,
+                        'database' : databaseName
+                    });
+                    
+                } else {
+                    console.log(errMsg)
+                }
             });
-            
 
         } else {
+            
             createDatabaseActions.push({
                 label: 'Error',
                 value: err
