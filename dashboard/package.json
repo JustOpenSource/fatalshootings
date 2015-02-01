@@ -18,6 +18,7 @@
     "q": "^1.0.1",
     "serve-favicon": "^2.1.7",
     "underscore": "1.7.x",
-    "hogan-express": "*"
+    "hogan-express": "*",
+    "coffee-script" : "*"
   }
 }
