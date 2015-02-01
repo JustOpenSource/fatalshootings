@@ -1,5 +1,5 @@
 var _ = require('underscore'),
-	validate = require('../db/utils/validator');
+	validate = require(__base + 'db/utils/validator');
 
 function process(entry){
     console.log('processing entry');

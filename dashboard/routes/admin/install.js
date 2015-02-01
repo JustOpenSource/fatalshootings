@@ -1,12 +1,12 @@
 var express = require('express'),
     router = express.Router(),
     _ = require('underscore'),
-    c = require('../config/constants.js'),
+    c = require(__base + 'config/constants.js'),
     nano = require('nano')(c.nano),
-    data = require('../db/sample_data/pfcdata.js');
+    data = require(__base + 'db/sample_data/pfcdata.js');
     databaseName = c.db_name,
     pfdb = null,
-    view_creator = require('../db/utils/view_creator');
+    view_creator = require(__base + 'db/utils/view_creator');
 
 //ROUTES
 router.get('/',function(req, res){

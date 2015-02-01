@@ -1,10 +1,10 @@
 var express = require('express'),
     router = express.Router(),
-    c = require('../config/constants'),
+    c = require(__base + 'config/constants'),
     nano = require('nano')(c.nano),
     db = nano.use(c.db_name),
     _ = require('underscore'),
-    e = require('../db/models/entry');
+    e = require(__base + 'db/models/entry');
 
 router.route('/')
     
@@ -12,8 +12,14 @@ router.route('/')
         
         e.read({}, function(output){
             
-            res.render('gui/list',{results: output,link_base:'/gui/'});
-        
+            res.render('app/list/index', {
+                results: output,
+                locals: { 
+                    title: 'testing title',
+                    js: ['config/manage-list'],
+                    css: ['app/manage-list']
+                }
+            });
         });
     
     })
@@ -48,10 +54,11 @@ router.route('/:id')
                             location: 'app/item/partials/location',
                             subject: 'app/item/partials/subject'
                         },
-                        testt: 'foo',
+                        
                         locals: { 
                             title: 'testing title',
-                            init: 'item'
+                            js: ['config/manage-item'],
+                            css: ['app/manage-item']
                         }
                     });
 
@@ -66,11 +73,11 @@ router.route('/:id')
             res.status(404).send('Invalid ID');
         }
 
-    }).put(function(req,res){
+    }).put(function(req, res){
         
         res.send('coming soon!');
     
-    }).delete(function(req,res){
+    }).delete(function(req, res){
         
         res.send('coming soon!');
 
