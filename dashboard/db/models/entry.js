@@ -8,14 +8,25 @@ var nano = require('nano')(c.nano);
 var db = nano.use(c.db_name);
 
 var entry = {
+    
+    readd: function(designDoc, func, params, cb){
+        params = typeof params !== 'undefined' ? params : {};
+        callback = typeof callback === 'function' ? callback : function(){};
+        db.view(designDoc, func, params, function(err,body){
+            if(err) throw err;
+            cb(body);
+        });
+    },
+
     read: function(params, callback){
         params = typeof params !== 'undefined' ? params : {};
         callback = typeof callback === 'function' ? callback : function(){};
-        db.view('basic','all',params,function(err,body){
+        db.view('basic', 'all', params, function(err,body){
             if(err) throw err;
             callback(body);
         });
     },
+
     update: function(id, entry, callback){
         var output = {success: false};
         var failed = false;
@@ -65,6 +76,7 @@ var entry = {
             callback(output);
         }
     },
+    
     create: function(entry, callback){
         var output = {success: false};
         var failed = false;
@@ -110,6 +122,7 @@ var entry = {
             callback(output);
         }
     },
+    
     delete: function(id, callback){
         var output = {success: false};
         if(typeof id !== 'string'){

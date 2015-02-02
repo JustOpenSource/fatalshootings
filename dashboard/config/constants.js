@@ -68,4 +68,21 @@ var c = {
     },
 };
 c.usStates.json.forEach(function(s){c.usStates.array[s.abbreviation]=s.name});
+
+c.l = function(status, msg){
+    console.log('\n');
+    console.log(status);
+    if(msg){
+        console.log('__________________\n');
+
+        if(typeof msg === 'object'){
+            console.log(JSON.stringify(msg, null, 2))
+        } else {
+            console.log(msg);
+        }
+        
+    }
+                        
+}
+
 module.exports = c

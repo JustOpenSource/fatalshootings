@@ -1,4 +1,5 @@
 var __base = __base || '../../',
+    c = require(__base + 'config/constants'),
     _ = require('underscore'),
     fs = require('fs'),
     viewCreator = require(__base + 'db/utils/view_creator'),
@@ -12,13 +13,16 @@ _.each(designDocFiles, function(doc){
 
 function insertComplete(body, errMsg){
     if(!errMsg){
-        console.log('designDoc insertComplete');
-        console.log(body);
+        c.l('callback error');
     } else {
-        console.log(errMsg);
+        c.l('callback success');
     }    
 }
 
 _.each(designDocs, function(designDoc){
+    
+    c.l('create design doc: ' + designDoc.name);
+    
     viewCreator.insert(designDoc, insertComplete)
+
 });
