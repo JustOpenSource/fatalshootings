@@ -6,15 +6,34 @@
         <div class="row">
             <div class="col-md-12">
                 <ul class="list-group">
-                    {{#results.rows}}
-                        <li class="list-group-item clearfix">
-                            <a href="{{{../link_base}}}{{id}}">{{id}}</a>
-                            <a href="{{{../link_base}}}{{id}}" class="pull-right delete-link"><span class="btn btn-danger"><i class="glyphicon glyphicon-remove"></i></span></a>
-                        </li>
-                    {{/results.rows}}
+                {{#results.rows}}
+                    <li class="list-group-item clearfix">
+                        <span class="list-item-value list-item-large">
+                            <a href="{{{../link_base}}}{{id}}">{{value.subject.name}}</a>
+                        </span>
+
+                        <span class="list-item-value list-item-large">{{value.cause}}</span>
+                        
+                        <span class="list-item-value list-item-xtra-small">{{value.subject.age}}</span>
+                        <span class="list-item-value list-item-large">{{value.subject.race}}</span>
+                        <span class="list-item-value list-item-med">{{value.subject.sex}}</span>
+                        
+                        <span class="list-item-value list-item-med">{{value.location.state}}</span>
+
+                        <span class="list-item-value list-item-small">{{value.date}}</span>
+                        
+                        <span class="list-item-controls">
+                            <a href="{{{../link_base}}}{{id}}" class="pull-right delete-link">
+                                <span class="btn btn-danger">
+                                    <i class="glyphicon glyphicon-remove"></i>
+                                </span>
+                            </a>
+                        </span>
+                    </li>
+                {{/results.rows}}
                 </ul>
                 {{^results.rows}}
-                    <p>No results available</p>
+                <p>No results available</p>
                 {{/results.rows}}
             </div>
         </div>

@@ -8,10 +8,11 @@ var express = require('express'),
     validate = require(__base + 'db/utils/validator');
 
 router.route('/')
-    
     .get(function(req,res){
         
-        e.read({}, function(output){
+        e.readd('manage', 'preview_list', {}, function(output){
+            
+            c.l('output from manage/ read', output);
             
             res.render('shared/fatality-list', {
                 results: output,
@@ -21,10 +22,10 @@ router.route('/')
                     css: ['app/manage-list']
                 }
             });
-        });
-    
-    })
 
+        });
+
+    })
     .post(function(req,res){
         
         res.send('coming soon');
@@ -32,8 +33,7 @@ router.route('/')
     });
     
 router.route('/:id')
-
-    .get(function(req,res){
+    .get(function(req, res){
         
         if(_.isString(req.params.id)){
             var readKeys = {
@@ -87,11 +87,13 @@ router.route('/:id')
             res.status(404).send('Invalid ID');
         }
 
-    }).put(function(req, res){
+    })
+    .put(function(req, res){
         
         res.send('coming soon!');
     
-    }).delete(function(req, res){
+    })
+    .delete(function(req, res){
         
         res.send('coming soon!');
 
