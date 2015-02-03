@@ -3,7 +3,6 @@ designDoc.name = "manage";
 designDoc.views = {
     "preview_list" : {
         "map" : function(doc){
-            
                 entry = {
                     subject: {
                         name: doc.value.subject.name,

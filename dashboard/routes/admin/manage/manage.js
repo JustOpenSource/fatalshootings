@@ -8,95 +8,101 @@ var express = require('express'),
     validate = require(__base + 'db/utils/validator');
 
 router.route('/')
-    .get(function(req,res){
+.get(function(req,res){
+    
+    e.readd('manage', 'preview_list', {}, function(output){
         
-        e.readd('manage', 'preview_list', {}, function(output){
-            
-            c.l('output from manage/ read', output);
-            
-            res.render('shared/fatality-list', {
-                results: output,
-                locals: { 
-                    title: 'List of Fatalities',
-                    js: ['config/manage-list'],
-                    css: ['app/manage-list']
-                }
-            });
-
+        c.l('output from manage/ read', output);
+        
+        res.render('shared/fatality-list', {
+            results: output,
+            locals: { 
+                title: 'List of Fatalities',
+                js: ['config/manage-list'],
+                css: ['app/manage-list']
+            }
         });
 
-    })
-    .post(function(req,res){
-        
-        res.send('coming soon');
-    
     });
+
+})
+.post(function(req,res){
     
-router.route('/:id')
-    .get(function(req, res){
-        
-        if(_.isString(req.params.id)){
-            var readKeys = {
-                keys: [req.params.id]
-            };
+    res.send('coming soon');
 
-            e.read(readKeys, function(body){
-                
-                if(body.total_rows > 0){
-                    function process(entry){
-                        if(!entry){
-                            return {};
-                        }
+});
 
-                        entry.form = {};
-                        entry.schema = JSON.stringify(validate.schemas);
-                        entry.form.causesOfDeath = validate.schemas['/fe/death/v1'].properties.cause.enum;
-                        
-                        console.log('entry schema');
-                        console.log(entry.schema);
+router.route('/filter')
+.post(function(req, res){
+    c.l('req.body', req.body);
 
-                        return entry;
+    res.send('coming soon');
+});
+
+    
+router.route('/id/:id')
+.get(function(req, res){
+    
+    if(_.isString(req.params.id)){
+        var readKeys = {
+            keys: [req.params.id]
+        };
+
+        e.read(readKeys, function(body){
+            
+            if(body.total_rows > 0){
+                function process(entry){
+                    if(!entry){
+                        return {};
                     }
 
-                    console.log('testing111111');
-
-                    res.render('shared/fatality-entry', {
-                        results: process(body.rows[0]),
-                        
-                        partials: {
-                            death: 'shared/fatality-entry-partials/death',
-                            location: 'shared/fatality-entry-partials/location',
-                            subject: 'shared/fatality-entry-partials/subject'
-                        },
-                        
-                        locals: { 
-                            title: 'Fatality',
-                            js: ['config/manage-item'],
-                            css: ['app/manage-item']
-                        }
-                    });
-
-                } else {
+                    entry.form = {};
+                    entry.schema = JSON.stringify(validate.schemas);
+                    entry.form.causesOfDeath = validate.schemas['/fe/death/v1'].properties.cause.enum;
                     
-                    res.status(404).send('Not Found');
+                    console.log('entry schema');
+                    console.log(entry.schema);
+
+                    return entry;
                 }
-            });
 
-        } else {
-            
-            res.status(404).send('Invalid ID');
-        }
+                res.render('shared/fatality-entry', {
+                    results: process(body.rows[0]),
+                    id_link_base: '/manage/id/',
+                    partials: {
+                        death: 'shared/fatality-entry-partials/death',
+                        location: 'shared/fatality-entry-partials/location',
+                        subject: 'shared/fatality-entry-partials/subject'
+                    },
+                    
+                    locals: { 
+                        title: 'Fatality',
+                        js: ['config/manage-item'],
+                        css: ['app/manage-item']
+                    }
+                });
 
-    })
-    .put(function(req, res){
+            } else {
+                
+                res.status(404).send('Not Found');
+            }
+        });
+
+    } else {
         
-        res.send('coming soon!');
+        res.status(404).send('Invalid ID');
+    }
+
+})
+.put(function(req, res){
     
-    })
-    .delete(function(req, res){
-        
-        res.send('coming soon!');
+    res.send('coming soon!');
 
-    });
+})
+.delete(function(req, res){
+    
+    res.send('coming soon!');
+
+});
 
 module.exports = router;
