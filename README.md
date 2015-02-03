@@ -40,3 +40,9 @@ After you have installed node, couch, this package, and started up the applicati
 [jsonschema node module](https://www.npmjs.com/package/jsonschema)
 
 [nano](https://github.com/dscape/nano)
+
+#Stats#
+
+supported properties: age, cause, sex, race, state
+
+http://localhost:5984/pfc/_design/counts/_view/[property]?group=true
