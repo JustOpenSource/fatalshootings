@@ -34,7 +34,7 @@ router.route('/')
 
 router.route('/filter')
 .post(function(req, res){
-    c.l('req.body', req.body);
+    c.l('form data', req.body);
 
     res.send('coming soon');
 });

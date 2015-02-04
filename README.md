@@ -46,3 +46,12 @@ After you have installed node, couch, this package, and started up the applicati
 supported properties: age, cause, sex, race, state
 
 http://localhost:5984/pfc/_design/counts/_view/[property]?group=true
+
+#Meta Data Database#
+
+Add files to `/db/meta_docs/` to create metadata documents.  
+
+To add meta_docs to database named `pfc_meta` (and create db if it doesn't exist)
+
+	node /dashboard/db/utils/create_meta_docs.js
+ 
