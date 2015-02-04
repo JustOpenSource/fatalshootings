@@ -3,9 +3,9 @@
  * This model is for interacting with the 
  */
 
-var c = require('../../config/constants');
-var nano = require('nano')(c.nano);
-var db = nano.use(c.db_name);
+var c = require('../../config/constants'),
+    nano = require('nano')(c.nano),
+    db = nano.use(c.db_name);
 
 var entry = {
     
