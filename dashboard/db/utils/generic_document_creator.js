@@ -92,9 +92,9 @@ var DocCreator = function(db){
     }
 }
 
+/*
 var d = new DocCreator(nano.use(c.db_meta));
 
-/*
 d.set({
 	"doc" : {
 		"id" : "_design/foo",
