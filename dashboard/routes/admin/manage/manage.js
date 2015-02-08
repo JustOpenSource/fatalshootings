@@ -36,7 +36,7 @@ router.route('/filter')
 .post(function(req, res){
     c.l('form data', req.body);
 
-    res.send('coming soon');
+    res.send('post post coming soon');
 });
 
     

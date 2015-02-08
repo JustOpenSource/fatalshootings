@@ -5,8 +5,9 @@ var express = require('express'),
     nano = require('nano')(c.nano),
     data = require(__base + 'db/sample_data/pfcdata.js');
     databaseName = c.db_name,
-    pfdb = null,
-    view_creator = require(__base + 'db/utils/view_creator');
+    pfdb = null;
+
+    //view_creator = require(__base + 'db/utils/view_creator');
 
 //ROUTES
 router.get('/',function(req, res){
@@ -26,8 +27,8 @@ function createDb(res){
             
             pfdb = nano.use(databaseName);
             
+            //TODO: adjust this that it uses the design_doc dir
             var view = {};
-
             view.name = "basic"
             view.views = {
                 'all': {
@@ -47,6 +48,8 @@ function createDb(res){
                     'reduce': '_stats'
                 }
             };
+
+            /*
             view_creator.insert(view, function(body, errMsg){
                 if (!errMsg) {
                     
@@ -68,6 +71,7 @@ function createDb(res){
                     console.log(errMsg)
                 }
             });
+            */
 
         } else {
             
