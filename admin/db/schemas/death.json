@@ -1,0 +1,28 @@
+{
+	"id": "/fe/death/v1",
+	"type": "object",
+	"properties": {
+		"cause" : {"enum": [
+			"asphyxiation", 
+			"assault", 
+			"automobile",
+			"drug related",
+			"gunshot",
+			"medical emergency",
+			"neglect",
+			"non-lethal weapon",
+			"suicide",
+			"unknown",
+			"other"
+		]},
+		"cause_notes" : "string",
+		"responsible_agency" : "string",
+		"description" : "string",
+		"dated_description" : "string",
+		"disposition" : "string",
+		"source_url" : "string",
+		"event" : {
+			"type" : {"$ref" : "/fe/encounter"}
+		}
+	}
+}
