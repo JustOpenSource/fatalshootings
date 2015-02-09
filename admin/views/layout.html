@@ -1,0 +1,22 @@
+<html>
+	<head>
+		<title>{{locals.title}}</title>
+
+		<script src="//cdnjs.cloudflare.com/ajax/libs/require.js/2.1.15/require.js"></script>
+
+		{{#locals.js}}
+		<script src="/js/{{.}}.js"></script>
+		{{/locals.js}}
+
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+		<link href="/css/style.css" rel="stylesheet" type="text/css">
+
+		{{#locals.css}}
+		<link href="/css/{{.}}.css" rel="stylesheet" type="text/css">
+		{{/locals.css}}
+		
+	</head>
+	<body>
+		{{{yield}}}
+	</body>
+</html>

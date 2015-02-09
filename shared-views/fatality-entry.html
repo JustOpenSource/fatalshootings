@@ -1,0 +1,54 @@
+<input type="hidden" id="fe_entry_id" value="{{results.id}}">
+<div class="page-content single-view">
+    <div class="page-header row">
+        <h1>
+           <span class="col-sm-10">{{results.value.subject.name}}</span>
+           <span class="col-sm-2">
+                <a href="#edit" class="edit-link btn btn-primary default">Edit</a>
+                <a href="#view" class="view-link btn btn-danger edit">Cancel</a>
+            </span>
+        </h1>
+    </div>
+
+    <input type="hidden" id="fatalitySchema" value="{{results.schema}}">
+
+    <form method="PUT" action="" class="put-form">
+        {{> death}}
+        {{> subject}}
+        {{> location}}
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-sm-3 text-right">
+                        <label for="result[submitted_by]">Submitted By</label>
+                    </div>
+                    <div class="col-sm-9">
+                        <div class="default">
+                            {{results.value.submitted_by}}
+                        </div>
+                        <div class="edit form-group">
+                            <input type="text" class="form-control" name="result[submitted_by]" value="{{results.value.submitted_by}}">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-3 text-right">
+                        <label for="result[published]">Published</label>
+                    </div>
+                    <div class="col-sm-9">
+                        <div class="default">
+                            {{results.value.published}}
+                        </div>
+                        <div class="edit form-group">
+                            {{!-- TODO: change this to checkbox/dropdown --}}
+                            <input type="text" class="form-control" name="result[published]" value="{{results.value.published}}">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="panel-footer edit">
+                <button class="btn btn-primary" type="submit">Update</button>
+            </div>
+        </div>
+    </form>
+</div>
