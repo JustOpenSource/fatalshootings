@@ -17,6 +17,7 @@
     "serve-favicon": "^2.1.7",
     "underscore": "1.7.x",
     "hogan-express": "*",
+    "mustache": "*",
     "coffee-script" : "*",
     "mongodb" : "*"
   }

@@ -1,0 +1,35 @@
+{{! pagination data model
+
+pagination: {
+	disablePrev: true,
+	disableNext: true,
+	pages : [
+		{
+			active: true,
+			number: 1
+		},
+		...
+	]
+}
+
+}}
+
+<nav>
+  <ul class="pagination">
+    <li class="{{#disablePrev}}disabled{{/disablePrev}}">
+      <a href="#" aria-label="Previous">
+        <span aria-hidden="true">&laquo;</span>
+      </a>
+    </li>
+    
+    {{#pages}}
+    <li class="{{#active}}active{{/active}}"><a href="#">{{number}}</a></li>
+    {{/pages}}
+    
+    <li class="{{#disableNext}}disabled{{/disableNext}}">
+      <a href="#" aria-label="Next">
+        <span aria-hidden="true">&raquo;</span>
+      </a>
+    </li>
+  </ul>
+</nav>
