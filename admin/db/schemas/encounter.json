@@ -1,8 +1,0 @@
-{
-	"id": "/fe/encounter/v1",
-	"type": "object",
-	"properties": {
-		"address" : "string",
-		"date" : "string"
-	}
-}

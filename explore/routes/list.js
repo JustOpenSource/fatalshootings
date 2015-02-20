@@ -1,10 +1,20 @@
-var express = require('express'),
+var c = require(__base + '../shared-config/constants'),
+    
+    //npm libraries
+    express = require('express'),
     _ = require('underscore'),
+    mustache = require('mustache'),
+    
+    //application imports
     router = express.Router(),
-    c = require(__base + '../shared-config/constants'),
     mongodb = require(__base + '../shared-utils/mongo-db'),
-    validate = require(__base + 'db/utils/validator');
+    validate = require(__base + 'db/utils/validator'), 
+    fs = require('fs'),
 
+    //defaults
+    DEFAULT_LIMIT = 10;
+
+// url/list/
 router.route('/')
 .get(function(req, res){
 
@@ -18,32 +28,40 @@ router.route('/')
 
     function querySelect(){
         return {
-            "value.subject.name" : 1,
-            "value.subject.age" : 1,
-            "value.subject.race" : 1,
-            "value.subject.sex" : 1,
-            "value.death.cause" : 1,
-            "value.death.event.date" : 1,
-            "value.location.state" : 1
+            "value.subject.name" : true,
+            "value.subject.age" : true,
+            "value.subject.race" : true,
+            "value.subject.sex" : true,
+            "value.death.cause" : true,
+            "value.death.event.date" : true,
+            "value.location.state" : true
         }
     }
 
     function querySort(){
         return { 
-            "value.death.event.date" : -1 
+            "value.death.event.date" : -1
         }
     }
 
-    function render(err, body, close){
+    function render(err, model, close){
 
         if(err){
             c.l('err', err);
             res.render('error');
         }
 
+        var paginationTemplate = fs.readFileSync(__base + '../shared-views/components/pagination.html').toString();
+
+        var pagination = mustache.render(paginationTemplate, {});
+
+        c.l('pagination', pagination);
+
         res.render('fatality-list', {
-            results: body,
+            results: model.body,
+            count: model.count,
             filters: filterOptions(),
+            pagination: pagination,
             locals: { 
                 title: 'List of Fatalities',
                 js: ['config/list'],
@@ -54,6 +72,13 @@ router.route('/')
         close();
     }
 
+    function buildModel(body, count){
+        return {
+            'body' : body,
+            'count' : count
+        }
+    }
+
     function getList(err, db, close){
 
         if(err){
@@ -61,7 +86,7 @@ router.route('/')
             return;
         }
 
-        var limit = parseInt(req.query.limit),
+        var limit = parseInt(req.query.limit) || DEFAULT_LIMIT,
             page = parseInt(req.query.page),
             startAt = page * limit,
             collection = db.collection('fe');
@@ -73,7 +98,7 @@ router.route('/')
         .skip(startAt).limit(limit)
         
         .toArray(function(err, body){
-            render(err, body, close);
+            render(err, buildModel(body, body.length), close);
         });
 
     }
@@ -84,7 +109,7 @@ router.route('/')
 
 .post(function(req,res){
     
-    res.send('coming soon');
+    res.send('handle post data');
 
 });
 

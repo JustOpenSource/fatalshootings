@@ -10,6 +10,9 @@ connect('fe', function(e,d,c){
 
 module.exports = function(collection, cb){
 
+	//todo: look into using promises to manage callbacks
+
+	//defines default callback to call parent callback 
 	cb = cb || function(e,d,c){c()};
 
 	var url = 'mongodb://localhost:27017/' + collection;
@@ -19,7 +22,7 @@ module.exports = function(collection, cb){
 
 		if(!err){
 
-			c.l("Connected correctly to server");
+			c.l("SUCCESS: correctly to server");
 		
 			cb(err, db, function(){
 				db.close();
@@ -27,7 +30,7 @@ module.exports = function(collection, cb){
 
 		} else {
 
-			c.l("Error connecting to server");
+			c.l("ERROR: did not connect to server", err);
 
 			cb(err);
 
