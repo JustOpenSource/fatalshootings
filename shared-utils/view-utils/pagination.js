@@ -38,6 +38,7 @@ function getPaginationModel(o){
     	paginationModel.firstSet = [];
         
         while(i > 0){
+        	
             paginationModel.firstSet[i - 1] = {
                 active: t.o.current === i ? true : false,
                 number: i
@@ -53,7 +54,6 @@ function getPaginationModel(o){
     	i = totalPages;
 
         while(i > 0){
-            c.l(i);
 
             paginationModel.allPages[i - 1] = {
                 active: t.o.current === i ? true : false,
@@ -73,7 +73,6 @@ function getPaginationModel(o){
     	i = SIZE;
 
         while(i > 0){
-            c.l(i);
 
             pageNumber = i + startingPage;
 
