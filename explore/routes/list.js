@@ -51,17 +51,57 @@ router.route('/')
             res.render('error');
         }
 
+        //abstract this into new paginationModel()
+        var FIRST_SET = 10,
+            LAST_SET = 1;
+
+        var MORE_PAGES_THAN = FIRST_SET + LAST_SET + 2;
+ 
+        var paginationData = {
+            disablePrev: true,
+            disableNext: true,
+            pages : false,
+            max: false
+        }
+
+        var totalPages = Math.floor(model.data.count / model.data.limit);
+
+        //c.l('totalPages', totalPages);
+
+        var i = totalPages;
+
+        if(totalPages > MORE_PAGES_THAN){
+
+        } else {
+            while(i > 0){
+                c.l(i)
+
+                paginationData.pages[i] = {
+                    active: model.data.page === i ? true : false,
+                    number: i
+                }
+
+                i--;
+            }
+        }
+
+        
+
+        //abstract this into renderTemplate() function
         var paginationTemplate = fs.readFileSync(__base + '../shared-views/components/pagination.html').toString();
+        var pagination = mustache.render(paginationTemplate, paginationData);
 
-        var pagination = mustache.render(paginationTemplate, {});
-
-        c.l('pagination', pagination);
+        //c.l('pagination', pagination);
+        //c.l('paginationData', paginationData);
 
         res.render('fatality-list', {
             results: model.body,
-            count: model.count,
+            count: model.data.count,
             filters: filterOptions(),
-            pagination: pagination,
+            pagination: {
+                view: pagination,
+                data: paginationData
+            },
             locals: { 
                 title: 'List of Fatalities',
                 js: ['config/list'],
@@ -72,10 +112,10 @@ router.route('/')
         close();
     }
 
-    function buildModel(body, count){
+    function buildModel(body, data){
         return {
             'body' : body,
-            'count' : count
+            'data' : data
         }
     }
 
@@ -89,16 +129,35 @@ router.route('/')
         var limit = parseInt(req.query.limit) || DEFAULT_LIMIT,
             page = parseInt(req.query.page),
             startAt = page * limit,
-            collection = db.collection('fe');
+            collection = db.collection('fe'),
+            data = {
+                page: page,
+                limit: limit
+            }
 
-        collection.find(queryFilter(), querySelect())
-
-        .sort(querySort())
-
-        .skip(startAt).limit(limit)
+        function getCount(cb){
+            collection.find(queryFilter(), querySelect()).count(function(err, count){
+                cb(count);
+            })
+        }
         
-        .toArray(function(err, body){
-            render(err, buildModel(body, body.length), close);
+        
+        function getResults(count){
+            collection.find(queryFilter(), querySelect())
+
+            .sort(querySort())
+
+            .skip(startAt).limit(limit)
+            
+            .toArray(function(err, body){
+                data.count = count;
+
+                render(err, buildModel(body, data), close);
+            });
+        }
+        
+        getCount(function(count){
+            getResults(count);
         });
 
     }
