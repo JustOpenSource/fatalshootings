@@ -3,13 +3,11 @@ var c = require(__base + '../shared-config/constants'),
     //npm libraries
     express = require('express'),
     _ = require('underscore'),
-    mustache = require('mustache'),
     
     //application imports
     router = express.Router(),
     mongodb = require(__base + '../shared-utils/mongo-db'),
     validate = require(__base + 'db/utils/validator'), 
-    fs = require('fs'),
 
     //defaults
     DEFAULT_LIMIT = 10;
@@ -51,39 +49,7 @@ router.route('/')
             res.render('error');
         }
 
-        //abstract this into new paginationModel()
-        var FIRST_SET = 10,
-            LAST_SET = 1;
 
-        var MORE_PAGES_THAN = FIRST_SET + LAST_SET + 2;
- 
-        var paginationData = {
-            disablePrev: true,
-            disableNext: true,
-            pages : false,
-            max: false
-        }
-
-        var totalPages = Math.floor(model.data.count / model.data.limit);
-
-        //c.l('totalPages', totalPages);
-
-        var i = totalPages;
-
-        if(totalPages > MORE_PAGES_THAN){
-
-        } else {
-            while(i > 0){
-                c.l(i)
-
-                paginationData.pages[i] = {
-                    active: model.data.page === i ? true : false,
-                    number: i
-                }
-
-                i--;
-            }
-        }
 
         
 

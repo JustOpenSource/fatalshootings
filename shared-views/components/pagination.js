@@ -88,11 +88,13 @@ function getPaginationModel(o){
     return paginationModel;
 }
 
+/** USAGE
 var paginationTest = getPaginationModel({
 	total: 50,
 	current: 32
 });
 
 c.l('paginationTest', paginationTest);
+*/
 
-module.export = getPaginationModel;
+module.exports = getPaginationModel;
