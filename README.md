@@ -1,4 +1,4 @@
-Explore data from [Fatal Encounters](fatalencounters.org).
+Explore data from [Fatal Encounters](http://fatalencounters.org).
 
 #Setup#
 
