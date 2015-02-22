@@ -12,10 +12,10 @@
  	* [Views](#views)
   		* [Template](#template)
   		* [Model](#model)
-  			* [getModel()](#getmodel())
+  			* [getModel()](#getmodel)
   		* [Using Views](#usingviews())
-  		 	* [getComponent()](#getcomponent())
-  			* [renderComponent()](#rendercomponent())
+  		 	* [getComponent()](#getcomponent)
+  			* [renderComponent()](#rendercomponent)
 * [Requirements Documentation](#requirements-documentation)
 
 Explore data from [Fatal Encounters](http://fatalencounters.org).
