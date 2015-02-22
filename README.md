@@ -135,7 +135,7 @@ function cb(err, db, close){
 
 ###Routes
 
-Routes are handled by express [app.router()](http://expressjs.com/api.html#router).
+Routes are handled by express [router.route()](http://expressjs.com/api.html#router).
 
 ###Views
 
@@ -161,6 +161,7 @@ There are two ways to write models, either synchronously or asynchronously.
 ######synchronous
 ```
 /**
+ * getModel
  * @param d {object} the data passed into the model 
  */
 function getModel(d){
@@ -175,6 +176,7 @@ module.exports = getModel;
 #####asynchronous
 ```
 /**
+ * getModel
  * @param d {object} the data passed into the model 
  * @param cb {function} a function to runs once the data is available
  */
@@ -184,7 +186,8 @@ function getModel(d, cb){
 	var data = {};
 	
 	/**
-	 * @param err {string || null}  error message or null  
+	 * cb
+	 * @param err {string || null}  error message or null
 	 * @param data {object} data object expected by the html template
 	 */
 	cb(err, data);
@@ -201,44 +204,44 @@ To get a template without calling `res.render()`, you can use `getComponent()`. 
 
 ```
 /**
- * renderComponent
- * Note that the return only applies when there is no callback
+ * getComponent
+ * SYNCHRONOUSE USAGE
  * @param template {string} name of template/model pair
- * @param data {object} data being passed into model
- * @param cb {function} optional - passes response data into callback if present
- * @returns {object} {
+ * @param data {object} data being passed into the model
+ * @returns view {object} {
  *	html {string} rendered template after applying data
  *	data {object} data
  *	template {string} template html before applying data
  * }
  */
-```
+var myView = getComponent('view-name', data);
 
-```
-// SYNCHRONOUSE USAGE
-var testTemplate = getComponent('view-name', data);
+/**
+ * getComponent
+ * ASYNCHRONOUSE USAGE
+ * @param template {string} name of template/model pair
+ * @param data {object} data being passed into the model
+ * @param cb {function}
+ */
+getComponent('view-name', data, cb);
 
-// ASYNCHRONOUSE USAGE
-getComponent('view-name', data, function(err, template){
-	console.log(template);
-});
+/**
+ * cb
+ * @param err {object} error message or null
+ * @param view {object} {
+ *	html {string} rendered template after applying data
+ *	data {object} data
+ *	template {string} template html before applying data
+ * }
+ */
+function cb(err, view){
+	console.log(view);
+}
 ```
 
 #####renderComponent()
 
 Rendering a component will fetch the template, apply the data model, and call res.render().
-
-```
-/**
- * renderComponent
- * Note that the return only applies when there is no callback
- * @param req {object} node express request object
- * @param res {object} node express response object
- * @param template {string} name of template/model pair
- * @param data {object} data being passed into model
- * @param locals {object} local variables object to pass to wrapper template
- */
-```
 
 ```
 router.route('/').get(function(req, res){
@@ -260,6 +263,15 @@ router.route('/').get(function(req, res){
 	
 	}
 	
+	/**
+	 * renderComponent
+	 * Note that the return only applies when there is no callback
+	 * @param req {object} node express request object
+	 * @param res {object} node express response object
+	 * @param template {string} name of template/model pair
+	 * @param data {object} data being passed into model
+	 * @param locals {object} local variables object to pass to wrapper template
+	 */
 	renderComponent(req, res, 'view-name', data, locals);
 
 });
