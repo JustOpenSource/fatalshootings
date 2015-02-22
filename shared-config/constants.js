@@ -25,9 +25,7 @@ c.l = function(status, msg){
     console.log('\n');
     console.log(status);
     
-    if(msg){
-        
-        console.log('__________________\n');
+    if(typeof msg !== 'undefined'){
 
         if(typeof msg === 'object'){
             
@@ -37,8 +35,6 @@ c.l = function(status, msg){
             
             console.log(msg);
         }
-
-        console.log('\n__________________');
     }               
 }
 
