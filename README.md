@@ -1,4 +1,6 @@
-#Table of Contents
+Application to explore data from [Fatal Encounters](http://fatalencounters.org).
+
+##Table of Contents
 
 * [Setup](#setup)
 	* [Install MongoDB](#install-mongodb)
@@ -17,8 +19,6 @@
   		 	* [getComponent()](#getcomponent)
   			* [renderComponent()](#rendercomponent)
 * [Requirements Documentation](#requirements-documentation)
-
-Explore data from [Fatal Encounters](http://fatalencounters.org).
 
 ##Setup
 
