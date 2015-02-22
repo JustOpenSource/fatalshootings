@@ -1,25 +1,28 @@
+#Table of Contents
+
+* [Setup](#setup)
+	* [Install MongoDB](#install-mongodb)
+	* [Start MongoDB](#start-mongodb)
+ 	* [Clone the Project](#clone-the-project)
+ 	* [Run Node Server](#run-node-server)
+* [API](#api)
+ 	* [Database Access](#database-access)
+ 		* [mongo-db](#mong-db)
+ 	* [Routes](#routes)
+ 	* [Templates](#templates)
+  		* [View](#view)
+  		* [Model](#model)
+* [Requirements Documentation](#requirements-documentation)
+
 Explore data from [Fatal Encounters](http://fatalencounters.org).
 
-#Setup#
+##Setup
 
 Install [node](http://nodejs.org/) and [mongodb](http://www.mongodb.org/downloads). 
 
-##Requirement Documentation##
-[json-schema](http://json-schema.org/)
+###Install MongoDB
 
-[jsonschema node module](https://www.npmjs.com/package/jsonschema)
-
-[mongo db node api](https://github.com/mongodb/node-mongodb-native)
-
-[mongo db](http://docs.mongodb.org/manual/)
-
-[node express](http://expressjs.com/4x/api.html)
-
-[mustache](https://github.com/janl/mustache.js)
-
-##Install and Start MongoDB##
-
-Install it and add the bin to your paths.  Confirm that it worked by running:
+Install mongodb and add the bin to your paths.  Confirm that it worked by running:
 
 ```
 $ mongo
@@ -37,7 +40,9 @@ windows:
 $ md /data/db
 ```
 
-Start the database.
+###Start MongoDB
+
+Open a new terminal window and start the database.
 
 ```
 $ mongod --dbpath=/data --port 27017
@@ -45,14 +50,14 @@ $ mongod --dbpath=/data --port 27017
 
 The database must be running to use the application.
 
-##Clone the Project##
+###Clone the Project
 
 ```
 $ git clone https://github.com/JustOpenSource/fatalshootings.git
 $ cd fatalshootings
 ```
 
-##Import Sample Data##
+###Import Sample Data
 
 ```
 $ cd sys-admin
@@ -60,7 +65,7 @@ $ npm install
 $ node import-sample-data.js
 ```
 
-##Run Node Server##
+###Run Node Server
 
 For ease of development, install `supervisor` to watch your files and automatically bounce the server.
 
@@ -78,15 +83,32 @@ $ supervisor bin/www
 
 Browse to [localhost:3000/list/](localhost:3000/list/).
 
-##API##
+##API
 
-###Database Access###
+###Database Access
+
+####mongo-db
 
 To access the mongo db, you can use the mongo-db utility.
- 
+
 ```
 var mongodb = require(__base + 'shared-utils/mongo-db');
-mongodb('database-name', function(err, db, close){
+
+/**
+ * mongodb
+ * @param databaseName {string} name of the mongo database to access
+ * @param cb {function} callback for the mongo database connection
+ */
+mongodb('database-name', cb);
+
+/**
+ * cb
+ * @param err {object} connection error or null
+ * @param db {object} a mongo database instance
+ * @param close {function} close function must be called after you get your data
+ */
+ 
+function cb(err, db, close){
 	if(err){
 		//handle error
 	}
@@ -105,22 +127,28 @@ mongodb('database-name', function(err, db, close){
 		close();
 		
 	});
-});
+}
 ```
 
-###Routes and Templates###
+###Routes
 
-Routes are handled via express, but the following rendering utilities provide access to template/model pairs.  To create a new template/model, create an html and a js file with the same name in the `shared-utils` directory.
+Routes are handled via express.
+
+###Templates
+
+**Note: Currently the template utilities only work with templates in shared-views and not with local app view directories.**
+
+Template rendering utilities provide access to template/model pairs.  To create a new template/model, create an html and a js file with the same name in the `shared-utils` directory.
 
 ```
 touch shared-views/view-name.html
 touch shared-views/view-name.js
 ```
 
-####Views####
+####View
 The html file is a mustache template.
 
-####Model####
+####Model
 The js file is the model and returns a json object in the format that the html template expects. 
 
 There are two ways to write models, either synchronously or asynchronously.  
@@ -237,3 +265,15 @@ getComponent('view-name', data, function(err, template){
 	console.log(template);
 });
 ```
+##Requirement Documentation##
+[json-schema](http://json-schema.org/)
+
+[jsonschema node module](https://www.npmjs.com/package/jsonschema)
+
+[mongo db node api](https://github.com/mongodb/node-mongodb-native)
+
+[mongo db](http://docs.mongodb.org/manual/)
+
+[node express](http://expressjs.com/4x/api.html)
+
+[mustache](https://github.com/janl/mustache.js)
