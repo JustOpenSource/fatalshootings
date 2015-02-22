@@ -17,7 +17,7 @@ Install [node](http://nodejs.org/) and [mongodb](http://www.mongodb.org/download
 
 ##Install and Start MongoDB##
 
-Install it and added the bin to your paths.  Confirm that it worked by running:
+Install it and add the bin to your paths.  Confirm that it worked by running:
 
 ```
 $ mongo
