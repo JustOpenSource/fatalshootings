@@ -3,7 +3,7 @@ var __base = __base || '../',
     fs = require('fs'),
     mustache = require('mustache');
 
-function getComponent (template, data, cb) {
+function getView (template, data, cb) {
 
 	var componentPath = __dirname + '/../shared-views/',
 		html = fs.readFileSync(componentPath + template + '.html').toString(),
@@ -44,7 +44,7 @@ function getComponent (template, data, cb) {
 
 /*/ SYNCHRONOUSE USAGE
 
-var testTemplate = getComponent('components/pagination', {
+var testView = getView('components/pagination', {
 	total: 50,
 	current: 32
 })
@@ -55,7 +55,7 @@ c.l('testTemplate', testTemplate)
 
 /*/ ASYNCHRONOUSE USAGE
 
-getComponent(component, data, function(err, template){
+getView(component, data, function(err, template){
 
 	if(err){
 		res.render('view', { 
@@ -71,4 +71,4 @@ getComponent(component, data, function(err, template){
 
 /**/
 
-module.exports = getComponent;
+module.exports = getView;

@@ -1,10 +1,10 @@
 var __base = __base || '../',
     c = require(__base + 'shared-config/constants'),
-	getComponent = require('./get-component');
+	getView = require('./get-view');
 
-function renderComponent(req, res, component, data, locals){
+function renderView (req, res, component, data, locals) {
 
-	getComponent(component, data, function(err, template){
+	getView(component, data, function(err, view){
 
 		if(err){
 
@@ -15,7 +15,7 @@ function renderComponent(req, res, component, data, locals){
 		}
 		
 		res.render('view', { 
-        	'view' : template.html,
+        	'view' : view.html,
         	'locals' : locals
     	});
 
@@ -23,4 +23,4 @@ function renderComponent(req, res, component, data, locals){
 
 }
 
-module.exports = renderComponent;
+module.exports = renderView;
