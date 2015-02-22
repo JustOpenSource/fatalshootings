@@ -1,37 +1,66 @@
 var __base = __base || '../',
     c = require(__base + 'shared-config/constants'),
     fs = require('fs'),
-    mustache = require('mustache');
+    mustache = require('mustache'),
+    PATH_TO_TEMPLATES = __dirname + '/../shared-views/';
 
 function getView (template, data, cb) {
 
-	var componentPath = __dirname + '/../shared-views/',
-		html = fs.readFileSync(componentPath + template + '.html').toString(),
-		renderedTemplate;
+	
+	var viewPath = PATH_TO_TEMPLATES + template,
 
-	try { 
+		html;
 
-	    require(componentPath + template)(data, function(err, data){
+	try {
 
-	    	c.l('data', data);
+		c.l('ATTEMPT: retrieve template ' + viewPath);
 
-	    	cb(err, {
-				html: mustache.render(html, data),
-				data: data,
-				template: html
-			});
+		html = fs.readFileSync(viewPath + '.html').toString();
 
-	    });
-		
-	    if (cb) { return; }
+		c.l('SUCCESS: retrieved template');
+	
+	} catch (err) {
+
+		c.l('ERROR: could not retrieve template');
+
+	}
+
+	try {
+
+		c.l('ATTEMPT: retrieve view model ' + viewPath);
+
+		if(cb){
+
+	    	require(viewPath)(data, function(err, data){
+
+	    		c.l('SUCCESS: retrieved async view model, calling cb() and passing in view object');
+
+	    		cb(err, {
+					html: mustache.render(html, data),
+					data: data,
+					template: html
+				});
+
+	    	});
+
+
+	    	return;
+
+		} else {
+
+			data = require(viewPath)(data);
+
+			c.l('SUCCESS: retrieved view model');
+
+		}
 
 	} catch (err) {
 
-		c.l('err', err);
+		var errMsg = template + ' view model contains errors';
+
+		c.l('ERROR: ' + errMsg);
 		
-		return {
-			'error' : 'template not found'
-		}
+		return false;
 	}
 
 	return {
@@ -47,9 +76,9 @@ function getView (template, data, cb) {
 var testView = getView('components/pagination', {
 	total: 50,
 	current: 32
-})
+});
 
-c.l('testTemplate', testTemplate)
+c.l('testView', testView);
 
 /**/
 

@@ -72,8 +72,12 @@ function getModel (d, cb) {
             .count(function(err, count){
 
             	if(err){
+                    c.l('ERROR: could not get count', err);
+
             		cb(err);
             	}
+
+                c.l('SUCCESS: got count: ' + count);
                 
                 countCb(count);
             
@@ -94,7 +98,7 @@ function getModel (d, cb) {
 
                 if(err){
 
-            		c.l('err', err);
+            		c.l('ERROR: could not get results', err);
 
            			cb(err);
 
@@ -102,6 +106,8 @@ function getModel (d, cb) {
 
                     return;
             	}
+
+                c.l('SUCCESS: got results, calling cb() and passing in model data');
 
 	        	cb(null, {
 
@@ -117,13 +123,20 @@ function getModel (d, cb) {
         }
         
         //init
+
+        c.l('ATTEMPT: get count');
+
         getCount(function(count){
+
+            c.l('ATTEMPT: get results');
 
             getResults(count);
         
         });
         
     }
+
+    c.l('ATTEMPT: connect to mongodb to process the fatality-list view model');
 
     mongodb(DATABASE, getData);
 }

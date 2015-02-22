@@ -17,14 +17,14 @@ module.exports = function(database, cb){
 
 	var url = c.url.mongo + database;
 
-	c.l('mongo url', url);
+	c.l('Attempting to connect to ' + url);
 
 	// Use connect method to connect to the Server
 	MongoClient.connect(url, function(err, db) {
 
 		if(!err){
 
-			c.l("SUCCESS: correctly to server");
+			c.l('SUCCESS: connected to ' + url);
 		
 			cb(err, db, function(){
 				db.close();
@@ -32,7 +32,7 @@ module.exports = function(database, cb){
 
 		} else {
 
-			c.l("ERROR: did not connect to server", err);
+			c.l('ERROR: did not connect to server', err);
 
 			cb(err);
 
