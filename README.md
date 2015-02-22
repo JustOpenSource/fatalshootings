@@ -200,13 +200,13 @@ module.exports = getModel;
 
 ####Using Views
 
-#####getComponent()
+#####getView()
 
-To get a template without calling `res.render()`, you can use `getComponent()`. You can use this method on synchronous or asynchronous models.
+To get a view, use the `getView()`. You can use this method on synchronous or asynchronous models.
 
 ```
 /**
- * getComponent
+ * getView
  * SYNCHRONOUSE USAGE
  * @param template {string} name of template/model pair
  * @param data {object} data being passed into the model
@@ -216,16 +216,16 @@ To get a template without calling `res.render()`, you can use `getComponent()`. 
  *	template {string} template html before applying data
  * }
  */
-var myView = getComponent('view-name', data);
+var myView = getView('view-name', data);
 
 /**
- * getComponent
+ * getView
  * ASYNCHRONOUSE USAGE
  * @param template {string} name of template/model pair
  * @param data {object} data being passed into the model
  * @param cb {function}
  */
-getComponent('view-name', data, cb);
+getView('view-name', data, cb);
 
 /**
  * cb
@@ -241,21 +241,21 @@ function cb(err, view){
 }
 ```
 
-#####renderComponent()
+#####renderView()
 
-Rendering a component will fetch the template, apply the data model, and call res.render().
+Rendering a view will fetch the template, apply the data model, and call `res.render()` to render the view inside of the global html page template.
 
 ```
 router.route('/').get(function(req, res){
 
-	//data that you will pass to the model processor
+	//data that you will pass to the model
 	var data = {};
 	
-	//local variables are processed by the page template
+	//local variables are processed by the html page template
 	var locals = {
 	
 		//title of the html document
-		title: PAGE_TITLE,
+		title: 'Title of HTML Page',
 		
 		//require js config file to include on the page
 		js: ['config/list'],
@@ -266,15 +266,14 @@ router.route('/').get(function(req, res){
 	}
 	
 	/**
-	 * renderComponent
-	 * Note that the return only applies when there is no callback
+	 * renderView
 	 * @param req {object} node express request object
 	 * @param res {object} node express response object
 	 * @param template {string} name of template/model pair
 	 * @param data {object} data being passed into model
 	 * @param locals {object} local variables object to pass to wrapper template
 	 */
-	renderComponent(req, res, 'view-name', data, locals);
+	renderView(req, res, 'view-name', data, locals);
 
 });
 ```
