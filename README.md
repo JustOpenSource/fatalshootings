@@ -97,9 +97,19 @@ router.route('/').get(function(req, res){
 
 To get a template without calling `res.render()`, you can use `getComponent()`. You can use this method synchronously or asynchronously.
 
+getComponet, when used synchronously, will return:
+
+```
+{
+	html: rendered data plus template,
+	data: data,
+	template: template html
+}
+```
+
 ```
 // SYNCHRONOUSE USAGE
-var testTemplate = getComponent('view-name', data)
+var testTemplate = getComponent('view-name', data);
 
 // ASYNCHRONOUSE USAGE
 getComponent('view-name', data, function(err, template){
