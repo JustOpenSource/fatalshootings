@@ -1,4 +1,4 @@
-Sandbox to explore data from [Fatal Encounters](fatalencounters.org)
+Sandbox to explore data from [Fatal Encounters](http://fatalencounters.org)
 
 #Setup#
 
