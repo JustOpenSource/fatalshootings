@@ -89,9 +89,11 @@ mongodb('database-name', function(err, db, close){
 		}
 	
 		//do stuff with data
+		
+		//close the db connection once you have the data 
+		close();
+		
 	});
-	
-	close();
 });
 ```
 
@@ -209,7 +211,7 @@ getComponet, when used synchronously, will return:
  * @param template {string} name of template/model pair
  * @param data {object} data being passed into model
  * @param cb {function} optional - passes response data into callback if present
- * @returns {
+ * @returns {object} {
  *	html {string} rendered template after applying data
  *	data {object} data
  *	template {string} template html before applying data
