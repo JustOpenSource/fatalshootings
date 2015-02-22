@@ -1,4 +1,4 @@
-Sandbox to explore data from [Fatal Encounters](fatalencounters.org)
+Explore data from [Fatal Encounters](fatalencounters.org).
 
 #Setup#
 
@@ -23,7 +23,7 @@ Install it and add the bin to your paths.  Confirm that it worked by running:
 $ mongo
 ```
 
-Create a directory called `data` and then inside that put a directory named `db`.
+Create a directory `data` and then inside that put a directory `db`.
 
 mac:
 ```
@@ -41,12 +41,13 @@ Start the database.
 $ mongod --dbpath=/data --port 27017
 ```
 
-Everytime you want to run the application locally, you will need to restart the mongo database.
+The database must be running to use the application.
 
 ##Clone the Project##
 
 ```
 $ git clone https://github.com/JustOpenSource/fatalshootings.git
+$ cd fatalshootings
 ```
 
 ##Import Sample Data##
@@ -62,10 +63,10 @@ $ node import-sample-data.js
 For ease of development, install `supervisor` to watch your files and automatically bounce the server.
 
 ```
-$ npm i supervisor -g
+$ npm install supervisor -g
 ```
 
-Install node dependencies and run the server.
+Go to the `explore` application, install node dependencies, and run the server.
 
 ```
 $ cd explore
@@ -73,7 +74,7 @@ $ npm install
 $ supervisor bin/www
 ```
 
-Browse to `localhost:3000/list/`
+Browse to [localhost:3000/list/](localhost:3000/list/).
 
 ##API##
 
@@ -105,9 +106,9 @@ mongodb('database-name', function(err, db, close){
 });
 ```
 
-###Routes and Views###
+###Routes and Templates###
 
-Routes are handled through express, but the following rendering utilities provide access to view/model pairs.  To create a new view/model, create an html and js file with the same name in the `shared-utils` directory.
+Routes are handled via express, but the following rendering utilities provide access to template/model pairs.  To create a new template/model, create an html and a js file with the same name in the `shared-utils` directory.
 
 ```
 touch shared-views/view-name.html
@@ -118,7 +119,7 @@ touch shared-views/view-name.js
 The html file is a mustache template.
 
 ####Model####
-The .js file is the model and returns a json object in the format that the html template expects. 
+The js file is the model and returns a json object in the format that the html template expects. 
 
 There are two ways to write models, either synchronously or asynchronously.  
 
