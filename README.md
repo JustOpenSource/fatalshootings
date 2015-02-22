@@ -151,14 +151,14 @@ module.exports = getModel;
  
 ####renderComponent()####
 
-Rendering a component will fetch the template, apply the data model (and the accompanying data model processor), and call res.render().
+Rendering a component will fetch the template, apply the data model, and call res.render().
 
 #####API#####
 
 ```
 /**
  * renderComponent
- * renderComponent(req, res, 'view-name', data, locals);
+ * Note that the return only applies when there is no callback
  * @param req {object} node express request object
  * @param res {object} node express response object
  * @param template {string} name of template/model pair
@@ -196,18 +196,14 @@ router.route('/').get(function(req, res){
 
 ####getComponent()####
 
-To get a template without calling `res.render()`, you can use `getComponent()`. You can use this method on synchronous or asynchronous model data processors.
-
-getComponet, when used synchronously, will return:
+To get a template without calling `res.render()`, you can use `getComponent()`. You can use this method on synchronous or asynchronous models.
 
 #####API#####
 
 ```
 /**
  * renderComponent
- * renderComponent(req, res, 'view-name', data, locals);
- * @param req {object} node express request object
- * @param res {object} node express response object
+ * Note that the return only applies when there is no callback
  * @param template {string} name of template/model pair
  * @param data {object} data being passed into model
  * @param cb {function} optional - passes response data into callback if present
