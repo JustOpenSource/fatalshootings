@@ -60,9 +60,40 @@ mongodb('database-name', function(err, db, close){
 
 Routes are handles through express, but there are rendering utilities avialable that provides access to view/model processor pairs.  To create a new view with a model processory, create an html and js file with the same name in the `shared-utils` directory.
 
- touch shared-views/view-name.html
- touch shared-views/view-name.js
+```
+touch shared-views/view-name.html
+touch shared-views/view-name.js
+```
 
+The html file is a mustache template, while the .js file is a model data processory.  There are two ways to write data model processors, either synchronously or asynchronously.  
+
+####synchronous model processor####
+```
+function getModel(d){
+
+	//processed data object in the format that the html template expects
+	var data = {};
+	
+	return data;
+}
+
+module.exports = getModel;
+```
+
+####asynchronous model processor####
+```
+function getModel(d, cb){
+
+	//processed data object in the format that the html template expects
+	var data = {};
+	
+	//if you are making any requests, you can pass the error as the first param (or leave null)
+	//and then pass the processed data as the second param
+	cb(err, data);
+}
+
+module.exports = getModel;
+```
  
 ####renderComponent()####
 
@@ -95,7 +126,7 @@ router.route('/').get(function(req, res){
 
 ####getComponent()####
 
-To get a template without calling `res.render()`, you can use `getComponent()`. You can use this method synchronously or asynchronously.
+To get a template without calling `res.render()`, you can use `getComponent()`. You can use this method on synchronous or asynchronous model data processors.
 
 getComponet, when used synchronously, will return:
 
