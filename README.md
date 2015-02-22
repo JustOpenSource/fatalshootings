@@ -2,6 +2,8 @@ Sandbox to explore data from [Fatal Encounters](fatalencounters.org)
 
 #Setup#
 
+Install [node](http://nodejs.org/) and [mongodb](http://www.mongodb.org/downloads). 
+
 ##Requirement Documentation##
 [json-schema](http://json-schema.org/)
 
@@ -13,9 +15,43 @@ Sandbox to explore data from [Fatal Encounters](fatalencounters.org)
 
 [node express](http://expressjs.com/4x/api.html)
 
-##Run Node Server##
+##Install and Start MongoDB##
 
-Install [node](http://nodejs.org/) and [mongodb](http://www.mongodb.org/downloads). 
+Install it and added the bin to your paths.  Confirm that it worked by running:
+
+```
+$ mongo
+```
+
+Create a directory called `data` and then inside that put a directory named `db`.
+
+mac:
+```
+$ mkdir /data/db
+```
+
+windows:
+```
+$ md /data/db
+```
+
+Start the database.
+
+```
+$ mongod --dbpath=/data --port 27017
+```
+
+Everytime you want to run the application locally, you will need to restart the mongo database.
+
+##Import Sample Data##
+
+```
+$ cd sys-admin
+$ npm install
+$ node import-sample-data.js
+```
+
+##Run Node Server##
 
 For ease of development, install `supervisor` to watch your files and automatically bounce the server.
 
@@ -27,7 +63,7 @@ Pull the package and run the server.
 	$ cd fatalshootings/dashboard/explore
 	$ npm install
 
-	$ supervisor explore/bin/www
+	$ supervisor bin/www
 
 Go to `localhost:3000/list/`
 
