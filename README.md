@@ -43,6 +43,12 @@ $ mongod --dbpath=/data --port 27017
 
 Everytime you want to run the application locally, you will need to restart the mongo database.
 
+##Clone the Project##
+
+```
+$ git clone https://github.com/JustOpenSource/fatalshootings.git
+```
+
 ##Import Sample Data##
 
 ```
@@ -55,17 +61,19 @@ $ node import-sample-data.js
 
 For ease of development, install `supervisor` to watch your files and automatically bounce the server.
 
-	$ npm i supervisor -g
+```
+$ npm i supervisor -g
+```
 
-Pull the package and run the server.
+Install node dependencies and run the server.
 
-	$ git clone https://github.com/JustOpenSource/fatalshootings.git
-	$ cd fatalshootings/dashboard/explore
-	$ npm install
+```
+$ cd explore
+$ npm install
+$ supervisor bin/www
+```
 
-	$ supervisor bin/www
-
-Go to `localhost:3000/list/`
+Browse to `localhost:3000/list/`
 
 ##API##
 
