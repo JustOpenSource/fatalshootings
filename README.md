@@ -15,6 +15,8 @@ Install [node](http://nodejs.org/) and [mongodb](http://www.mongodb.org/download
 
 [node express](http://expressjs.com/4x/api.html)
 
+[mustache](https://github.com/janl/mustache.js)
+
 ##Install and Start MongoDB##
 
 Install it and add the bin to your paths.  Confirm that it worked by running:
