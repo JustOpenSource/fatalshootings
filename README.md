@@ -33,25 +33,28 @@ When using `supervisor` instead of `node`, the server will automatically bounce 
 ###Accessing Database###
 
 To access the mongo db, you can use the mongo-db utility.
-
- var mongodb = require(__base + 'shared-utils/mongo-db');
- mongodb('database-name', function(err, db, close){
-     if(err){
-         //handle error
-     }
-
-     db.collection('collection-name')
-     .find({})
-     .toArray(function(err, body){
-         if(err){
-         	//handle error
-         }
-
-         //do stuff with data
-     });
-
-     close();
- });
+ 
+ ```
+var mongodb = require(__base + 'shared-utils/mongo-db');
+mongodb('database-name', function(err, db, close){
+	if(err){
+		//handle error
+	}
+	
+	db.collection('collection-name')
+	.find({})
+	.toArray(function(err, body){
+	 
+		if(err){
+		 	//handle error
+		}
+	
+		//do stuff with data
+	});
+	
+	close();
+});
+```
 
 ###Routes and Views###
 
@@ -65,40 +68,44 @@ Routes are handles through express, but there are rendering utilities avialable 
 
 Rendering a component will fetch the template, apply the data model (and the accompanying data model processor), and call res.render().
 
- router.route('/').get(function(req, res){
+```
+router.route('/').get(function(req, res){
 
- 	 //data that you will pass to the model processor
- 	 var data = {};
+	//data that you will pass to the model processor
+	var data = {};
+	
+	//local variables are processed by the page template
+	var locals = {
+	
+		//title of the html document
+		title: PAGE_TITLE,
+		
+		//require js config file to include on the page
+		js: ['config/list'],
+		
+		//css files to include on the page
+		css: ['list']
+	
+	}
+	
+	renderComponent(req, res, 'view-name', data, locals);
 
- 	 //local variables are processed by the page template
- 	 var locals = {
-
- 	 	 //title of the html document
-         title: PAGE_TITLE,
-
-         //require js config file to include on the page
-         js: ['config/list'],
-
-         //css files to include on the page
-         css: ['list']
-    
-     }
-
-     renderComponent(req, res, 'view-name', data, locals);
-
- });
+});
+```
 
 ####getComponent()####
 
 To get a template without calling `res.render()`, you can use `getComponent()`. You can use this method synchronously or asynchronously.
 
- // SYNCHRONOUSE USAGE
- var testTemplate = getComponent('view-name', data)
+```
+// SYNCHRONOUSE USAGE
+var testTemplate = getComponent('view-name', data)
 
- // ASYNCHRONOUSE USAGE
- getComponent('view-name', data, function(err, template){
-	 console.log(template);
- });
+// ASYNCHRONOUSE USAGE
+getComponent('view-name', data, function(err, template){
+	console.log(template);
+});
+```
 
 #DEPRECIATED#
 
