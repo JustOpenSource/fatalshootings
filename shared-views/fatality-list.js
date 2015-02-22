@@ -64,6 +64,7 @@ function getModel (d, cb) {
         	}
     	}
 
+        //get full count before applying limit
         function getCount(countCb){
             
             collection
@@ -80,7 +81,7 @@ function getModel (d, cb) {
         
         }
         
-        
+        //get result entries for current page
         function getResults(count){
 
             collection.find(queryFilter(), querySelect())
