@@ -175,7 +175,7 @@ function getModel(d){
 module.exports = getModel;
 ```
 
-#####asynchronous
+######asynchronous
 ```
 /**
  * getModel
