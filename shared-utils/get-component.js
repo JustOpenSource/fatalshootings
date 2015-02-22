@@ -4,7 +4,6 @@ var __base = __base || '../',
     mustache = require('mustache');
 
 function getComponent (template, data, cb) {
-	c.l('get-component');
 
 	var componentPath = __dirname + '/../shared-views/',
 		html = fs.readFileSync(componentPath + template + '.html').toString(),
@@ -12,9 +11,9 @@ function getComponent (template, data, cb) {
 
 	try { 
 
-		c.l('path', componentPath + template);
-
 	    require(componentPath + template)(data, function(err, data){
+
+	    	c.l('data', data);
 
 	    	cb(err, {
 				html: mustache.render(html, data),
