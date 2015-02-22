@@ -141,7 +141,9 @@ Routes are handled by express [router.route()](http://expressjs.com/api.html#rou
 
 **Note**: Currently the view utilities only work with views in `/shared-views`.
 
-To create a new template/model, create an html and a js file with the same name in `/shared-utils`.
+Views are template/model pairs.  The template provides the markup and the model returns a data object in the format expected by the template.
+
+To create a new template/model, create an html and a js file with the same name in `/shared-views`.
 
 ```
 touch shared-views/view-name.html
@@ -152,7 +154,7 @@ touch shared-views/view-name.js
 The html file is a [mustache template](https://github.com/janl/mustache.js).
 
 ####Model
-The js file is the model and returns a json object in the format that the html template expects. 
+The js file `module.exports` a function called `getModel` that returns a json object in the format that the html template expects. 
 
 #####getModel()
 
@@ -162,7 +164,7 @@ There are two ways to write models, either synchronously or asynchronously.
 ```
 /**
  * getModel
- * @param d {object} the data passed into the model 
+ * @param d {object} the data passed into the model
  */
 function getModel(d){
 
