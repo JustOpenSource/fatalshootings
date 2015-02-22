@@ -202,7 +202,7 @@ module.exports = getModel;
 
 #####getView()
 
-To get a view, use the `getView()`. You can use this method on synchronous or asynchronous models.
+To get a view, use the `getView()` utility. You can use this method on synchronous or asynchronous models.
 
 ```
 /**
@@ -243,7 +243,9 @@ function cb(err, view){
 
 #####renderView()
 
-Rendering a view will fetch the template, apply the data model, and call `res.render()` to render the view inside of the global html page template.
+The `renderView()` is used inside the route callback and expects the `req` and `res` objects.
+
+Rendering a view with this utility will fetch the template, apply the data model, and call `res.render()` to render the view inside of the global html page template.
 
 ```
 router.route('/').get(function(req, res){
