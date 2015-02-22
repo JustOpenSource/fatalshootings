@@ -1,6 +1,9 @@
 var __base = '../',
 	c = require(__base + 'shared-config/constants'),
-	MongoClient = require('mongodb').MongoClient;
+	
+	MongoClient = require('mongodb').MongoClient,
+	
+	DB_URL = 'mongodb://localhost:27017/';
 
 /*
 connect('fe', function(e,d,c){
@@ -8,14 +11,14 @@ connect('fe', function(e,d,c){
 });
 */
 
-module.exports = function(collection, cb){
+module.exports = function(database, cb){
 
 	//todo: look into using promises to manage callbacks
 
 	//defines default callback to call parent callback 
 	cb = cb || function(e,d,c){c()};
 
-	var url = 'mongodb://localhost:27017/' + collection;
+	var url = DB_URL + database;
 
 	// Use connect method to connect to the Server
 	MongoClient.connect(url, function(err, db) {

@@ -1,29 +1,29 @@
 var __base = __base || '../../',
     c = require(__base + 'shared-config/constants');
 
-function getPaginationModel(o){
+function getModel(){
 	
 	if(!o.total){
 		c.l('Pagination :ERROR: total is a required option');
 		return;
 	}
 
-	o.current = o.current || 1;
+	d.current = d.current || 1;
 
 	var t = this;
 
-	t.o = o;
+	t.d = d;
 
 	var	SIZE = t.o.size || 5,
         
         REQUIRES_ELLIPSES = SIZE + 2,
 
 	    totalPages = t.o.total,
-	    inFirstSet = t.o.current <= SIZE - 2;
+	    inFirstSet = t.d.current <= SIZE - 2;
 
 	    paginationModel = {
 	        disablePrev: t.o.current === 1 ? true : false,
-	        disableNext: t.o.current === t.o.total ? true : false,
+	        disableNext: t.o.current === t.d.total ? true : false,
 	        allPages : false,
 	        firstSet: false,
 	        middleSet: false,
@@ -40,7 +40,7 @@ function getPaginationModel(o){
         while(i > 0){
         	
             paginationModel.firstSet[i - 1] = {
-                active: t.o.current === i ? true : false,
+                active: t.d.current === i ? true : false,
                 number: i
             }
 
@@ -56,7 +56,7 @@ function getPaginationModel(o){
         while(i > 0){
 
             paginationModel.allPages[i - 1] = {
-                active: t.o.current === i ? true : false,
+                active: t.d.current === i ? true : false,
                 number: i
             }
 
@@ -66,7 +66,7 @@ function getPaginationModel(o){
     }  else if (!inFirstSet) {
 
     	var pageNumber,
-    		startingPage = t.o.current - Math.floor(SIZE / 2);
+    		startingPage = t.d.current - Math.floor(SIZE / 2);
 
     	paginationModel.middleSet = [];
 
@@ -77,7 +77,7 @@ function getPaginationModel(o){
             pageNumber = i + startingPage;
 
             paginationModel.middleSet[i - 1] = {
-                active: t.o.current === pageNumber ? true : false,
+                active: t.d.current === pageNumber ? true : false,
                 number: pageNumber
             }
 
@@ -97,4 +97,4 @@ var paginationTest = getPaginationModel({
 c.l('paginationTest', paginationTest);
 */
 
-module.exports = getPaginationModel;
+module.exports = getModel;
