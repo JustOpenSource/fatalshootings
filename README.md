@@ -139,9 +139,9 @@ Routes are handled by express [router.route()](http://expressjs.com/api.html#rou
 
 ###Views
 
-**Note: Currently the template utilities only work with templates in the `shared-views`.**
+**Note**: Currently the view utilities only work with views in `/shared-views`.
 
-To create a new template/model, create an html and a js file with the same name in the `shared-utils` directory.
+To create a new template/model, create an html and a js file with the same name in `/shared-utils`.
 
 ```
 touch shared-views/view-name.html
@@ -149,7 +149,7 @@ touch shared-views/view-name.js
 ```
 
 ####Template
-The html file is a mustache template.
+The html file is a [mustache template](https://github.com/janl/mustache.js).
 
 ####Model
 The js file is the model and returns a json object in the format that the html template expects. 
