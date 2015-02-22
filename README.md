@@ -9,9 +9,13 @@
  	* [Database Access](#database-access)
  		* [mongo-db](#mong-db)
  	* [Routes](#routes)
- 	* [Templates](#templates)
-  		* [View](#view)
+ 	* [Views](#views)
+  		* [Template](#template)
   		* [Model](#model)
+  			* [getModel()](#getmodel())
+  		* [Using Views](#usingviews())
+  		 	* [getComponent()](#getcomponent())
+  			* [renderComponent()](#rendercomponent())
 * [Requirements Documentation](#requirements-documentation)
 
 Explore data from [Fatal Encounters](http://fatalencounters.org).
@@ -107,7 +111,6 @@ mongodb('database-name', cb);
  * @param db {object} a mongo database instance
  * @param close {function} close function must be called after you get your data
  */
- 
 function cb(err, db, close){
 	if(err){
 		//handle error
@@ -134,26 +137,28 @@ function cb(err, db, close){
 
 Routes are handled via express.
 
-###Templates
+###Views
 
-**Note: Currently the template utilities only work with templates in shared-views and not with local app view directories.**
+**Note: Currently the template utilities only work with templates in the `shared-views`.**
 
-Template rendering utilities provide access to template/model pairs.  To create a new template/model, create an html and a js file with the same name in the `shared-utils` directory.
+To create a new template/model, create an html and a js file with the same name in the `shared-utils` directory.
 
 ```
 touch shared-views/view-name.html
 touch shared-views/view-name.js
 ```
 
-####View
+####Template
 The html file is a mustache template.
 
 ####Model
 The js file is the model and returns a json object in the format that the html template expects. 
 
+#####getModel()
+
 There are two ways to write models, either synchronously or asynchronously.  
 
-####synchronous model processor####
+######synchronous
 ```
 /**
  * @param d {object} the data passed into the model 
@@ -167,7 +172,7 @@ function getModel(d){
 module.exports = getModel;
 ```
 
-####asynchronous model processor####
+#####asynchronous
 ```
 /**
  * @param d {object} the data passed into the model 
@@ -187,12 +192,41 @@ function getModel(d, cb){
 
 module.exports = getModel;
 ```
- 
-####renderComponent()####
+
+####Using Views
+
+#####getComponent()
+
+To get a template without calling `res.render()`, you can use `getComponent()`. You can use this method on synchronous or asynchronous models.
+
+```
+/**
+ * renderComponent
+ * Note that the return only applies when there is no callback
+ * @param template {string} name of template/model pair
+ * @param data {object} data being passed into model
+ * @param cb {function} optional - passes response data into callback if present
+ * @returns {object} {
+ *	html {string} rendered template after applying data
+ *	data {object} data
+ *	template {string} template html before applying data
+ * }
+ */
+```
+
+```
+// SYNCHRONOUSE USAGE
+var testTemplate = getComponent('view-name', data);
+
+// ASYNCHRONOUSE USAGE
+getComponent('view-name', data, function(err, template){
+	console.log(template);
+});
+```
+
+#####renderComponent()
 
 Rendering a component will fetch the template, apply the data model, and call res.render().
-
-#####API#####
 
 ```
 /**
@@ -205,8 +239,6 @@ Rendering a component will fetch the template, apply the data model, and call re
  * @param locals {object} local variables object to pass to wrapper template
  */
 ```
-
-#####Usage#####
 
 ```
 router.route('/').get(function(req, res){
@@ -233,38 +265,6 @@ router.route('/').get(function(req, res){
 });
 ```
 
-####getComponent()####
-
-To get a template without calling `res.render()`, you can use `getComponent()`. You can use this method on synchronous or asynchronous models.
-
-#####API#####
-
-```
-/**
- * renderComponent
- * Note that the return only applies when there is no callback
- * @param template {string} name of template/model pair
- * @param data {object} data being passed into model
- * @param cb {function} optional - passes response data into callback if present
- * @returns {object} {
- *	html {string} rendered template after applying data
- *	data {object} data
- *	template {string} template html before applying data
- * }
- */
-```
-
-#####Usage#####
-
-```
-// SYNCHRONOUSE USAGE
-var testTemplate = getComponent('view-name', data);
-
-// ASYNCHRONOUSE USAGE
-getComponent('view-name', data, function(err, template){
-	console.log(template);
-});
-```
 ##Requirement Documentation##
 [json-schema](http://json-schema.org/)
 
