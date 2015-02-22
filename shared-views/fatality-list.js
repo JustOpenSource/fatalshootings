@@ -12,7 +12,8 @@ function getModel (d, cb) {
     function getData(err, db, close){
 
         if(err){
-            c.l('err', err);
+            
+            c.l('err', err);            
             return;
         }
 
@@ -26,15 +27,18 @@ function getModel (d, cb) {
             };
 
         function filterOptions(){
+
         	return {};
     	}
 
    		function queryFilter(){
-        	return {};
+        	
+            return {};
     	}
 
     	function querySelect(){
-        	return {
+        	
+            return {
             	"value.subject.name" : true,
            		"value.subject.age" : true,
             	"value.subject.race" : true,
@@ -46,13 +50,15 @@ function getModel (d, cb) {
     	}
 
     	function querySort(){
-        	return { 
+        	
+            return { 
             	"value.death.event.date" : -1
        		}
     	}
 
     	function buildModel(body, data){
-        	return {
+        	
+            return {
             	'body' : body,
             	'data' : data
         	}
@@ -77,50 +83,35 @@ function getModel (d, cb) {
         
         function getResults(count){
 
-        	function render(err, model){
-
-        		if(err){
-            		c.l('err', err);
-           			cb(err);
-            	}
-
-	        	cb(null, {
-	            	results: model.body,
-	           		count: model.data.count,
-	            	filters: filterOptions(),
-	            	locals: { 
-	                	title: 'List of Fatalities',
-	                	js: ['config/list'],
-	                	css: ['list']
-	            	}
-	        	});
-
-        		close();
-    		}
-
             collection.find(queryFilter(), querySelect())
 
             .sort(querySort())
 
             .skip(startAt).limit(limit)
-            
+
             .toArray(function(err, body){
 
                 if(err){
+
             		c.l('err', err);
+
            			cb(err);
+
+                    close();
+
+                    return;
             	}
 
-                c.l('body', body);
-
 	        	cb(null, {
+
 	            	results: body,
 	           		count: count,
 	            	filters: filterOptions()
-	        	});
+
+                });
 
         		close();
-            
+
             });
         }
         
