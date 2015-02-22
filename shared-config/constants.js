@@ -2,8 +2,12 @@ var c = {
     nano: 'http://localhost:5984',
     mongo: 'http://localhost:5984',
     db_name: 'fe',
+    collections: {
+        fatalities: 'fatalities'
+    },
     id_prefix: 'fatality_',
     ports: {
+        'mongodb' : 27017,
         'explore' : 3000,
         'admin' : 3001,
         'sys-admin' : 3002
