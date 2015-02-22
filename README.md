@@ -97,23 +97,30 @@ mongodb('database-name', function(err, db, close){
 
 ###Routes and Views###
 
-Routes are handles through express, but there are rendering utilities avialable that provides access to view/model processor pairs.  To create a new view with a model processory, create an html and js file with the same name in the `shared-utils` directory.
+Routes are handled through express, but the following rendering utilities provide access to view/model pairs.  To create a new view/model, create an html and js file with the same name in the `shared-utils` directory.
 
 ```
 touch shared-views/view-name.html
 touch shared-views/view-name.js
 ```
 
-The html file is a mustache template, while the .js file is a model data processory.  There are two ways to write data model processors, either synchronously or asynchronously.  
+####Views####
+The html file is a mustache template.
+
+####Model####
+The .js file is the model and returns a json object in the format that the html template expects. 
+
+There are two ways to write models, either synchronously or asynchronously.  
 
 ####synchronous model processor####
 ```
+/**
+ * @param d {object} the data passed into the model 
+ */
 function getModel(d){
 
 	//processed data object in the format that the html template expects
-	var data = {};
-	
-	return data;
+	return {};
 }
 
 module.exports = getModel;
@@ -121,13 +128,19 @@ module.exports = getModel;
 
 ####asynchronous model processor####
 ```
+/**
+ * @param d {object} the data passed into the model 
+ * @param cb {function} a function to runs once the data is available
+ */
 function getModel(d, cb){
 
 	//processed data object in the format that the html template expects
 	var data = {};
 	
-	//if you are making any requests, you can pass the error as the first param (or leave null)
-	//and then pass the processed data as the second param
+	/**
+	 * @param err {string || null}  error message or null  
+	 * @param data {object} data object expected by the html template
+	 */
 	cb(err, data);
 }
 
@@ -137,6 +150,22 @@ module.exports = getModel;
 ####renderComponent()####
 
 Rendering a component will fetch the template, apply the data model (and the accompanying data model processor), and call res.render().
+
+#####API#####
+
+```
+/**
+ * renderComponent
+ * renderComponent(req, res, 'view-name', data, locals);
+ * @param req {object} node express request object
+ * @param res {object} node express response object
+ * @param template {string} name of template/model pair
+ * @param data {object} data being passed into model
+ * @param locals {object} local variables object to pass to wrapper template
+ */
+```
+
+#####Usage#####
 
 ```
 router.route('/').get(function(req, res){
@@ -169,13 +198,26 @@ To get a template without calling `res.render()`, you can use `getComponent()`. 
 
 getComponet, when used synchronously, will return:
 
+#####API#####
+
 ```
-{
-	html: rendered data plus template,
-	data: data,
-	template: template html
-}
+/**
+ * renderComponent
+ * renderComponent(req, res, 'view-name', data, locals);
+ * @param req {object} node express request object
+ * @param res {object} node express response object
+ * @param template {string} name of template/model pair
+ * @param data {object} data being passed into model
+ * @param cb {function} optional - passes response data into callback if present
+ * @returns {
+ *	html {string} rendered template after applying data
+ *	data {object} data
+ *	template {string} template html before applying data
+ * }
+ */
 ```
+
+#####Usage#####
 
 ```
 // SYNCHRONOUSE USAGE
