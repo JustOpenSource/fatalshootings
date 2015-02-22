@@ -1,18 +1,24 @@
 var c = {
-    nano: 'http://localhost:5984',
-    mongo: 'http://localhost:5984',
-    db_name: 'fe',
-    collections: {
-        fatalities: 'fatalities'
-    },
-    id_prefix: 'fatality_',
-    ports: {
+
+    port: {
         'mongodb' : 27017,
         'explore' : 3000,
         'admin' : 3001,
         'sys-admin' : 3002
-    }
+    },
+
+    db: {
+        fatalities: 'fatalities'
+    },
+    
+    collection: {
+        fatalities: 'fatalities'
+    },
+    
+    url: {}
 };
+
+c.url.mongo = 'mongodb://localhost:' + c.port.mongodb + '/';
 
 c.l = function(status, msg){
 
@@ -31,6 +37,8 @@ c.l = function(status, msg){
             
             console.log(msg);
         }
+
+        console.log('\n__________________');
     }               
 }
 

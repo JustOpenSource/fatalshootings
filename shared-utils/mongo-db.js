@@ -1,9 +1,6 @@
 var __base = '../',
 	c = require(__base + 'shared-config/constants'),
-	
-	MongoClient = require('mongodb').MongoClient,
-	
-	DB_URL = 'mongodb://localhost:27017/';
+	MongoClient = require('mongodb').MongoClient;
 
 /*
 connect('fe', function(e,d,c){
@@ -18,7 +15,9 @@ module.exports = function(database, cb){
 	//defines default callback to call parent callback 
 	cb = cb || function(e,d,c){c()};
 
-	var url = DB_URL + database;
+	var url = c.url.mongo + database;
+
+	c.l('mongo url', url);
 
 	// Use connect method to connect to the Server
 	MongoClient.connect(url, function(err, db) {

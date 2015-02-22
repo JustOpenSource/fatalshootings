@@ -3,12 +3,11 @@ var __base = __base || '../',
     mongodb = require(__base + 'shared-utils/mongo-db'),
 
    	//move to constants
-    DATABASE = 'fe';
+    DATABASE = c.db.fatalities,
+    COLLECTION = c.collection.fatalities,
+    DEFAULT_LIMIT = 10;
 
 function getModel (d, cb) {
-
-    var DEFAULT_LIMIT = 10,
-    	COLLECTION = 'fe';
 
     function getData(err, db, close){
 
@@ -24,7 +23,7 @@ function getModel (d, cb) {
             data = {
                 page: page,
                 limit: limit
-            }
+            };
 
         function filterOptions(){
         	return {};
@@ -112,6 +111,8 @@ function getModel (d, cb) {
            			cb(err);
             	}
 
+                c.l('body', body);
+
 	        	cb(null, {
 	            	results: body,
 	           		count: count,
@@ -129,6 +130,7 @@ function getModel (d, cb) {
             getResults(count);
         
         });
+        
     }
 
     mongodb(DATABASE, getData);

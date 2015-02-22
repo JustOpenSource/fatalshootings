@@ -1,4 +1,6 @@
-var MongoClient = require('mongodb').MongoClient, 
+var __base = '../',
+	c = require(__base + 'shared-config/constants'),
+	MongoClient = require('mongodb').MongoClient, 
 	assert = require('assert');
 
 // Connection URL
@@ -8,7 +10,7 @@ var url = 'mongodb://localhost:27017/pcf';
 MongoClient.connect(url, function(err, db) {
   assert.equal(null, err);
   
-  console.log("Connected correctly to server");
+  console.log("mongodb :SUCCESS: Connected correctly to server");
 
   db.close();
 });
