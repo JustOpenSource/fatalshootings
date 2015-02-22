@@ -2,6 +2,13 @@ Sandbox to explore data from [Fatal Encounters](fatalencounters.org)
 
 #Setup#
 
+##Requirement Documentation##
+[json-schema](http://json-schema.org/)
+[jsonschema node module](https://www.npmjs.com/package/jsonschema)
+[mongo db node api](https://github.com/mongodb/node-mongodb-native)
+[mongo db](http://docs.mongodb.org/manual/)
+[node express](http://expressjs.com/4x/api.html)
+
 ##Run Node Server##
 
 Install [node](http://nodejs.org/) and [couchdb](http://couchdb.apache.org/).  
@@ -13,7 +20,7 @@ For ease of development, install `supervisor` to watch your files and automatica
 Then, you can pull the package and run the server.
 
 	$ git clone https://github.com/JustOpenSource/fatalshootings.git
-	$ cd fatalshootings/dashboard
+	$ cd fatalshootings/dashboard/explore
 	$ npm install
 
 	$ supervisor explore/bin/www
@@ -22,19 +29,13 @@ Go to `localhost:3000/list/`
 	
 When using `supervisor` instead of `node`, the server will automatically bounce when you save files.
 
-##Requirement Documentation##
-[json-schema](http://json-schema.org/)
+##API##
 
-[jsonschema node module](https://www.npmjs.com/package/jsonschema)
-
-
-##APPLICATION ARCHITECTURE##
-
-###Accessing Database###
+###Database Access###
 
 To access the mongo db, you can use the mongo-db utility.
  
- ```
+```
 var mongodb = require(__base + 'shared-utils/mongo-db');
 mongodb('database-name', function(err, db, close){
 	if(err){
