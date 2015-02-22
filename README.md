@@ -135,7 +135,7 @@ function cb(err, db, close){
 
 ###Routes
 
-Routes are handled via express.
+Routes are handled by express [app.router()](http://expressjs.com/api.html#router).
 
 ###Views
 
