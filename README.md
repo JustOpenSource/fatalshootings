@@ -359,7 +359,8 @@ List of entries.
 
 Currently within `fatality-list.html`, but should be moved into it's own view.  
 
-Template and View Coming Soon.
+
+[template](https://github.com/JustOpenSource/fatalshootings/blob/master/shared-views/fatality-list-filter.html) | [model](https://github.com/JustOpenSource/fatalshootings/blob/master/shared-views/fatality-list-filter.js)
 
 ####Pagination
 
