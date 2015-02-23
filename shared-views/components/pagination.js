@@ -1,13 +1,13 @@
 var __base = __base || '../../',
     c = require(__base + 'shared-config/constants'),
-    log = c.getLog(c.log, 'shared-views/pagination'),
+    log = c.getLog('shared-views/pagination'),
     DEFAULT_CURRENT = 1,
     DEFAULT_SIZE = 7,
     DEFAULT_LIMIT = 10;
 
 /*
 d
-d.count {int} - required - total number of pages,
+d.count {int} - required - total number of records,
 d.limit {int} entries per page, has a default
 d.current {int} current page number, has a default
 */
@@ -19,35 +19,33 @@ function getModel(d){
 		return;
 	}
 
-    log('trace', 'data object passed in to the pagination model', d);
+    log('trace', 'data passed into the pagination model', d);
 
 	d.current = d.current || DEFAULT_CURRENT;
-
     d.limit = d.limit || DEFAULT_LIMIT;
 
+    //not allowing size to be overwritten yet
 	d.size = DEFAULT_SIZE;
         
-    d.total = Math.ceil(d.count / d.limit);
+    var total = Math.ceil(d.count / d.limit),
 
-    var REQUIRES_ELLIPSES = d.size + 1,
-
-	    inFirstSet = d.current < d.size;
+	    inFirstSet = d.current < d.size,
 
 	    paginationModel = {
 	        disablePrev: d.current === 1 ? true : false,
-	        disableNext: d.current === d.total ? true : false,
+	        disableNext: d.current === total ? true : false,
 	        allPages : false,
 	        firstSet: false,
 	        firstSep: false,
             middleSet: false,
             LastSep: false,
             lastSet: false,
-	        total: d.total
+	        total: total
 	    };
 
     //the current page is within the first set
     //and there are more pages than the amount of page links being displayed
-    if (inFirstSet && d.total >= REQUIRES_ELLIPSES) {
+    if (inFirstSet && total > d.size) {
 
         log('trace', 'd.current is part of the first set and there are more pages');
 
@@ -69,7 +67,7 @@ function getModel(d){
 
         paginationModel.lastSet = [{
             active: false,
-            number: d.total
+            number: total
         }];
 
     //the current page is within the first set and 
@@ -80,7 +78,7 @@ function getModel(d){
 
     	paginationModel.allPages = [];
 
-    	i = d.total;
+    	i = total;
 
         while(i > 0){
 
@@ -94,7 +92,7 @@ function getModel(d){
 
     //the current page is past the first set 
     //and there are pages beyond the currently showing set
-    }  else if (!inFirstSet && (d.current <= d.total - d.size + 1)) {
+    }  else if (!inFirstSet && (d.current <= total - d.size + 1)) {
 
         log('trace', 'd.current is part of the middle set');
 
@@ -128,7 +126,7 @@ function getModel(d){
 
         paginationModel.lastSet = [{
             active: false,
-            number: d.total
+            number: total
         }];
 
     //the current page is in the last set
@@ -145,7 +143,7 @@ function getModel(d){
 
         while(i > 0){
 
-            pageNumber = d.total - i + 1;
+            pageNumber = total - i + 1;
 
             paginationModel.lastSet[d.size - i] = {
                 active: d.current === pageNumber ? true : false,

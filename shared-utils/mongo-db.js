@@ -1,6 +1,6 @@
 var __base = '../',
 	c = require(__base + 'shared-config/constants'),
-	log = c.getLog(c.log, 'shared-utils/mongo-db'),
+	log = c.getLog('shared-utils/mongo-db'),
 
 	MongoClient = require('mongodb').MongoClient;
 
