@@ -357,8 +357,7 @@ List of entries.
 
 ####Filters
 
-Currently within `fatality-list.html`, but should be moved into it's own view.  
-
+Filters that limit the list, controlled by url query paramters.
 
 [template](https://github.com/JustOpenSource/fatalshootings/blob/master/shared-views/fatality-list-filter.html) | [model](https://github.com/JustOpenSource/fatalshootings/blob/master/shared-views/fatality-list-filter.js)
 
