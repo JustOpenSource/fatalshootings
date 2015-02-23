@@ -24,6 +24,7 @@ Application to explore data from [Fatal Encounters](http://fatalencounters.org).
 	* [Log Levels](#log-levels)
 	* [Log Output](#log-output)
 * [Requirements Documentation](#requirements-documentation)
+* [Features](#features)
 
 ##Setup
 
@@ -343,3 +344,35 @@ App Framework - [node express](http://expressjs.com/4x/api.html)
 Templates - [mustache](https://github.com/janl/mustache.js)
 
 Logging - [winston](https://github.com/winstonjs/winston)
+
+##Features
+
+###List
+
+List of entries.
+
+[http://localhost:3000/list](http://localhost:3000/list)
+
+[template](https://github.com/JustOpenSource/fatalshootings/blob/master/shared-views/fatality-list.html) | [model](https://github.com/JustOpenSource/fatalshootings/blob/master/shared-views/fatality-list.js)
+
+####Filters
+
+Currently within `fatality-list.html`, but should be moved into it's own view.  
+
+Template and View Coming Soon.
+
+####Pagination
+
+Pagination is controlled with the url query parameters `limit` (entries per page) and `page` (current page number).
+
+[http://localhost:3000/list?limit=10&page=3](http://localhost:3000/list?limit=10&page=3)
+
+[template](https://github.com/JustOpenSource/fatalshootings/blob/master/shared-views/components/pagination.html) | [model](https://github.com/JustOpenSource/fatalshootings/blob/master/shared-views/components/pagination.js)
+
+####Responsiveness
+
+Controlled via boostrap.
+
+####Sort
+
+Coming Soon.
