@@ -1,4 +1,4 @@
-Application to explore data from [Fatal Encounters](http://fatalencounters.org).
+aApplication to explore data from [Fatal Encounters](http://fatalencounters.org).
 
 ##Table of Contents
 
@@ -304,11 +304,10 @@ var c = require('shared-config/constants');
 
 /**
  * getLog
- * @param log {function} the log function from constants
  * @param location {string} the location that the logger is being used
- * @returns log {function} returned the log function
+ * @returns log {function} returns wrapped log function
  */
-var log = c.getLog(c.log, 'shared-utils/mongo-db');
+var log = c.getLog('shared-utils/mongo-db');
 ```
 
 ###log()
