@@ -3,6 +3,7 @@ var __base = __base || '../',
     log = c.getLog(c.log, 'shared-views/fatality-list'),
     
     mongodb = require(__base + 'shared-utils/mongo-db'),
+    getView = require(__base + 'shared-utils/get-view'),
 
     DATABASE = c.db.fatalities,
     COLLECTION = c.collection.fatalities,
@@ -114,12 +115,17 @@ function getModel (d, cb) {
 
 	            	results: body,
 	           		count: count,
-	            	filters: filterOptions()
-
+	            	filters: getView('fatality-list-filter', {
+                        //
+                    }).html,
+                    pagination: getView('components/pagination', {
+                        count: count,
+                        current: page,
+                        limit: limit
+                    }).html
                 });
 
         		close();
-
             });
         }
         

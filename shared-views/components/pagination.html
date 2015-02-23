@@ -1,30 +1,70 @@
 {{! pagination data model
 
 {
-	disablePrev: true,
-	disableNext: true,
-	pages : [
-		{
-			active: true,
-			number: 1
-		},
-		...
-	]
+
+  disablePrev: false,
+  
+  disableNext: true,
+  
+  allPages: false,
+  
+  firstSet: [
+    { 
+      active: false, 
+      number: 1 
+    } 
+  ],
+  
+  firstSep: true,
+  
+  middleSet: false,
+  
+  LastSep: false,
+  
+  lastSet: [ 
+    { 
+      active: false, 
+      number: 6
+    },
+    ... 
+  ],
+  total: 10
 }
+
 
 }}
 
-<nav>
+<nav class="col-md-12">
   <ul class="pagination">
     <li class="{{#disablePrev}}disabled{{/disablePrev}}">
       <a href="#" aria-label="Previous">
         <span aria-hidden="true">&laquo;</span>
       </a>
     </li>
-    
-    {{#pages}}
+
+    {{#allPages}}
     <li class="{{#active}}active{{/active}}"><a href="#">{{number}}</a></li>
-    {{/pages}}
+    {{/allPages}}
+
+    {{#firstSet}}
+    <li class="{{#active}}active{{/active}}"><a href="#">{{number}}</a></li>
+    {{/firstSet}}
+
+    {{#firstSep}}
+    <li class="disabled"><a>...</a></li>
+    {{/firstSep}}
+    
+    {{#middleSet}}
+    <li class="{{#active}}active{{/active}}"><a href="#">{{number}}</a></li>
+    {{/middleSet}}
+
+    {{#lastSep}}
+    <li class="disabled"><a>...</a></li>
+    {{/lastSep}}
+    
+    {{#lastSet}}
+    <li class="{{#active}}active{{/active}}"><a href="#">{{number}}</a></li>
+    {{/lastSet}}
     
     <li class="{{#disableNext}}disabled{{/disableNext}}">
       <a href="#" aria-label="Next">

@@ -98,7 +98,15 @@ c.getLog = function (log, location) {
     
     return function (type, msg, data) {
         
-        data = data || {};
+        if(data){
+
+            data = typeof data === 'object' ? data : { 'data' : data };
+
+        } else {
+
+            data = {};
+        }
+
         data.location =location;
         
         log(type, msg, data);
