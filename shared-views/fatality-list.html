@@ -1,7 +1,7 @@
 <div class="page-content">
     <div class="container">
-        <div class="page-header">
-            <h1>Data List <small>{{ results.total_rows}} results</small></h1>
+        <div class="page-header col-md-12">
+            <h1><small>{{ count}} results</small></h1>
         </div>
 
         {{{filters}}}
@@ -26,6 +26,7 @@
 
                     <span class="list-item-value list-item-small">{{value.death.event.date}}</span>
                     
+                    {{#isAdmin}}
                     <span class="list-item-controls">
                         <a href="{{{../link_base}}}{{id}}" class="pull-right delete-link">
                             <span class="btn btn-danger">
@@ -33,6 +34,7 @@
                             </span>
                         </a>
                     </span>
+                    {{/isAdmin}}
                 </li>
             {{/results}}
             </ul>

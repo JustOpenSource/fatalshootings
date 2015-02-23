@@ -1,6 +1,6 @@
 var __base = __base || '../../',
     c = require(__base + 'config/constants'),
-    log = c.getLog(c.log, 'shared-utils/http-get'),
+    log = c.getLog('shared-utils/http-get'),
 
     http = require('http');
 

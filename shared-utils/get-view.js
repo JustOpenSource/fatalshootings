@@ -1,6 +1,6 @@
 var __base = __base || '../',
     c = require(__base + 'shared-config/constants'),
-    log = c.getLog(c.log, 'shared-utils/get-view'),
+    log = c.getLog('shared-utils/get-view'),
 
     fs = require('fs'),
     mustache = require('mustache'),

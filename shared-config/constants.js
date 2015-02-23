@@ -58,7 +58,6 @@ logger.add( winston.transports.Console, {
     prettyPrint: true,
     colorize: true,
     silent: false,
-    timestamp: false
 });
 
 logFileName = getLogFileName();
@@ -84,32 +83,40 @@ function getLogFileName () {
         m = m < 10 ? '0' + m : m,
         y = today.getFullYear();
     
-    return LOGS_DIR + y + '' + m + '' + d + '.log'
+    var filename = LOGS_DIR + y + '' + m + '' + d + '.log';
+
+    console.log(filename);
+
+    return filename;
 }
 
 c.log = function (type, msg, data) {
 
     data = data ? data : '';
     
-    return logger.log(type, msg, data);
+    logger.log(type, msg, data);
 };
 
-c.getLog = function (log, location) {
-    
+c.getLog = function (location) {
+
     return function (type, msg, data) {
         
         if(data){
 
-            data = typeof data === 'object' ? data : { 'data' : data };
+            //if data is not an object, make it one move value into _data property
+            data = typeof data === 'object' ? data : { '_data' : data };
 
         } else {
 
             data = {};
         }
 
-        data.location =location;
+        //add the current location to _loc data property
+        data._loc = location;
         
-        log(type, msg, data);
+        console.log(' ');
+        c.log(type, msg, data);
+        console.log(' ');
     }
 }
 

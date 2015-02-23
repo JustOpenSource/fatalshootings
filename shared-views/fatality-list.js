@@ -1,6 +1,6 @@
 var __base = __base || '../',
     c = require(__base + 'shared-config/constants'),
-    log = c.getLog(c.log, 'shared-views/fatality-list'),
+    log = c.getLog('shared-views/fatality-list'),
     
     mongodb = require(__base + 'shared-utils/mongo-db'),
     getView = require(__base + 'shared-utils/get-view'),
@@ -26,11 +26,6 @@ function getModel (d, cb) {
                 page: page,
                 limit: limit
             };
-
-        function filterOptions(){
-
-        	return {};
-    	}
 
    		function queryFilter(){
         	
@@ -91,8 +86,6 @@ function getModel (d, cb) {
 
             page = page * limit > count ? Math.ceil(count / limit) : page;
 
-            log('trace', 'page', page);
-
             collection.find(queryFilter(), querySelect())
 
             .sort(querySort())
@@ -100,37 +93,39 @@ function getModel (d, cb) {
             .skip((page - 1) * limit).limit(limit)
 
             .toArray(function(err, body){
-
                 if(err){
 
-            		log('error', 'could not get results', err);
+                    log('error', 'could not get results', err);
 
-           			cb(err);
+                    cb(err);
 
                     close();
 
                     return;
-            	}
+                }
 
-                log('trace', 'got results, calling cb() and passing in model data');
-
-	        	cb(null, {
-
-	            	results: body,
-	           		count: count,
-	            	filters: getView('fatality-list-filter', {
-                        //
-                    }).html,
-                    pagination: getView('components/pagination', {
-                        count: count,
-                        current: page,
-                        limit: limit
-                    }).html
-                });
-
-        		close();
+                returnData(err, body, count);
             });
         }
+
+        function returnData(err, body, count){
+
+            log('trace', 'got results, calling cb() and passing in model data');
+
+            cb(null, {
+
+                results: body,
+                count: count,
+                filters: getView('fatality-list-filter', queryFilter()).html,
+                pagination: getView('components/pagination', {
+                    count: count,
+                    current: page,
+                    limit: limit
+                }).html
+            });
+
+            close();
+        }        
         
         //init
         log('trace', 'attempting to get count');
