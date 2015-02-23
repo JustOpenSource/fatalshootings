@@ -12,8 +12,6 @@ connect('fe', function(e,d,c){
 
 module.exports = function(database, cb){
 
-	//todo: look into using promises to manage callbacks
-
 	//defines default callback to call parent callback 
 	cb = cb || function(e,d,c){c()};
 

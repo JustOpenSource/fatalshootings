@@ -12,6 +12,7 @@ var __base = '../',
 MongoClient.connect(URL, function(err, db) {
 
 	if(err){
+		
 		log('error', 'mongodb could not connect to database', err);
 	}
 
@@ -19,14 +20,16 @@ MongoClient.connect(URL, function(err, db) {
 		messageLocation = COLLECTION + ' collection within the ' + DATABASE + ' database, running on ' + URL;
 
 	collection.drop(function(err, body){
+
 		if (err) {
+
 			log('error', 'mongodb could not drop the ' + messageLocation, err);
 		}
 
 		if (body) {
+
 			log('trace', 'mongodb dropped the ' + messageLocation);
 		}
-		
 	});
 
 	collection.find({}).toArray(function(err, body){
@@ -38,14 +41,11 @@ MongoClient.connect(URL, function(err, db) {
 				log('trace', 'mongodb imported ' + body.length + ' documents into the ' + messageLocation);
 
 				db.close();
-				
 			});
 
 			return;
 		}
 
 		db.close();
-
 	});
-
 });
