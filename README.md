@@ -327,14 +327,14 @@ Logs that are level `info` or `error` will output into the `/log` directory, whi
 Logs in the `/log` directory are named `yyyymmdd.log`.
 
 ##Requirement Documentation
-[json-schema](http://json-schema.org/)
+JSON Scheme - [json-schema](http://json-schema.org/), [jsonschema node module](https://www.npmjs.com/package/jsonschema)
 
-[jsonschema node module](https://www.npmjs.com/package/jsonschema)
+Database - [mongo db](http://docs.mongodb.org/manual/)
 
-[mongo db node api](https://github.com/mongodb/node-mongodb-native)
+Database API - [mongo db node api](https://github.com/mongodb/node-mongodb-native)
 
-[mongo db](http://docs.mongodb.org/manual/)
+App Framework - [node express](http://expressjs.com/4x/api.html)
 
-[node express](http://expressjs.com/4x/api.html)
+Templates - [mustache](https://github.com/janl/mustache.js)
 
-[mustache](https://github.com/janl/mustache.js)
+Logging - [winston](https://github.com/winstonjs/winston)
