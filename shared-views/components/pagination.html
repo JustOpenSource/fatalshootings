@@ -43,27 +43,27 @@
     </li>
 
     {{#allPages}}
-    <li class="{{#active}}active{{/active}}"><a href="#">{{number}}</a></li>
+    <li class="{{#active}}active{{/active}} {{^active}}hidden-sm hidden-xs{{/active}}"><a href="#">{{number}}</a></li>
     {{/allPages}}
 
     {{#firstSet}}
-    <li class="{{#active}}active{{/active}}"><a href="#">{{number}}</a></li>
+    <li class="{{#active}}active{{/active}} {{^active}}hidden-sm hidden-xs{{/active}}"><a href="#">{{number}}</a></li>
     {{/firstSet}}
 
     {{#firstSep}}
-    <li class="disabled"><a>...</a></li>
+    <li class="disabled hidden-sm hidden-xs"><a>...</a></li>
     {{/firstSep}}
     
     {{#middleSet}}
-    <li class="{{#active}}active{{/active}}"><a href="#">{{number}}</a></li>
+    <li class="{{#active}}active{{/active}} {{^active}}hidden-sm hidden-xs{{/active}}"><a href="#">{{number}}</a></li>
     {{/middleSet}}
 
     {{#lastSep}}
-    <li class="disabled"><a>...</a></li>
+    <li class="disabled hidden-sm hidden-xs"><a>...</a></li>
     {{/lastSep}}
     
     {{#lastSet}}
-    <li class="{{#active}}active{{/active}}"><a href="#">{{number}}</a></li>
+    <li class="{{#active}}active{{/active}} {{^active}}hidden-sm hidden-xs{{/active}}"><a href="#">{{number}}</a></li>
     {{/lastSet}}
     
     <li class="{{#disableNext}}disabled{{/disableNext}}">

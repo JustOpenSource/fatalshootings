@@ -2,7 +2,7 @@ var __base = __base || '../../',
     c = require(__base + 'shared-config/constants'),
     log = c.getLog(c.log, 'shared-views/pagination'),
     DEFAULT_CURRENT = 1,
-    DEFAULT_SIZE = 5,
+    DEFAULT_SIZE = 7,
     DEFAULT_LIMIT = 10;
 
 /*
@@ -25,13 +25,13 @@ function getModel(d){
 
     d.limit = d.limit || DEFAULT_LIMIT;
 
-	d.size = d.size || DEFAULT_SIZE;
+	d.size = DEFAULT_SIZE;
         
     d.total = Math.ceil(d.count / d.limit);
 
-    var REQUIRES_ELLIPSES = d.size + 2,
+    var REQUIRES_ELLIPSES = d.size + 1,
 
-	    inFirstSet = d.current <= d.size - 2;
+	    inFirstSet = d.current < d.size;
 
 	    paginationModel = {
 	        disablePrev: d.current === 1 ? true : false,
@@ -47,7 +47,7 @@ function getModel(d){
 
     //the current page is within the first set
     //and there are more pages than the amount of page links being displayed
-    if (inFirstSet && d.total > REQUIRES_ELLIPSES) {
+    if (inFirstSet && d.total >= REQUIRES_ELLIPSES) {
 
         log('trace', 'd.current is part of the first set and there are more pages');
 
@@ -94,7 +94,7 @@ function getModel(d){
 
     //the current page is past the first set 
     //and there are pages beyond the currently showing set
-    }  else if (!inFirstSet && (d.current <= d.total - d.size)) {
+    }  else if (!inFirstSet && (d.current <= d.total - d.size + 1)) {
 
         log('trace', 'd.current is part of the middle set');
 
