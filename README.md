@@ -101,7 +101,7 @@ Browse to [localhost:3000/list/](localhost:3000/list/).
 To access the mongo db, you can use the mongo-db utility.
 
 ```
-var mongodb = require(__base + 'shared-utils/mongo-db');
+var mongodb = require('shared-utils/mongo-db');
 
 /**
  * mongodb
@@ -210,6 +210,8 @@ module.exports = getModel;
 To get a view, use the `getView()` utility. You can use this method on synchronous or asynchronous models.
 
 ```
+var getView = require('shared-utils/get-view');
+
 /**
  * getView
  * SYNCHRONOUSE USAGE
@@ -253,6 +255,10 @@ The `renderView()` is used inside the route callback and expects the `req` and `
 Rendering a view with this utility will fetch the template, apply the data model, and call `res.render()` to render the view inside of the global html page template.
 
 ```
+var express = require('express'),
+    router = express.Router(),
+    renderView = require('shared-utils/render-view');
+
 router.route('/').get(function(req, res){
 
 	//data that you will pass to the model
@@ -269,7 +275,6 @@ router.route('/').get(function(req, res){
 		
 		//css files to include on the page
 		css: ['list']
-	
 	}
 	
 	/**
@@ -281,7 +286,6 @@ router.route('/').get(function(req, res){
 	 * @param locals {object} local variables object to pass to wrapper template
 	 */
 	renderView(req, res, 'view-name', data, locals);
-
 });
 ```
 
