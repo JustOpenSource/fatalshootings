@@ -1,14 +1,15 @@
 var __base = __base || '../../',
     c = require(__base + 'shared-config/constants'),
+    log = c.getLog(c.log, 'shared-views/pagination'),
     DEFAULT_CURRENT = 1,
     DEFAULT_SIZE = 5;
 
 function getModel(d){
-	
-    c.l('ATTEMPT: build model for pagination view');
+
+    log('trace', 'build model for pagination view');
 
 	if(!d.total){
-		c.l('ERROR: pagination model requires d.total');
+		log('error',  'pagination model requires d.total');
 		return;
 	}
 
@@ -95,7 +96,7 @@ var paginationTest = getModel({
 	current: 32
 });
 
-c.l('paginationTest', paginationTest);
+log('trace', 'paginationTest', paginationTest);
 /**/
 
 module.exports = getModel;

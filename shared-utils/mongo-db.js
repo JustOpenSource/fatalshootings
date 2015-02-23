@@ -1,5 +1,7 @@
 var __base = '../',
 	c = require(__base + 'shared-config/constants'),
+	log = c.getLog(c.log, 'shared-utils/mongo-db'),
+
 	MongoClient = require('mongodb').MongoClient;
 
 /*
@@ -17,14 +19,14 @@ module.exports = function(database, cb){
 
 	var url = c.url.mongo + database;
 
-	c.l('Attempting to connect to ' + url);
+	log('trace', 'attempting to connect to ' + url);
 
 	// Use connect method to connect to the Server
 	MongoClient.connect(url, function(err, db) {
 
 		if(!err){
 
-			c.l('SUCCESS: connected to ' + url);
+			log('trace', 'connected to ' + url);
 		
 			cb(err, db, function(){
 				db.close();
@@ -32,7 +34,7 @@ module.exports = function(database, cb){
 
 		} else {
 
-			c.l('ERROR: did not connect to server', err);
+			log('error', 'could not connect to connected to ' + url, err);
 
 			cb(err);
 

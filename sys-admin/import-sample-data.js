@@ -1,5 +1,7 @@
 var __base = '../',
 	c = require(__base + 'shared-config/constants'),
+	log = c.getLog(c.log, 'sys-admin/import-sample-data'),
+
 	MongoClient = require('mongodb').MongoClient,
 	sampleData = require('./sample-data/fejson.js'),
 
@@ -10,19 +12,19 @@ var __base = '../',
 MongoClient.connect(URL, function(err, db) {
 
 	if(err){
-		c.l('mongodb :ERROR: problem connection to database');
+		log('error', 'mongodb could not connect to database', err);
 	}
 
 	var collection = db.collection(COLLECTION),
 		messageLocation = COLLECTION + ' collection within the ' + DATABASE + ' database, running on ' + URL;
 
 	collection.drop(function(err, body){
-		if(err){
-			c.l('ERROR: mongodb could not drop the ' + messageLocation);
+		if (err) {
+			log('error', 'mongodb could not drop the ' + messageLocation, err);
 		}
 
-		if(body){
-			c.l('SUCCESS: mongodb dropped the ' + messageLocation);
+		if (body) {
+			log('trace', 'mongodb dropped the ' + messageLocation);
 		}
 		
 	});
@@ -33,7 +35,7 @@ MongoClient.connect(URL, function(err, db) {
 
 			collection.insert(sampleData.rows, function(err, body){
 
-				c.l('SUCCESS: mongodb imported ' + body[0].total_rows + ' documents to the ' + messageLocation);
+				log('trace', 'mongodb imported ' + body.length + ' documents into the ' + messageLocation);
 
 				db.close();
 				
