@@ -9,7 +9,7 @@ Application to explore data from [Fatal Encounters](http://fatalencounters.org).
  	* [Run Node Server](#run-node-server)
 * [API](#api)
  	* [Database Access](#database-access)
- 		* [mongodb()](#mongdb)
+ 		* [mongodb()](#mongodb)
  	* [Routes](#routes)
  	* [Views](#views)
   		* [Template](#template)
