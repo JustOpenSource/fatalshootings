@@ -1,8 +1,9 @@
 var __base = __base || '../',
     c = require(__base + 'shared-config/constants'),
+    log = c.getLog(c.log, 'shared-views/fatality-list'),
+    
     mongodb = require(__base + 'shared-utils/mongo-db'),
 
-   	//move to constants
     DATABASE = c.db.fatalities,
     COLLECTION = c.collection.fatalities,
     DEFAULT_LIMIT = 10;
@@ -13,12 +14,12 @@ function getModel (d, cb) {
 
         if(err){
             
-            c.l('err', err);            
+            log('error', 'getData failed', err);            
             return;
         }
 
         var limit = parseInt(d.limit) || DEFAULT_LIMIT,
-            page = parseInt(d.page),
+            page = parseInt(d.page) || 1,
             startAt = page * limit,
             collection = db.collection(COLLECTION),
             data = {
@@ -72,12 +73,12 @@ function getModel (d, cb) {
             .count(function(err, count){
 
             	if(err){
-                    c.l('ERROR: could not get count', err);
-
+                    log('error', 'could not get count', err);
+                
             		cb(err);
             	}
 
-                c.l('SUCCESS: got count: ' + count);
+                log('trace', 'get count ' + count);
                 
                 countCb(count);
             
@@ -98,7 +99,7 @@ function getModel (d, cb) {
 
                 if(err){
 
-            		c.l('ERROR: could not get results', err);
+            		log('error', 'could not get results', err);
 
            			cb(err);
 
@@ -107,7 +108,7 @@ function getModel (d, cb) {
                     return;
             	}
 
-                c.l('SUCCESS: got results, calling cb() and passing in model data');
+                log('trace', 'got results, calling cb() and passing in model data');
 
 	        	cb(null, {
 
@@ -123,12 +124,11 @@ function getModel (d, cb) {
         }
         
         //init
-
-        c.l('ATTEMPT: get count');
+        log('trace', 'attempting to get count');
 
         getCount(function(count){
 
-            c.l('ATTEMPT: get results');
+            log('trace', 'attempting to get results');
 
             getResults(count);
         
@@ -136,7 +136,7 @@ function getModel (d, cb) {
         
     }
 
-    c.l('ATTEMPT: connect to mongodb to process the fatality-list view model');
+    log('trace', 'attempt to connect to mongodb to process view model');
 
     mongodb(DATABASE, getData);
 }

@@ -1,5 +1,7 @@
 var __base = __base || '../',
     c = require(__base + 'shared-config/constants'),
+    log = c.getLog(c.log, 'shared-utils/render-view'),
+
 	getView = require('./get-view');
 
 function renderView (req, res, component, data, locals) {
@@ -8,7 +10,7 @@ function renderView (req, res, component, data, locals) {
 
 		if(err){
 
-			c.l('ERROR: could not get view', err);
+			log('error', 'could not get view', err);
 
 			res.render('view', { 
         		'view' : "error"
@@ -17,18 +19,13 @@ function renderView (req, res, component, data, locals) {
 		}
 
 
-		c.l('SUCCESS: got view, calling res.render()');
-		
-		//adding blank space before express server output begins
-		c.l(' ');
+		log('trace', 'got view, calling res.render()');
 		
 		res.render('view', {
         	'view' : view.html,
         	'locals' : locals
     	});
-
 	});
-
 }
 
 module.exports = renderView;
