@@ -18,6 +18,11 @@ Application to explore data from [Fatal Encounters](http://fatalencounters.org).
   		* [Using Views](#usingviews())
   		 	* [getComponent()](#getcomponent)
   			* [renderComponent()](#rendercomponent)
+* [Logging](#logging) 
+	* [getLog()](#getlog)
+	* [log()](#log) 
+	* [Log Levels](#log-levels)
+	* [Log Output](#log-output)
 * [Requirements Documentation](#requirements-documentation)
 
 ##Setup
@@ -280,7 +285,48 @@ router.route('/').get(function(req, res){
 });
 ```
 
-##Requirement Documentation##
+##Logging
+
+For logging, we are using [winston](https://github.com/winstonjs/winston). 
+
+To use the logger, include constants and then use `getLog()`.
+
+###getLog()
+
+```
+var c = require('shared-config/constants');
+
+/**
+ * getLog
+ * @param log {function} the log function from constants
+ * @param location {string} the location that the logger is being used
+ * @returns log {function} returned the log function
+ */
+var log = c.getLog(c.log, 'shared-utils/mongo-db');
+```
+
+###log()
+```
+/**
+ * getLog
+ * @param level {string} the level of the log (info, warn, error, ...)
+ * @param message {string} the error message
+ * @param data {object} a json data object with additional information
+ */
+log('error', 'something went wrong', err);
+```
+
+###Log Levels
+
+The three logging levels are `trace`, `info`, and `error`.
+
+###Log Output
+
+Logs that are level `info` or `error` will output into the `/log` directory, while all levels will output to the console.
+
+Logs in the `/log` directory are named `yyyymmdd.log`.
+
+##Requirement Documentation
 [json-schema](http://json-schema.org/)
 
 [jsonschema node module](https://www.npmjs.com/package/jsonschema)
