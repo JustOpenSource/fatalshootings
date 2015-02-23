@@ -15,9 +15,9 @@ Application to explore data from [Fatal Encounters](http://fatalencounters.org).
   		* [Template](#template)
   		* [Model](#model)
   			* [getModel()](#getmodel)
-  		* [Using Views](#usingviews())
-  		 	* [getComponent()](#getcomponent)
-  			* [renderComponent()](#rendercomponent)
+  		* [Using Views](#using-views)
+  		 	* [getView()](#getview)
+  			* [renderView()](#renderview)
 * [Logging](#logging) 
 	* [getLog()](#getlog)
 	* [log()](#log) 
@@ -357,9 +357,9 @@ List of entries.
 
 ####Filters
 
-Currently within `fatality-list.html`, but should be moved into it's own view.  
+Filters that limit the list, controlled by url query paramters.
 
-Template and View Coming Soon.
+[template](https://github.com/JustOpenSource/fatalshootings/blob/master/shared-views/fatality-list-filter.html) | [model](https://github.com/JustOpenSource/fatalshootings/blob/master/shared-views/fatality-list-filter.js)
 
 ####Pagination
 
