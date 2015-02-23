@@ -9,7 +9,7 @@ Application to explore data from [Fatal Encounters](http://fatalencounters.org).
  	* [Run Node Server](#run-node-server)
 * [API](#api)
  	* [Database Access](#database-access)
- 		* [mongo-db](#mong-db)
+ 		* [mongodb()](#mongodb)
  	* [Routes](#routes)
  	* [Views](#views)
   		* [Template](#template)
@@ -24,6 +24,7 @@ Application to explore data from [Fatal Encounters](http://fatalencounters.org).
 	* [Log Levels](#log-levels)
 	* [Log Output](#log-output)
 * [Requirements Documentation](#requirements-documentation)
+* [Features](#features)
 
 ##Setup
 
@@ -96,12 +97,12 @@ Browse to [localhost:3000/list/](localhost:3000/list/).
 
 ###Database Access
 
-####mongo-db
+####mongodb()
 
 To access the mongo db, you can use the mongo-db utility.
 
 ```
-var mongodb = require(__base + 'shared-utils/mongo-db');
+var mongodb = require('shared-utils/mongo-db');
 
 /**
  * mongodb
@@ -170,6 +171,7 @@ There are two ways to write models, either synchronously or asynchronously.
 /**
  * getModel
  * @param d {object} the data passed into the model
+ * @returns data {object} the processed data object in the format expected by the template
  */
 function getModel(d){
 
@@ -210,6 +212,8 @@ module.exports = getModel;
 To get a view, use the `getView()` utility. You can use this method on synchronous or asynchronous models.
 
 ```
+var getView = require('shared-utils/get-view');
+
 /**
  * getView
  * SYNCHRONOUSE USAGE
@@ -253,6 +257,10 @@ The `renderView()` is used inside the route callback and expects the `req` and `
 Rendering a view with this utility will fetch the template, apply the data model, and call `res.render()` to render the view inside of the global html page template.
 
 ```
+var express = require('express'),
+    router = express.Router(),
+    renderView = require('shared-utils/render-view');
+
 router.route('/').get(function(req, res){
 
 	//data that you will pass to the model
@@ -269,7 +277,6 @@ router.route('/').get(function(req, res){
 		
 		//css files to include on the page
 		css: ['list']
-	
 	}
 	
 	/**
@@ -281,7 +288,6 @@ router.route('/').get(function(req, res){
 	 * @param locals {object} local variables object to pass to wrapper template
 	 */
 	renderView(req, res, 'view-name', data, locals);
-
 });
 ```
 
@@ -338,3 +344,35 @@ App Framework - [node express](http://expressjs.com/4x/api.html)
 Templates - [mustache](https://github.com/janl/mustache.js)
 
 Logging - [winston](https://github.com/winstonjs/winston)
+
+##Features
+
+###List
+
+List of entries.
+
+[http://localhost:3000/list](http://localhost:3000/list)
+
+[template](https://github.com/JustOpenSource/fatalshootings/blob/master/shared-views/fatality-list.html) | [model](https://github.com/JustOpenSource/fatalshootings/blob/master/shared-views/fatality-list.js)
+
+####Filters
+
+Currently within `fatality-list.html`, but should be moved into it's own view.  
+
+Template and View Coming Soon.
+
+####Pagination
+
+Pagination is controlled with the url query parameters `limit` (entries per page) and `page` (current page number).
+
+[http://localhost:3000/list?limit=10&page=3](http://localhost:3000/list?limit=10&page=3)
+
+[template](https://github.com/JustOpenSource/fatalshootings/blob/master/shared-views/components/pagination.html) | [model](https://github.com/JustOpenSource/fatalshootings/blob/master/shared-views/components/pagination.js)
+
+####Responsiveness
+
+Controlled via boostrap.
+
+####Sort
+
+Coming Soon.
