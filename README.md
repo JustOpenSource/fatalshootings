@@ -170,6 +170,7 @@ There are two ways to write models, either synchronously or asynchronously.
 /**
  * getModel
  * @param d {object} the data passed into the model
+ * @returns data {object} the processed data object in the format expected by the template
  */
 function getModel(d){
 
