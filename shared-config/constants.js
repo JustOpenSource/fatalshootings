@@ -40,28 +40,14 @@ var logger = new (winston.Logger)({
     levels: {
 
         trace: 0,
-        input: 1,
-        verbose: 2,
-        prompt: 3,
-        debug: 4,
-        info: 5,
-        data: 6,
-        help: 7,
-        warn: 8,
-        error: 9
+        info: 1,
+        error: 2
     },
 
     colors: {
-
+        
         trace: 'magenta',
-        input: 'grey',
-        verbose: 'cyan',
-        prompt: 'grey',
-        debug: 'blue',
-        info: 'green',
-        data: 'grey',
-        help: 'cyan',
-        warn: 'yellow',
+        info: 'blue',
         error: 'red'
     }
 });
@@ -80,7 +66,7 @@ logFileName = getLogFileName();
 logger.add( winston.transports.File, {
 
     prettyPrint: false,
-    level: 'trace',
+    level: 'info',
     silent: false,
     timestamp: true,
     filename: logFileName,
