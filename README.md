@@ -327,7 +327,7 @@ Logs that are level `info` or `error` will output into the `/log` directory, whi
 Logs in the `/log` directory are named `yyyymmdd.log`.
 
 ##Requirement Documentation
-JSON Scheme - [json-schema](http://json-schema.org/), [jsonschema node module](https://www.npmjs.com/package/jsonschema)
+JSON Schema - [json-schema](http://json-schema.org/), [jsonschema node module](https://www.npmjs.com/package/jsonschema)
 
 Database - [mongo db](http://docs.mongodb.org/manual/)
 
