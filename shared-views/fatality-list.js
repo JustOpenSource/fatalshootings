@@ -21,7 +21,6 @@ function getModel (d, cb) {
 
         var limit = parseInt(d.limit) || DEFAULT_LIMIT,
             page = parseInt(d.page) || 1,
-            startAt = page * limit,
             collection = db.collection(COLLECTION),
             data = {
                 page: page,
@@ -90,11 +89,15 @@ function getModel (d, cb) {
         //get result entries for current page
         function getResults(count){
 
+            page = page * limit > count ? Math.ceil(count / limit) : page;
+
+            log('trace', 'page', page);
+
             collection.find(queryFilter(), querySelect())
 
             .sort(querySort())
 
-            .skip(startAt).limit(limit)
+            .skip((page - 1) * limit).limit(limit)
 
             .toArray(function(err, body){
 
