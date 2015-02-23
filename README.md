@@ -9,7 +9,7 @@ Application to explore data from [Fatal Encounters](http://fatalencounters.org).
  	* [Run Node Server](#run-node-server)
 * [API](#api)
  	* [Database Access](#database-access)
- 		* [mongo-db](#mong-db)
+ 		* [mongo-db](#mongdb)
  	* [Routes](#routes)
  	* [Views](#views)
   		* [Template](#template)
@@ -96,7 +96,7 @@ Browse to [localhost:3000/list/](localhost:3000/list/).
 
 ###Database Access
 
-####mongo-db
+####mongodb()
 
 To access the mongo db, you can use the mongo-db utility.
 
