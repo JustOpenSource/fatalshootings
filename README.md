@@ -10,11 +10,12 @@ aApplication to explore data from [Fatal Encounters](http://fatalencounters.org)
 * [API](#api)
  	* [Database Access](#database-access)
  		* [mongodb()](#mongodb)
+ 		* [req._db](#req_db)
  	* [Routes](#routes)
  	* [Views](#views)
   		* [Template](#template)
   		* [Model](#model)
-  			* [getModel()](#getmodel)
+  			* [export model function](#export-model-function)
   		* [Using Views](#using-views)
   		 	* [getView()](#getview)
   			* [renderView()](#renderview)
@@ -99,7 +100,7 @@ Browse to [localhost:3000/list/](localhost:3000/list/).
 
 ####mongodb()
 
-To access the mongo db from outside of a running application, you can use the mongo-db utility.  This can be used for utilities that are meant to be run outside of the express application.  For database access within the application, see [_db](#_db)
+To access the mongo db from outside of a running application, you can use the mongo-db utility.  This can be used for utilities that are meant to be run outside of the express application.  For database access within the application, see [req._db](#req_db)
 
 ```
 var mongodb = require('shared-utils/mongo-db');
@@ -138,9 +139,11 @@ function cb(err, db, close){
 	});
 ```
 
-####_db
+####req._db
 
-From within a route request, you can access database collections with the `_db` property on `req`.  See [Routes](#routes). The collection is a [node mongodb](https://github.com/mongodb/node-mongodb-native) collection api.  
+From within a route request, you can access database collections with the `_db` property on `req`. For an example, see [Routes](#routes). 
+
+The collection is a [node mongodb](https://github.com/mongodb/node-mongodb-native) collection.  
 
 ###Routes
 
@@ -171,34 +174,32 @@ The html file is a [mustache template](https://github.com/janl/mustache.js).
 ####Model
 The js file `module.exports` a function called `getModel` that returns a json object in the format that the html template expects. 
 
-#####getModel()
+#####export model function()
 
 There are two ways to write models, either synchronously or asynchronously.  
 
 ######synchronous
 ```
 /**
- * getModel
+ * export model
  * @param d {object} the data passed into the model
  * @returns data {object} the processed data object in the format expected by the template
  */
-function getModel(d){
+module.exports = function(d){
 
 	//processed data object in the format that the html template expects
 	return {};
-}
-
-module.exports = getModel;
+};
 ```
 
 ######asynchronous
 ```
 /**
- * getModel
+ * export model
  * @param d {object} the data passed into the model 
  * @param cb {function} a function to runs once the data is available
  */
-function getModel(d, cb){
+module.exports = function(d, cb){
 
 	//processed data object in the format that the html template expects
 	var data = {};
@@ -210,8 +211,7 @@ function getModel(d, cb){
 	 */
 	cb(err, data);
 }
-
-module.exports = getModel;
+;
 ```
 
 ####Using Views
@@ -352,6 +352,8 @@ App Framework - [node express](http://expressjs.com/4x/api.html)
 Templates - [mustache](https://github.com/janl/mustache.js)
 
 Logging - [winston](https://github.com/winstonjs/winston)
+
+Promises = [q](https://github.com/kriskowal/q)
 
 ##Features
 
