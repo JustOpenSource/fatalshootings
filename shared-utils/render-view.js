@@ -6,6 +6,8 @@ var __base = __base || '../',
 
 function renderView (req, res, component, data, locals) {
 
+	data._db = req._db;
+
 	getView(component, data, function(err, view){
 
 		if(err){

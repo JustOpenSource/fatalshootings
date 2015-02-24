@@ -1,4 +1,5 @@
 var c = require(__base + '../shared-config/constants'),
+    log = c.getLog('explore/routes/list');
     
     //npm libraries
     express = require('express'),
@@ -11,7 +12,7 @@ var c = require(__base + '../shared-config/constants'),
 router.route('/')
 .get(function(req, res){
 
-    var PAGE_TITLE = 'Fatalaties List';
+    var page_title = 'Fatalaties List';
 
     renderView(req, res, 'fatality-list', {
     
@@ -20,7 +21,7 @@ router.route('/')
     
     }, {
 
-        title: PAGE_TITLE,
+        title: page_title,
         js: ['config/list'],
         css: ['list']
     

@@ -20,6 +20,8 @@
     "mustache": "*",
     "coffee-script" : "*",
     "mongodb" : "*",
-    "winston" : "*"
+    "monk" : "*",
+    "winston" : "*",
+    "q" : "*"
   }
 }
