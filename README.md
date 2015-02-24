@@ -15,7 +15,7 @@ aApplication to explore data from [Fatal Encounters](http://fatalencounters.org)
  	* [Views](#views)
   		* [Template](#template)
   		* [Model](#model)
-  			* [getModel()](#getmodel)
+  			* [export model function](#export-model-function)
   		* [Using Views](#using-views)
   		 	* [getView()](#getview)
   			* [renderView()](#renderview)
@@ -139,7 +139,7 @@ function cb(err, db, close){
 	});
 ```
 
-####_db
+####req._db
 
 From within a route request, you can access database collections with the `_db` property on `req`.  See [Routes](#routes). The collection is a [node mongodb](https://github.com/mongodb/node-mongodb-native) collection api.  
 
@@ -172,34 +172,32 @@ The html file is a [mustache template](https://github.com/janl/mustache.js).
 ####Model
 The js file `module.exports` a function called `getModel` that returns a json object in the format that the html template expects. 
 
-#####getModel()
+#####export model function()
 
 There are two ways to write models, either synchronously or asynchronously.  
 
 ######synchronous
 ```
 /**
- * getModel
+ * export model
  * @param d {object} the data passed into the model
  * @returns data {object} the processed data object in the format expected by the template
  */
-function getModel(d){
+module.exports = function(d){
 
 	//processed data object in the format that the html template expects
 	return {};
-}
-
-module.exports = getModel;
+};
 ```
 
 ######asynchronous
 ```
 /**
- * getModel
+ * export model
  * @param d {object} the data passed into the model 
  * @param cb {function} a function to runs once the data is available
  */
-function getModel(d, cb){
+module.exports = function(d, cb){
 
 	//processed data object in the format that the html template expects
 	var data = {};
@@ -211,8 +209,7 @@ function getModel(d, cb){
 	 */
 	cb(err, data);
 }
-
-module.exports = getModel;
+;
 ```
 
 ####Using Views
