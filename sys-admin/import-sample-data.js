@@ -1,6 +1,6 @@
 var __base = '../',
 	c = require(__base + 'shared-config/constants'),
-	log = c.getLog(c.log, 'sys-admin/import-sample-data'),
+	log = c.getLog('sys-admin/import-sample-data'),
 
 	MongoClient = require('mongodb').MongoClient,
 	sampleData = require('./sample-data/fejson.js'),

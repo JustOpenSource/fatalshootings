@@ -1,148 +1,132 @@
 var __base = __base || '../',
     c = require(__base + 'shared-config/constants'),
     log = c.getLog('shared-views/fatality-list'),
-    
-    mongodb = require(__base + 'shared-utils/mongo-db'),
+
+    q = require('q'),
+
     getView = require(__base + 'shared-utils/get-view'),
 
-    DATABASE = c.db.fatalities,
-    COLLECTION = c.collection.fatalities,
     DEFAULT_LIMIT = 10;
 
-function getModel (d, cb) {
+module.exports = function(d, cb) {
 
-    function getData(err, db, close){
+    var collection = d._db.fatalities,
+        limit = parseInt(d.limit) || DEFAULT_LIMIT,
+        page = parseInt(d.page) || 1,
+        skip = (page - 1) * limit;
 
-        if(err){
-            
-            log('error', 'getData failed', err);            
-            return;
-        }
-
-        var limit = parseInt(d.limit) || DEFAULT_LIMIT,
-            page = parseInt(d.page) || 1,
-            collection = db.collection(COLLECTION),
-            data = {
-                page: page,
-                limit: limit
-            };
-
-   		function queryFilter(){
-        	
-            return {};
-    	}
-
-    	function querySelect(){
-        	
-            return {
-            	"value.subject.name" : true,
-           		"value.subject.age" : true,
-            	"value.subject.race" : true,
-           		"value.subject.sex" : true,
-           		"value.death.cause" : true,
-            	"value.death.event.date" : true,
-            	"value.location.state" : true
-        	}
-    	}
-
-    	function querySort(){
-        	
-            return { 
-            	"value.death.event.date" : -1
-       		}
-    	}
-
-    	function buildModel(body, data){
-        	
-            return {
-            	'body' : body,
-            	'data' : data
-        	}
-    	}
-
-        //get full count before applying limit
-        function getCount(countCb){
-            
-            collection
-            .find(queryFilter(), querySelect())
-            .count(function(err, count){
-
-            	if(err){
-                    log('error', 'could not get count', err);
-                
-            		cb(err);
-            	}
-
-                log('trace', 'get count ' + count);
-                
-                countCb(count);
-            
-            })
+    function queryFilter(){
         
-        }
-        
-        //get result entries for current page
-        function getResults(count){
-
-            page = page * limit > count ? Math.ceil(count / limit) : page;
-
-            collection.find(queryFilter(), querySelect())
-
-            .sort(querySort())
-
-            .skip((page - 1) * limit).limit(limit)
-
-            .toArray(function(err, body){
-                if(err){
-
-                    log('error', 'could not get results', err);
-
-                    cb(err);
-
-                    close();
-
-                    return;
-                }
-
-                returnData(err, body, count);
-            });
-        }
-
-        function returnData(err, body, count){
-
-            log('trace', 'got results, calling cb() and passing in model data');
-
-            cb(null, {
-
-                results: body,
-                count: count,
-                filters: getView('fatality-list-filter', queryFilter()).html,
-                pagination: getView('components/pagination', {
-                    count: count,
-                    current: page,
-                    limit: limit
-                }).html
-            });
-
-            close();
-        }        
-        
-        //init
-        log('trace', 'attempting to get count');
-
-        getCount(function(count){
-
-            log('trace', 'attempting to get results');
-
-            getResults(count);
-        
-        });
-        
+        return {};
     }
 
-    log('trace', 'attempt to connect to mongodb to process view model');
+    function querySelect(){
+        
+        return {
+            "value.subject.name" : true,
+            "value.subject.age" : true,
+            "value.subject.race" : true,
+            "value.subject.sex" : true,
+            "value.death.cause" : true,
+            "value.death.event.date" : true,
+            "value.location.state" : true
+        }
+    }
 
-    mongodb(DATABASE, getData);
+    function querySort(){
+        
+        return { 
+            "value.death.event.date" : -1
+        }
+    }
+
+    function getCount() {
+
+        log('trace', 'calling getCount()');
+
+        var deferred = q.defer();
+
+        collection.find(queryFilter(), querySelect())
+        .count(function(err, count){
+
+            if(err){
+                log('error', 'could not get count', err);
+                deferred.reject(new Error(err));
+            }
+
+            log('trace', 'getCount resolved: ' + count);
+
+            deferred.resolve(count);
+
+        });
+
+        return deferred.promise;
+    }
+
+    //get result entries for current page
+    function getResults(count){
+
+        var deferred = q.defer();
+
+        page = page * limit > count ? Math.ceil(count / limit) : page;
+
+        collection.find(queryFilter(), querySelect())
+        .sort(querySort())
+        .skip(skip).limit(limit)
+        .toArray(function(err, body){
+            if(err){
+
+                log('error', 'could not get results', err);
+
+                cb(err);
+
+                close();
+
+                return;
+            }
+
+            deferred.resolve({
+                err: err, 
+                body: body, 
+                count: count
+            });
+        });
+
+        return deferred.promise;
+    }
+
+    function returnData(data){
+
+        log('trace', 'got results, calling cb() and passing in model data');
+
+        return {
+
+            results: data.body,
+            count: data.count,
+            
+            filters: getView('fatality-list-filter', queryFilter()).html,
+
+            pagination: getView('components/pagination', {
+                count: data.count,
+                current: page,
+                limit: limit
+            }).html
+        };
+    }      
+
+    getCount().then(function(count){
+
+        return getResults(count);
+
+    }).then(function(data){
+
+        cb(null, returnData(data));
+    
+    }).fail(function(err){
+
+        log('error', err);
+        cb(err);
+
+    });
+
 }
-
-module.exports = getModel;

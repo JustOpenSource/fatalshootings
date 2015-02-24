@@ -4,7 +4,6 @@ var winston = require('winston');
 var c = {
 
     port: {
-
         'mongodb' : 27017,
         'explore' : 3000,
         'admin' : 3001,
@@ -12,12 +11,10 @@ var c = {
     },
 
     db: {
-        
         fatalities: 'test-fatalities'
     },
     
-    collection: {
-        
+    collection: {        
         fatalities: 'test-fatalities'
     },
     
@@ -26,12 +23,7 @@ var c = {
 
 c.url.mongo = 'mongodb://localhost:' + c.port.mongodb + '/';
 
-
-
-/*
- * @param location {array}
-*/
-
+//MOVE INTO LOGGER FILE
 var FILE_SEP = '.',
     LOGS_DIR = __dirname + '/../log/';
 
