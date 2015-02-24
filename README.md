@@ -61,18 +61,18 @@ $ mongod --dbpath=/data --port 27017
 
 The database must be running to use the application.
 
-###Clone the Project
+###Clone the Project and install dependencies.
 
 ```
 $ git clone https://github.com/JustOpenSource/fatalshootings.git
 $ cd fatalshootings
+$ npm install
 ```
 
 ###Import Sample Data
 
 ```
 $ cd sys-admin
-$ npm install
 $ node import-sample-data.js
 ```
 
@@ -88,7 +88,6 @@ Go to the `explore` application, install node dependencies, and run the server.
 
 ```
 $ cd explore
-$ npm install
 $ supervisor bin/www
 ```
 
