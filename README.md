@@ -10,6 +10,7 @@ aApplication to explore data from [Fatal Encounters](http://fatalencounters.org)
 * [API](#api)
  	* [Database Access](#database-access)
  		* [mongodb()](#mongodb)
+ 		* [req._db](#req._db)
  	* [Routes](#routes)
  	* [Views](#views)
   		* [Template](#template)
@@ -352,6 +353,8 @@ App Framework - [node express](http://expressjs.com/4x/api.html)
 Templates - [mustache](https://github.com/janl/mustache.js)
 
 Logging - [winston](https://github.com/winstonjs/winston)
+
+Promises = [q](https://github.com/kriskowal/q)
 
 ##Features
 
