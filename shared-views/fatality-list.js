@@ -100,7 +100,7 @@ module.exports = function(d, cb) {
 
         log('trace', 'return results');
 
-        return {
+        cb(null, {
 
             results: data.body,
             count: data.count,
@@ -112,18 +112,13 @@ module.exports = function(d, cb) {
                 current: page,
                 limit: limit
             }).html
-        };
+        });
     }      
 
-    getCount().then(function(data) {
-
-        return getResults(data);
-
-    }).then(function(data) {
-
-        cb(null, returnData(data));
-    
-    }).fail(function(err) {
+    getCount()
+    .then(getResults)
+    .then(returnData)
+    .fail(function(err) {
 
         log('error', 'could not get fatality list view', err);
         cb(err);
