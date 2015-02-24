@@ -100,7 +100,7 @@ Browse to [localhost:3000/list/](localhost:3000/list/).
 
 ####mongodb()
 
-To access the mongo db from outside of a running application, you can use the mongo-db utility.  This can be used for utilities that are meant to be run outside of the express application.  For database access within the application, see [_db](#_db)
+To access the mongo db from outside of a running application, you can use the mongo-db utility.  This can be used for utilities that are meant to be run outside of the express application.  For database access within the application, see [req._db](#req_db)
 
 ```
 var mongodb = require('shared-utils/mongo-db');
@@ -141,7 +141,9 @@ function cb(err, db, close){
 
 ####req._db
 
-From within a route request, you can access database collections with the `_db` property on `req`.  See [Routes](#routes). The collection is a [node mongodb](https://github.com/mongodb/node-mongodb-native) collection api.  
+From within a route request, you can access database collections with the `_db` property on `req`. For an example, see [Routes](#routes). 
+
+The collection is a [node mongodb](https://github.com/mongodb/node-mongodb-native) collection.  
 
 ###Routes
 
