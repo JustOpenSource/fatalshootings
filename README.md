@@ -7,6 +7,7 @@ aApplication to explore data from [Fatal Encounters](http://fatalencounters.org)
 	* [Start MongoDB](#start-mongodb)
  	* [Clone the Project](#clone-the-project)
  	* [Run Node Server](#run-node-server)
+* [Application Architecture](#application-architecture)
 * [API](#api)
  	* [Database Access](#database-access)
  		* [mongodb()](#mongodb)
@@ -117,7 +118,7 @@ Views are in /shared-views and contain mustache templates paired with JavaScript
 
 A node JS API lets you use the views. 
 
-###accessibility
+###Accessibility
 
 All basic functionality must work without JavaScript. 
 
@@ -125,7 +126,7 @@ All pages must be responsive and support mobile, tablet, and desktop.
 
 All UI control strings must be internationalizable. 
 
-###Explore
+###Explore Application
 
 Public facing data explorer. 
 
@@ -142,9 +143,11 @@ List of all records.
 
 An individual record's complete details.
 
-###Admin
+###Admin Applicarion
 
 ###Sys Admin
+
+Set of utilities and datasets used by engineers in thdevelopment and maintenance of he applications. 
 
 ##API
 
