@@ -93,6 +93,59 @@ $ supervisor bin/www
 
 Browse to [localhost:3000/list/](localhost:3000/list/).
 
+##Application Architecture
+
+##Database
+
+The database, so far, is a single mongo collection. Each record is based off of the [entry schema](https://github.com/JustOpenSource/fatalshootings/blob/master/shared-utils/schemas/entry.json).
+
+###Shared Components
+
+Root directories prefixed with "shared-" are accessible by all apps.
+
+The shared-config/constants.js file should be included in every file to access constant values and the logger function. 
+
+###Applications
+
+Explore and Admin are independent express applications and run on separate ports. 
+
+Routes are managed via express. The route roots are defined within bin/www and the route files are in app/routes. 
+
+Get and Post url end points requests are handled in app/routes.
+
+Views are in /shared-views and contain mustache templates paired with JavaScript model functions that passes a data object to the template.
+
+A node JS API lets you use the views. 
+
+###accessibility
+
+All basic functionality must work without JavaScript. 
+
+All pages must be responsive and support mobile, tablet, and desktop. 
+
+All UI control strings must be internationalizable. 
+
+###Explore
+
+Public facing data explorer. 
+
+####List
+
+List of all records.
+
+* Search by Name
+* Filter by Cause, Sex, Race, Country, State, City, Zip, Coordinates + Range, Date Range.
+* list of records
+* Pagination
+
+####Entry
+
+An individual record's complete details.
+
+###Admin
+
+###Sys Admin
+
 ##API
 
 ###Database Access
