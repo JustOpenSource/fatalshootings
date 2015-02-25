@@ -95,7 +95,7 @@ Browse to [localhost:3000/list/](localhost:3000/list/).
 
 ##Application Architecture
 
-##Database
+###Database
 
 The database, so far, is a single mongo collection. Each record is based off of the [entry schema](https://github.com/JustOpenSource/fatalshootings/blob/master/shared-utils/schemas/entry.json).
 
