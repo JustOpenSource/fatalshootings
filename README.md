@@ -402,7 +402,7 @@ Database - [mongo db](http://docs.mongodb.org/manual/)
 
 Database API - [mongo db node api](https://github.com/mongodb/node-mongodb-native)
 
-Database GUI - [mongohub](http://mongohub.todayclose.com/download)
+Database GUI - [mongohub](http://mongohub.todayclose.com/download), [list of mongo guis](http://docs.mongodb.org/ecosystem/tools/administration-interfaces/)
 
 App Framework - [node express](http://expressjs.com/4x/api.html)
 
