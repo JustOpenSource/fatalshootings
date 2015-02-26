@@ -14,18 +14,118 @@ var __base = __base || '../',
 module.exports = function(d, cb) {
 
     var collection = d._db.fatalities,
+
+        //pagination
         limit = parseInt(d.limit) || DEFAULT_LIMIT,
         page = parseInt(d.page) || 1,
-        skip = (page - 1) * limit;
+        skip = (page - 1) * limit,
+        filter = validateFilters(d.filters);
+
+    function validateFilters(d){
+
+        //TODO: validate this data
+        return {
+            'name' : d.name,
+            'cause' : d.cause,
+            'age' : d.age,
+            'race' : d.race,
+            'sex' : d.sex,
+            'country' : d.country,
+            'state' : d.state,
+            'zip' : d.zip,
+            'date_from' : d.date_from,
+            'date_to' : d.date_to
+        }
+    }
+
+    function getQueryFilterOptions(count) {
+
+        //TODO: Turn this into a cached dataset
+        var deferred = q.defer();
+
+        /*
+        collection.find(queryFilter(), querySelect())
+            .toArray(function(err, count){
+
+                if(err){
+
+                    log('error', 'could not get count', err);
+                    deferred.reject(err);
+                }
+
+                log('trace', 'getCount resolved: ' + count);
+
+                filterHTML = getView('fatality-list-filter', {
+                    filters: queryFilter()
+                }).html;
+
+                deferred.resolve(count);
+
+            });
+        */
+
+        deferred.resolve(count);
+
+        return deferred.promise;
+    }
 
     function queryFilter() {
-        
-        return {};
+
+        log('trace', 'filter query params', filter);
+
+        var queryFilters = {};
+
+        if(filter.name){
+            queryFilters['value.subject.name'] = filter.name;
+        }
+
+        if(filter.cause){
+            queryFilters['value.death.cause'] = filter.cause;
+        }
+
+        if(filter.race){
+            //TODO: Get rid of space in front of race
+            queryFilters['value.subject.race'] = ' ' + filter.race;
+        }
+
+        if(filter.sex) {
+            queryFilters['value.subject.sex'] = filter.sex;
+        }
+
+        if(filter.state) {
+            queryFilters['value.location.state'] = filter.state;
+        }
+
+        /*
+        AGE MUST BE CONVERTED TO INT
+        if(filter.age) {
+            var splitAge = filter.age.split('_');
+
+            queryFilters['value.subject.age'] = {
+                'gte' : splitAge[0],
+                'lte' : splitAge[1]
+            };
+        }
+        */
+
+        /*
+         DATE MUST BE CONVERTED TO YYYYMMDD Int
+         if(filter.date) {
+             queryFilters['value.subject.age'] = {
+                 $gte : filter.date_from,
+                 $lt : filter.date_to
+             }
+         }
+         */
+
+        return queryFilters;
+
     }
 
     function querySelect() {
         
         return {
+
             "value.subject.name" : true,
             "value.subject.age" : true,
             "value.subject.race" : true,
@@ -105,7 +205,7 @@ module.exports = function(d, cb) {
             results: data.body,
             count: data.count,
             
-            filters: getView('fatality-list-filter', queryFilter()).html,
+            //filters: getQueryFilters(),
 
             pagination: getView('components/pagination', {
                 count: data.count,
@@ -116,6 +216,7 @@ module.exports = function(d, cb) {
     }      
 
     getCount()
+    .then(getQueryFilterOptions)
     .then(getResults)
     .then(returnData)
     .fail(function(err) {
