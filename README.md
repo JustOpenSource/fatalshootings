@@ -1,4 +1,4 @@
-aApplication to explore data from [Fatal Encounters](http://fatalencounters.org).
+Application to explore data from [Fatal Encounters](http://fatalencounters.org).
 
 ##Table of Contents
 
