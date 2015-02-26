@@ -402,6 +402,8 @@ Database - [mongo db](http://docs.mongodb.org/manual/)
 
 Database API - [mongo db node api](https://github.com/mongodb/node-mongodb-native)
 
+Database GUI - [mongohub](http://mongohub.todayclose.com/download)
+
 App Framework - [node express](http://expressjs.com/4x/api.html)
 
 Templates - [mustache](https://github.com/janl/mustache.js)
@@ -423,6 +425,10 @@ List of entries.
 ####Filters
 
 Filters that limit the list, controlled by url query paramters.
+
+Currently supports: name, race, cause, sex, state
+
+http://localhost:3000/list?race=African-American/Black&cause=gunshot&sex=male&state=CT
 
 [template](https://github.com/JustOpenSource/fatalshootings/blob/master/shared-views/fatality-list-filter.html) | [model](https://github.com/JustOpenSource/fatalshootings/blob/master/shared-views/fatality-list-filter.js)
 

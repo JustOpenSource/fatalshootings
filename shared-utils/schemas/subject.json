@@ -1,12 +1,22 @@
 {
-	"id": "/fe/subject/v1",
-	"type": "object",
-	"properties": {
-		"age" : "number",
-		"type": { "enum": [ "male", "female", "intersex", "unknown" ] },
-		"name" : "string",
-		"race" : "string",
-		"image_url" : "string",
-		"mental_illness" : "string"
-	}
+  "id": "/fe/subject/v1",
+  "type": "object",
+  "properties": {
+    "age" : {
+      "type": "number"
+    },
+    "sex": { "enum": [ "male", "female", "intersex", "unknown" ] },
+    "name" : {
+      "type": "string"
+    },
+    "race" : {
+      "type": "string"
+    },
+    "image_url" : {
+      "type": "string"
+    },
+    "mental_illness" : {
+      "type": "string"
+    }
+  }
 }

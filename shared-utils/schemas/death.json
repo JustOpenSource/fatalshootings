@@ -15,8 +15,12 @@
 			"unknown",
 			"other"
 		]},
-		"cause_notes" : "string",
-		"responsible_agency" : "string",
+		"cause_notes" : {
+          "type": "string"
+        },
+		"responsible_agency" : {
+          "type": "string"
+        },
 		"description" : "string",
 		"dated_description" : "string",
 		"disposition" : "string",
