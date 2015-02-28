@@ -1,8 +1,14 @@
 {
 	"id": "/fe/encounter/v1",
-	"type": "object",
-	"properties": {
-		"address" : "string",
-		"date" : "string"
+    "type": "object",
+    "properties": {
+
+		"address" : {
+            "type": "string"
+        },
+
+        "date" : {
+            "type": "integer"
+        }
 	}
 }

@@ -1,25 +1,38 @@
 {
-	"id": "/fe/entry/v1",
-	"type": "object",
-	"properties": {
-		"submitted_by": {
-			"type": "string"
-		},
-		"death" : {
-			"type" : {
-				"$ref" : "/fe/death/v1"
-			}
-		},
-		"location" : {
-			"type" : {
-				"$ref" : "/fe/location/v1"
-			}
-		},
-		"subject" : {
-			"type" : {"$ref" : "/fe/subject/v1"}
-		},
+    "id": "/fe/entry/v1",
+    "type": "object",
+    "properties": {
+
+        "submitted_by": {
+            "type": "string"
+        },
+
+        "death" : {
+            "type" : {
+                "$ref" : "/fe/death/v1"
+            }
+        },
+
+        "location" : {
+            "type" : {
+                "$ref" : "/fe/location/v1"
+            }
+        },
+
+        "subject" : {
+            "type" : {
+                "$ref" : "/fe/subject/v1"
+            }
+        },
+
+        "encounter" : {
+            "type" : {
+                "$ref" : "/fe/encounter/v1"
+            }
+        },
+
         "published" : {
-                "type" : "boolean"
+            "type" : "boolean"
         }
-	}
+    }
 }
