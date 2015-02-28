@@ -75,7 +75,7 @@ function schemaValidator(d){
     return allErrors;
 }
 
-/*
+//
 var testEntry = {
     "submitted_by" : 'a. person',
     "published" : 'adsf',
@@ -136,7 +136,7 @@ var testEntry = {
     }
 }
 
-log('trace', 'validator', schemaValidator(testEntry));
-*/
+log('info', 'validator', schemaValidator(testEntry));
+/**/
 
 module.exports = schemaValidator;

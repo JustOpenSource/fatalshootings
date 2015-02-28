@@ -78,22 +78,14 @@ function getLogFileName () {
     
     var filename = LOGS_DIR + y + '' + m + '' + d + '.log';
 
-    console.log(filename);
-
     return filename;
 }
-
-c.log = function (type, msg, data) {
-
-    data = data ? data : '';
-    
-    logger.log(type, msg, data);
-};
 
 c.getLog = function (location) {
 
     return function (type, msg, data) {
 
+        //clone data so we can manipulate it
         data = _.clone(data);
 
         if(data){
@@ -110,7 +102,7 @@ c.getLog = function (location) {
         data._loc  = location;
         
         console.log(' ');
-        c.log(type, msg, data);
+        logger.log(type, msg, data);
         console.log(' ');
     }
 }
