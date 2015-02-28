@@ -1,8 +1,11 @@
 <html>
 	<head>
+
 		<title>{{locals.title}}</title>
 
 		<script src="//cdnjs.cloudflare.com/ajax/libs/require.js/2.1.15/require.js"></script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.2/js/bootstrap.min.js"></script>
 
 		{{#locals.js}}
 		<script src="/js/{{.}}.js"></script>
@@ -17,6 +20,31 @@
 		
 	</head>
 	<body>
+        <div class="">
+            <ul class="nav nav-tabs">
+                <li role="presentation" class=""><a href="/list">List</a></li>
+
+                <li role="presentation" class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-expanded="false">Charts<span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu" role="menu">
+                        <li><a href="#">Age</a></li>
+                        <li><a href="#">Sex</a></li>
+                        <li><a href="#">Race</a></li>
+                        <li><a href="#">Location</a></li>
+                        <li><a href="#">Cause</a></li>
+                        <li><a href="#">Compare</a></li>
+                    </ul>
+                </li>
+
+                <li role="presentation" class=""><a href="#">About</a></li>
+
+                <li role="presentation" class=""><a href="#">Blog</a></li>
+
+                <li role="presentation" class="disabled"><a href="#">Volunteer/Donate</a></li>
+            </ul>
+        </div>
+
 		{{{yield}}}
 	</body>
 </html>

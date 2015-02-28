@@ -1,5 +1,5 @@
-require(['/js/config/require-config.js'], function() {
-	require(['jquery'], function($) {
-	    
+require(['/js/main/require-config.js'], function($) {
+	require([], function() {
+	    alert('foo');
 	});
 });

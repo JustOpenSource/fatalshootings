@@ -23,6 +23,7 @@ function getModel(d){
 
 	d.current = d.current || DEFAULT_CURRENT;
     d.limit = d.limit || DEFAULT_LIMIT;
+    d.url = d.url || '/?';
 
     //not allowing size to be overwritten yet
 	d.size = DEFAULT_SIZE;
@@ -32,15 +33,15 @@ function getModel(d){
 	    inFirstSet = d.current < d.size,
 
 	    paginationModel = {
-	        disablePrev: d.current === 1 ? true : false,
-	        disableNext: d.current === total ? true : false,
-	        allPages : false,
+	        prevPage: d.current === 1 ? false : d.current - 1,
+	        nextPage: d.current === total ? false : d.current + 1,
 	        firstSet: false,
 	        firstSep: false,
             middleSet: false,
             LastSep: false,
             lastSet: false,
-	        total: total
+	        total: total,
+            url: d.url
 	    };
 
     //the current page is within the first set
@@ -57,7 +58,8 @@ function getModel(d){
         	
             paginationModel.firstSet[i - 1] = {
                 active: d.current === i ? true : false,
-                number: i
+                number: i,
+                url: d.url
             }
 
             i--;
@@ -67,7 +69,8 @@ function getModel(d){
 
         paginationModel.lastSet = [{
             active: false,
-            number: total
+            number: total,
+            url: d.url
         }];
 
     //the current page is within the first set and 
@@ -76,15 +79,16 @@ function getModel(d){
 
         log('trace', 'd.current is part of the first set and contains all pages');
 
-    	paginationModel.allPages = [];
+    	paginationModel.middleSet = [];
 
     	i = total;
 
         while(i > 0){
 
-            paginationModel.allPages[i - 1] = {
+            paginationModel.middleSet[i - 1] = {
                 active: d.current === i ? true : false,
-                number: i
+                number: i,
+                url: d.url
             }
 
             i--;
@@ -110,7 +114,8 @@ function getModel(d){
 
             paginationModel.middleSet[i - 1] = {
                 active: d.current === pageNumber ? true : false,
-                number: pageNumber
+                number: pageNumber,
+                url: d.url
             }
 
             i--;
@@ -121,12 +126,14 @@ function getModel(d){
 
         paginationModel.firstSet = [{
             active: false,
-            number: 1
+            number: 1,
+            url: d.url
         }];
 
         paginationModel.lastSet = [{
             active: false,
-            number: total
+            number: total,
+            url: d.url
         }];
 
     //the current page is in the last set
@@ -147,7 +154,8 @@ function getModel(d){
 
             paginationModel.lastSet[d.size - i] = {
                 active: d.current === pageNumber ? true : false,
-                number: pageNumber
+                number: pageNumber,
+                url: d.url
             }
 
             i--;
@@ -155,7 +163,8 @@ function getModel(d){
 
         paginationModel.firstSet = [{
             active: false,
-            number: 1
+            number: 1,
+            url: d.url
         }];
 
         paginationModel.firstSep = true;
