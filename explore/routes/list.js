@@ -36,7 +36,7 @@ router.route('/')
     }, {
 
         title: page_title,
-        js: ['config/list'],
+        js: ['main/list'],
         css: ['list']
     
     });

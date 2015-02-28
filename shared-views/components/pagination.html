@@ -3,10 +3,8 @@
 {
 
   disablePrev: false,
-  
+
   disableNext: true,
-  
-  allPages: false,
   
   firstSet: [
     { 
@@ -26,8 +24,9 @@
       active: false, 
       number: 6
     },
-    ... 
+    ...
   ],
+
   total: 10
 }
 
@@ -35,41 +34,37 @@
 }}
 
 <nav class="col-md-12">
-  <ul class="pagination">
-    <li class="{{#disablePrev}}disabled{{/disablePrev}}">
-      <a href="#" aria-label="Previous">
+    <ul class="pagination">
+        <li class="{{^prevPage}}disabled{{/prevPage}}">
+            <a href="{{url}}page={{prevPage}}" aria-label="Next">
         <span aria-hidden="true">&laquo;</span>
-      </a>
+        </a>
     </li>
 
-    {{#allPages}}
-    <li class="{{#active}}active{{/active}} {{^active}}hidden-xs{{/active}}"><a href="#">{{number}}</a></li>
-    {{/allPages}}
-
     {{#firstSet}}
-    <li class="{{#active}}active{{/active}} {{^active}}hidden-xs{{/active}}"><a href="#">{{number}}</a></li>
+    <li class="{{#active}}active{{/active}} {{^active}}hidden-xs{{/active}}"><a href="{{{url}}}page={{number}}">{{number}}</a></li>
     {{/firstSet}}
 
     {{#firstSep}}
     <li class="disabled hidden-xs"><a>...</a></li>
     {{/firstSep}}
-    
+
     {{#middleSet}}
-    <li class="{{#active}}active{{/active}} {{^active}}hidden-xs{{/active}}"><a href="#">{{number}}</a></li>
+    <li class="{{#active}}active{{/active}} {{^active}}hidden-xs{{/active}}"><a href="{{{url}}}page={{number}}">{{number}}</a></li>
     {{/middleSet}}
 
     {{#lastSep}}
     <li class="disabled hidden-xs"><a>...</a></li>
     {{/lastSep}}
-    
+
     {{#lastSet}}
-    <li class="{{#active}}active{{/active}} {{^active}}hidden-xs{{/active}}"><a href="#">{{number}}</a></li>
+    <li class="{{#active}}active{{/active}} {{^active}}hidden-xs{{/active}}"><a href="{{{url}}}page={{number}}">{{number}}</a></li>
     {{/lastSet}}
-    
-    <li class="{{#disableNext}}disabled{{/disableNext}}">
-      <a href="#" aria-label="Next">
-        <span aria-hidden="true">&raquo;</span>
-      </a>
-    </li>
-  </ul>
+
+    <li class="{{^nextPage}}disabled{{/nextPage}}">
+        <a href="{{url}}page={{nextPage}}" aria-label="Next">
+            <span aria-hidden="true">&raquo;</span>
+        </a>
+        </li>
+    </ul>
 </nav>

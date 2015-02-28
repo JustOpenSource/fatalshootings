@@ -85,13 +85,11 @@ c.getLog = function (location) {
 
     return function (type, msg, data) {
 
-        //clone data so we can manipulate it
-        data = _.clone(data);
-
         if(data){
 
             //if data is not an object, make it one move value into _data property
-            data = typeof data === 'object' ? data : { '_data' : data };
+            //don't get data by referenc
+            data = typeof data === 'object' ? JSON.parse(JSON.stringify(data)) : { '_data' : _.clone(data) };
 
         } else {
 

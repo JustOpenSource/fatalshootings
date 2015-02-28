@@ -21,6 +21,42 @@ module.exports = function(d, cb) {
         skip = (page - 1) * limit,
         filter = validateFilters(d.filters);
 
+    function getURL(filter){
+        var params = '';
+
+        console.log(filter);
+
+        if(filter.name){
+            params += 'name=' + filter.name;
+        }
+
+        if(filter.cause){
+            params += '&cause=' + filter.cause;
+        }
+
+        if(filter.race){
+            params += '&race=' + filter.race;
+        }
+
+        if(filter.sex){
+            params += '&sex=' + filter.sex;
+        }
+
+        if(filter.state) {
+            params += '&state=' + filter.state;
+        }
+
+        if(limit) {
+            params += '&limit=' + limit;
+        }
+
+        if(params){
+            params +=  '&'
+        }
+
+        return '/list?' + params;
+    }
+
     function validateFilters(d){
 
         //TODO: validate this data
@@ -139,7 +175,7 @@ module.exports = function(d, cb) {
     function querySort() {
         
         return { 
-            "value.death.event.date" : -1
+            "value.subject.age" : 1
         }
     }
 
@@ -210,7 +246,8 @@ module.exports = function(d, cb) {
             pagination: getView('components/pagination', {
                 count: data.count,
                 current: page,
-                limit: limit
+                limit: limit,
+                url: getURL(filter)
             }).html
         });
     }      
