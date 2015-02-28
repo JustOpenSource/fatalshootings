@@ -1,4 +1,5 @@
 var winston = require('winston');
+var _ = require('winston');
         
 //constants
 var c = {
@@ -92,7 +93,9 @@ c.log = function (type, msg, data) {
 c.getLog = function (location) {
 
     return function (type, msg, data) {
-        
+
+        data = _.clone(data);
+
         if(data){
 
             //if data is not an object, make it one move value into _data property
@@ -104,7 +107,7 @@ c.getLog = function (location) {
         }
 
         //add the current location to _loc data property
-        data._loc = location;
+        data._loc  = location;
         
         console.log(' ');
         c.log(type, msg, data);

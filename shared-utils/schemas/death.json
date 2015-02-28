@@ -1,32 +1,44 @@
 {
-	"id": "/fe/death/v1",
-	"type": "object",
-	"properties": {
-		"cause" : {"enum": [
-			"asphyxiation", 
-			"assault", 
-			"automobile",
-			"drug related",
-			"gunshot",
-			"medical emergency",
-			"neglect",
-			"non-lethal weapon",
-			"suicide",
-			"unknown",
-			"other"
-		]},
-		"cause_notes" : {
-          "type": "string"
+    "id": "/fe/death/v1",
+    "type": "object",
+    "properties": {
+
+        "cause" : {"enum": [
+            "asphyxiation",
+            "assault",
+            "automobile",
+            "drug related",
+            "gunshot",
+            "medical emergency",
+            "neglect",
+            "non-lethal weapon",
+            "suicide",
+            "unknown",
+            "other"
+        ]},
+
+        "cause_notes" : {
+            "type": "string"
         },
-		"responsible_agency" : {
-          "type": "string"
+
+        "responsible_agency" : {
+            "type": "string"
         },
-		"description" : "string",
-		"dated_description" : "string",
-		"disposition" : "string",
-		"source_url" : "string",
-		"event" : {
-			"type" : {"$ref" : "/fe/encounter"}
-		}
-	}
+
+        "description" : {
+            "type": "string"
+        },
+
+        "dated_description" : {
+            "type": "string"
+        },
+
+        "disposition" : {
+            "type": "string"
+        },
+
+        "source_url" : {
+            "type": "string"
+        }
+    }
 }
