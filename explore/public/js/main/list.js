@@ -1,5 +1,6 @@
 require(['/js/main/require-config.js'], function($) {
-	require([], function() {
-	    alert('foo');
+	require(['jquery'], function($) {
+
+	    console.log('testing require module include');
 	});
 });

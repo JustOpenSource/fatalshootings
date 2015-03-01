@@ -74,37 +74,6 @@ module.exports = function(d, cb) {
         }
     }
 
-    function getQueryFilterOptions(count) {
-
-        //TODO: Turn this into a cached dataset
-        var deferred = q.defer();
-
-        /*
-        collection.find(queryFilter(), querySelect())
-            .toArray(function(err, count){
-
-                if(err){
-
-                    log('error', 'could not get count', err);
-                    deferred.reject(err);
-                }
-
-                log('trace', 'getCount resolved: ' + count);
-
-                filterHTML = getView('fatality-list-filter', {
-                    filters: queryFilter()
-                }).html;
-
-                deferred.resolve(count);
-
-            });
-        */
-
-        deferred.resolve(count);
-
-        return deferred.promise;
-    }
-
     function queryFilter() {
 
         log('trace', 'filter query params', filter);
@@ -202,14 +171,32 @@ module.exports = function(d, cb) {
         return deferred.promise;
     }
 
+    function getQueryFilterOptions(count) {
+
+        //TODO: Turn this into a cached dataset
+        var deferred = q.defer();
+
+        getView('fatality-list-filter', collection, function(err, data){
+
+            log('trace', 'getQueryFilterOptions data', data);
+
+            deferred.resolve({
+                count: count,
+                filterView: data
+            });
+        });
+
+        return deferred.promise;
+    }
+
     //get result entries for current page
-    function getResults(count) {
+    function getResults(data) {
 
         log('trace', 'attempt to get results');
 
         var deferred = q.defer();
 
-        page = page * limit > count ? Math.ceil(count / limit) : page;
+        page = page * limit > data.count ? Math.ceil(data.count / limit) : page;
 
         collection.find(queryFilter(), querySelect())
         .sort(querySort())
@@ -225,7 +212,8 @@ module.exports = function(d, cb) {
             deferred.resolve({
                 err: err, 
                 body: body, 
-                count: count
+                count: data.count,
+                filterView: data.filterView
             });
         });
 
@@ -241,7 +229,7 @@ module.exports = function(d, cb) {
             results: data.body,
             count: data.count,
             
-            //filters: getQueryFilters(),
+            filters: data.filterView,
 
             pagination: getView('components/pagination', {
                 count: data.count,
@@ -250,7 +238,18 @@ module.exports = function(d, cb) {
                 url: getURL(filter)
             }).html
         });
-    }      
+    }
+
+    /*
+    TODO: play with all().spread
+    q.all([getCount, getQueryFilterOptions, getResults]).spread(function (count, filter, results) {
+        log('trace', 'count', count);
+        log('trace', 'filter', filter);
+        log('trace', 'results', results);
+    }).fail(function(err){
+        log('error', 'spread err', err);
+    });
+    */
 
     getCount()
     .then(getQueryFilterOptions)
@@ -262,4 +261,5 @@ module.exports = function(d, cb) {
         cb(err);
 
     });
+
 }
