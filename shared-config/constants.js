@@ -89,7 +89,7 @@ c.getLog = function (location) {
 
             //if data is not an object, make it one move value into _data property
             //don't get data by referenc
-            data = typeof data === 'object' ? JSON.parse(JSON.stringify(data)) : { '_data' : _.clone(data) };
+            //data = typeof data === 'object' ? JSON.parse(JSON.stringify(data)) : { '_data' : _.clone(data) };
 
         } else {
 
