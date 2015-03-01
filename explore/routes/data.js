@@ -1,7 +1,10 @@
 var c = require(__base + '../shared-config/constants'),
     log = c.getLog('explore/routes/data'),
 
-    q = require('q');
+    q = require('q'),
+
+    filterUtils = require(__base + '../shared-utils/query-filters'),
+    renderView = require(__base + '../shared-utils/render-view');
 
 //npm libraries
 express = require('express'),
@@ -10,141 +13,13 @@ express = require('express'),
     router = express.Router(),
     renderView = require(__base + '../shared-utils/render-view');
 
-
-// url/data/
-router.route('/')
-    .get(function(req, res){
-
-        var data = {};
-
-        data.filter = validateFilters({
-
-            'name' : req.query.name,
-            'cause' : req.query.cause,
-            'age' : req.query.age,
-            'race' : req.query.race,
-            'sex' : req.query.sex,
-            'country' : req.query.country,
-            'state' : req.query.state,
-            'zip' : req.query.zip,
-            'date_from' : req.query.date_from,
-            'date_to' : req.query.date_to
-        });
-
-        data.collection = req._db.fatalities;
-
-        getCount(data)
-        .then(getResults)
-        .then(function(body){
-
-            //log('trace', 'data response success', body);
-            res.json(body);
-        })
-        .fail(function(err) {
-
-            log('error', 'could not get results', err);
-            //throw error header
-        });
-    });
-
-function validateFilters(d){
-
-    //TODO: validate this data
-    return {
-        'name' : d.name,
-        'cause' : d.cause,
-        'age' : d.age,
-        'race' : d.race,
-        'sex' : d.sex,
-        'country' : d.country,
-        'state' : d.state,
-        'zip' : d.zip,
-        'date_from' : d.date_from,
-        'date_to' : d.date_to
-    }
-}
-
-function querySelect() {
-
-    return {
-
-        "value.subject.name" : true,
-        "value.subject.age" : true,
-        "value.subject.race" : true,
-        "value.subject.sex" : true,
-        "value.death.cause" : true,
-        "value.death.event.date" : true,
-        "value.location.state" : true
-    }
-}
-
-function querySort() {
-
-    return {
-        "value.subject.age" : 1
-    }
-}
-
-function queryFilter(filter) {
-
-    log('trace', 'filter query params', filter);
-
-    var queryFilters = {};
-
-    if(filter.name){
-        queryFilters['value.subject.name'] = filter.name;
-    }
-
-    if(filter.cause){
-        queryFilters['value.death.cause'] = filter.cause;
-    }
-
-    if(filter.race){
-        //TODO: Get rid of space in front of race
-        queryFilters['value.subject.race'] = ' ' + filter.race;
-    }
-
-    if(filter.sex) {
-        queryFilters['value.subject.sex'] = filter.sex;
-    }
-
-    if(filter.state) {
-        queryFilters['value.location.state'] = filter.state;
-    }
-
-    /*
-     AGE MUST BE CONVERTED TO INT
-     if(filter.age) {
-     var splitAge = filter.age.split('_');
-
-     queryFilters['value.subject.age'] = {
-     'gte' : splitAge[0],
-     'lte' : splitAge[1]
-     };
-     }
-     */
-
-    /*
-     DATE MUST BE CONVERTED TO YYYYMMDD Int
-     if(filter.date) {
-     queryFilters['value.subject.age'] = {
-     $gte : filter.date_from,
-     $lt : filter.date_to
-     }
-     }
-     */
-
-    return queryFilters;
-
-}
-
 function getCount(data) {
 
     log('trace', 'attempt to get count');
 
     var deferred = q.defer();
 
-    data.collection.find(queryFilter(data.filter), querySelect())
+    data.collection.find(filterUtils.queryFilter(data.filter), filterUtils.querySelect())
         .count(function(err, count){
 
             if(err){
@@ -153,7 +28,7 @@ function getCount(data) {
                 deferred.reject(err);
             }
 
-            log('trace', 'getCount resolved: ' + count);
+            log('trace', 'got count: ' + count);
 
             data.count = count;
 
@@ -165,20 +40,17 @@ function getCount(data) {
 }
 
 function getResults(data){
-    //log('trace', 'attempt to get results data', data);
+
+    log('trace', 'attempt to get results');
 
     var deferred = q.defer();
 
-    if(!data.skip || !data.limit){
-        data.skip = null;
-        data.limit = null;
-    }
+    data.filter.page = data.filter.page * data.filter.limit > data.count ? Math.ceil(data.count / data.filter.limit) : data.filter.page;
 
-    data.collection.find(queryFilter(data.filter), querySelect())
-    .sort(querySort())
-    .skip(data.skip || null).limit(data.limit || null)
+    data.collection.find(filterUtils.queryFilter(data.filter), filterUtils.querySelect())
+    .sort(filterUtils.querySort())
+    .skip(data.filter.skip || 0).limit(data.filter.limit)
     .toArray(function(err, body){
-
 
         if(err){
 
@@ -187,7 +59,7 @@ function getResults(data){
             deferred.reject(err);
         }
 
-        log('trace', 'getResults resolved');
+        log('trace', 'got results');
 
         deferred.resolve({
 
@@ -198,5 +70,107 @@ function getResults(data){
 
     return deferred.promise;
 }
+
+// url/data/api
+router.route('/api')
+.get(function(req, res){
+
+    log('trace', '/data/api query', req.query);
+
+    var data = {};
+
+    data.filter = filterUtils.validateFilters(req.query);
+
+    data.collection = req._db.fatalities;
+
+    getCount(data)
+        .then(getResults)
+        .then(function(body){
+
+            log('trace', '/data/api response');
+            res.json(body);
+        })
+        .fail(function(err) {
+
+            log('error', 'could not get results', err);
+            //error response
+        });
+});
+
+router.route('/api/distinct/race')
+.get(function(req, res){
+
+    req._db.fatalities.distinct("value.subject.race", function(err, body){
+
+        if(err){
+            log('error', 'distinct race', err);
+            return;
+        }
+
+        res.json(body);
+    });
+});
+
+router.route('/api/distinct/cause')
+.get(function(req, res){
+
+    req._db.fatalities.distinct("value.death.cause", function(err, body){
+
+        if(err){
+            log('error', 'distinct cause', err);
+            return;
+        }
+
+        res.json(body);
+    });
+});
+
+router.route('/api/distinct/disposition')
+.get(function(req, res){
+
+    req._db.fatalities.distinct("value.death.disposition", function(err, body){
+
+        if(err){
+            log('error', 'distinct cause', err);
+            return;
+        }
+
+        res.json(body);
+    });
+});
+
+router.route('/')
+.get(function(req, res){
+
+    renderView(req, res, 'data-api', {
+
+        url: {
+
+            'attr' : [
+                '/data/api?sex=female',
+                '/data/api?race=African-American/Black',
+                '/data/api?cause=automobile',
+                '/data/api?state=MD',
+                '/data/api?state=MD&sex=male'
+            ],
+            'pagination' : [
+                '/data/api?sex=male&limit=5&page=2',
+                '/data/api?sex=male&cause=gunshot&limit=5&page=2'
+            ],
+            'distinct' : [
+                '/data/api/distinct/race',
+                '/data/api/distinct/cause',
+                '/data/api/distinct/disposition',
+            ]
+        }
+
+    }, {
+
+        title: 'Data API',
+        js: ['main/data'],
+        css: ['data']
+
+    });
+});
 
 module.exports = router;

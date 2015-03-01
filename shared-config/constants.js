@@ -23,6 +23,7 @@ var c = {
 };
 
 c.url.mongo = 'mongodb://localhost:' + c.port.mongodb + '/';
+c.url.data = 'http://localhost:3000/data/api';
 
 //MOVE INTO LOGGER FILE
 var FILE_SEP = '.',

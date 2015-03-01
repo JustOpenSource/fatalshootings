@@ -1,38 +1,45 @@
-var __base = __base || '../../',
-    c = require(__base + 'config/constants'),
+var __base = __base || '../',
+    c = require(__base + 'shared-config/constants'),
     log = c.getLog('shared-utils/http-get'),
 
     http = require('http');
 
 function get(o, cb){
 
-	var req = http.request(o, function(res) {
-		
-		var status = res.statusCode,
-			output = '';
+    var req = http.request(o, function(res) {
 
-		res.setEncoding('utf8');
-	
-		res.on('data', function(chunk) {
-			
-			output += chunk;
-		});
+        //TODO: Add proper trace logging in this function
+        log('trace', 'http-get request response');
 
-		res.on('end', function() {
+        var status = res.statusCode,
+            output = '';
 
-			if(status !== 200){
+        res.setEncoding('utf8');
 
-				cb(status);
-			
-			} else {
-    			
-    			cb(null, JSON.parse(output));
-			}
+        res.on('data', function(chunk) {
 
-		});
-	});
+            output += chunk;
+        });
 
-	req.end();
+        res.on('end', function() {
+
+
+
+            if(status !== 200){
+
+
+
+                cb(status);
+
+            } else {
+
+                cb(null, JSON.parse(output));
+            }
+
+        });
+    });
+
+    req.end();
 }
 
 module.exports = get;
