@@ -1,0 +1,25 @@
+<div class="container">
+    <div class="col-md-12">
+        <h1>JSON Data API</h1>
+        <h2>By Attribute</h2>
+        <ul>
+            {{#url.attr}}
+            <li><a href="{{.}}" target="_blank">{{.}}</a></li>
+            {{/url.attr}}
+        </ul>
+
+        <h2>Pagination</h2>
+        <ul>
+            {{#url.pagination}}
+            <li><a href="{{.}}" target="_blank">{{.}}</a></li>
+            {{/url.pagination}}
+        </ul>
+
+        <h2>Distinct</h2>
+        <ul>
+            {{#url.distinct}}
+            <li><a href="{{.}}" target="_blank">{{.}}</a></li>
+            {{/url.distinct}}
+        </ul>
+    </div>
+</div>

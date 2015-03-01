@@ -16,9 +16,7 @@ router.route('/')
     var page_title = 'Fatalaties List';
 
     renderView(req, res, 'fatality-list', {
-    
-        'limit' : req.query.limit,
-        'page' : req.query.page,
+
         'filters' : {
 
             'name' : req.query.name,
@@ -30,7 +28,9 @@ router.route('/')
             'state' : req.query.state,
             'zip' : req.query.zip,
             'date_from' : req.query.date_from,
-            'date_to' : req.query.date_to
+            'date_to' : req.query.date_to,
+            'limit' : req.query.limit,
+            'page' : req.query.page
         }
     
     }, {
