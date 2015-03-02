@@ -81,9 +81,25 @@ function queryFilter(filter) {
 
 function validateFilters(d){
 
+    //page
     d.page = parseInt(d.page) || 1;
-    d.limit = parseInt(d.limit) || DEFAULT_LIMIT;
-    d.skip = (d.page - 1) * d.limit;
+
+    //limit
+    if(d.limit === 'false'){
+
+        d.limit = null;
+        d.skip = null;
+
+    } else {
+
+        d.limit = parseInt(d.limit) || DEFAULT_LIMIT;
+        d.skip = (d.page - 1) * d.limit;
+    }
+
+    //state
+    if(d.state){
+        d.state = d.state.toUpperCase();
+    }
 
     //TODO: validate this data
     return {
