@@ -25,6 +25,8 @@ function getModel(d){
     d.limit = d.limit || DEFAULT_LIMIT;
     d.url = d.url || '/?';
 
+    d.current = d.current * d.limit > d.count ? Math.ceil(d.count / d.limit) : d.current;
+
     //not allowing size to be overwritten yet
 	d.size = DEFAULT_SIZE;
         

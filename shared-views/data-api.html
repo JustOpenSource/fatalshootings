@@ -1,7 +1,21 @@
 <div class="container">
     <div class="col-md-12">
         <h1>JSON Data API</h1>
-        <h2>By Attribute</h2>
+
+        <h2>Attributes</h2>
+
+        <h3>Query Params</h3>
+
+        <ul>
+            <li><strong>name</strong>: Person's full name (e.g. "name=Mike Smith").</li>
+            <li><strong>race</strong>: Person's race (e.g. "race=Caucasian-American/White").</li>
+            <li><strong>sex</strong>: Person's physical sex (e.g. "sex=male").</li>
+            <li><strong>cause</strong>: Cause of person's death (e.g. "cause=gunshot").</li>
+            <li><strong>state</strong>: Two letter abbreviation for American state (e.g. "state=ca").</li>
+        </ul>
+
+        <h3>Examples</h3>
+
         <ul>
             {{#url.attr}}
             <li><a href="{{.}}" target="_blank">{{.}}</a></li>
@@ -9,6 +23,16 @@
         </ul>
 
         <h2>Pagination</h2>
+
+        <h3>Query Params</h3>
+
+        <ul>
+            <li><strong>limit</strong>: How many entries to show (e.g. "limit=10"). Setting limit to false returns all entries.</li>
+            <li><strong>page</strong>: Which page of entries to show (e.g. if limit is 10, then page 2 returns recoreds 11-20).</li>
+        </ul>
+
+        <h3>Examples</h3>
+
         <ul>
             {{#url.pagination}}
             <li><a href="{{.}}" target="_blank">{{.}}</a></li>
@@ -16,6 +40,7 @@
         </ul>
 
         <h2>Distinct</h2>
+
         <ul>
             {{#url.distinct}}
             <li><a href="{{.}}" target="_blank">{{.}}</a></li>

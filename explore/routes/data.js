@@ -45,8 +45,6 @@ function getResults(data){
 
     var deferred = q.defer();
 
-    data.filter.page = data.filter.page * data.filter.limit > data.count ? Math.ceil(data.count / data.filter.limit) : data.filter.page;
-
     data.collection.find(filterUtils.queryFilter(data.filter), filterUtils.querySelect())
     .sort(filterUtils.querySort())
     .skip(data.filter.skip || 0).limit(data.filter.limit)
@@ -72,10 +70,10 @@ function getResults(data){
 }
 
 // url/data/api
-router.route('/api')
+router.route('/api/v1/')
 .get(function(req, res){
 
-    log('trace', '/data/api query', req.query);
+    log('trace', '/data/v1/api query', req.query);
 
     var data = {};
 
@@ -87,17 +85,17 @@ router.route('/api')
         .then(getResults)
         .then(function(body){
 
-            log('trace', '/data/api response');
+            log('trace', '/data/api/v1 response');
             res.json(body);
         })
-        .fail(function(err) {
+        .fail(function(err){
 
             log('error', 'could not get results', err);
             //error response
         });
 });
 
-router.route('/api/distinct/race')
+router.route('/api/v1/distinct/race')
 .get(function(req, res){
 
     req._db.fatalities.distinct("value.subject.race", function(err, body){
@@ -111,7 +109,7 @@ router.route('/api/distinct/race')
     });
 });
 
-router.route('/api/distinct/cause')
+router.route('/api/v1/distinct/cause')
 .get(function(req, res){
 
     req._db.fatalities.distinct("value.death.cause", function(err, body){
@@ -125,7 +123,7 @@ router.route('/api/distinct/cause')
     });
 });
 
-router.route('/api/distinct/disposition')
+router.route('/api/v1/distinct/disposition')
 .get(function(req, res){
 
     req._db.fatalities.distinct("value.death.disposition", function(err, body){
@@ -147,20 +145,22 @@ router.route('/')
         url: {
 
             'attr' : [
-                '/data/api?sex=female',
-                '/data/api?race=African-American/Black',
-                '/data/api?cause=automobile',
-                '/data/api?state=MD',
-                '/data/api?state=MD&sex=male'
+                '/data/api/v1?sex=female',
+                '/data/api/v1?sex=female&limit=30',
+                '/data/api/v1?race=Caucasian-American/White',
+                '/data/api/v1/?cause=automobile',
+                '/data/api/v1/?state=MD',
+                '/data/api/v1/?state=MD&sex=male',
+                '/data/api/v1/?limit=false',
             ],
             'pagination' : [
-                '/data/api?sex=male&limit=5&page=2',
-                '/data/api?sex=male&cause=gunshot&limit=5&page=2'
+                '/data/api/v1/?sex=male&limit=5&page=2',
+                '/data/api/v1/?sex=male&cause=gunshot&limit=5&page=2'
             ],
             'distinct' : [
-                '/data/api/distinct/race',
-                '/data/api/distinct/cause',
-                '/data/api/distinct/disposition',
+                '/data/api/v1/distinct/race',
+                '/data/api/v1/distinct/cause',
+                '/data/api/v1/distinct/disposition',
             ]
         }
 
