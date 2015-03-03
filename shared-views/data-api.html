@@ -2,19 +2,36 @@
     <div class="col-md-12">
         <h1>JSON Data API</h1>
 
-        <h2>Attributes</h2>
 
-        <h3>Query Params</h3>
+
+        The JSON API, located at <a href="/data/api/v1">/data/api/v1</a>, provides read only access to the Fatal Encounters data set.
+
+
+
+        <h2>Records</h2>
+
+        <p>Record returns a JSON object with two keys, <strong>body</strong> and <strong>count</strong>. </p>
+
+        <h3><small>Record Keys</small></h3>
 
         <ul>
-            <li><strong>name</strong>: Person's full name (e.g. "name=Mike Smith").</li>
-            <li><strong>race</strong>: Person's race (e.g. "race=Caucasian-American/White").</li>
+            <li><strong>body</strong>: Array of record data objects.</li>
+            <li><strong>count</strong>: Total number of records (ignores pagination).</li>
+        </ul>
+
+        <pre>{ "body" : [&lt;record object&gt;, ...], "count" : &lt;total number of results&gt; }</pre>
+
+        <h3><small>Query Params</small></h3>
+
+        <ul>
+            <li><strong>name</strong>: Person's full name (e.g. "name=John Doe").</li>
+            <li><strong>race</strong>: Person's race (e.g. "race=European-American/White").</li>
             <li><strong>sex</strong>: Person's physical sex (e.g. "sex=male").</li>
             <li><strong>cause</strong>: Cause of person's death (e.g. "cause=gunshot").</li>
             <li><strong>state</strong>: Two letter abbreviation for American state (e.g. "state=ca").</li>
         </ul>
 
-        <h3>Examples</h3>
+        <h3><small>Examples</small></h3>
 
         <ul>
             {{#url.attr}}
@@ -24,14 +41,14 @@
 
         <h2>Pagination</h2>
 
-        <h3>Query Params</h3>
+        <h3><small>Query Params</small></h3>
 
         <ul>
-            <li><strong>limit</strong>: How many entries to show (e.g. "limit=10"). Setting limit to false returns all entries.</li>
-            <li><strong>page</strong>: Which page of entries to show (e.g. if limit is 10, then page 2 returns recoreds 11-20).</li>
+            <li><strong>limit</strong>: How many entries to show (e.g. "limit=10"). Set limit to <em>false</em> to return all matching entries.</li>
+            <li><strong>page</strong>: Which page of entries to show (e.g. if limit is 10, then page 2 returns recoreds 11-20). Does nothing if limit is set to <em>false</em>.</li>
         </ul>
 
-        <h3>Examples</h3>
+        <h3><small>Examples</small></h3>
 
         <ul>
             {{#url.pagination}}
@@ -39,7 +56,15 @@
             {{/url.pagination}}
         </ul>
 
-        <h2>Distinct</h2>
+        <h2>Meta Data</h2>
+
+        <h3>Distinct</h3>
+
+        <p>Distinct values return as an array of strings.</p>
+
+        <pre>['item1', 'item2', 'item3']</pre>
+
+        <p>List of distinct values for attributes within the data set.</p>
 
         <ul>
             {{#url.distinct}}

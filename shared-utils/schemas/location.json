@@ -10,7 +10,9 @@
 
         "country" : {
 
-            "USA" : {
+            "MX" : {
+
+            "US" : {
 
                 "city" : {
                     "type": "string"

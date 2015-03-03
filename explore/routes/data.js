@@ -95,10 +95,33 @@ router.route('/api/v1/')
         });
 });
 
-router.route('/api/v1/distinct/race')
+router.route('/api/v1/distinct/:attr')
 .get(function(req, res){
 
-    req._db.fatalities.distinct("value.subject.race", function(err, body){
+    var attr = req.params.attr,
+        attribute,
+        whitelist = {
+            subject : ['race', 'sex', 'mental_illness'],
+            death : ['cause', 'disposition', 'responsible_agency']
+        };
+
+    log('trace', 'request for /api/v1/distinct/' + attr);
+
+    if(whitelist.subject.indexOf(attr) !== -1){
+
+        attribute = "value.subject." + attr;
+
+    } else if(whitelist.death.indexOf(attr) !== -1){
+
+        attribute = "value.death." + attr
+
+    } else {
+
+        res.status(404).send('"' + attr + '" is not a supported attribute');
+    }
+
+    //TODO: Use map reduce to get frequency for each attr
+    req._db.fatalities.distinct(attribute, function(err, body){
 
         if(err){
             log('error', 'distinct race', err);
@@ -109,6 +132,7 @@ router.route('/api/v1/distinct/race')
     });
 });
 
+/*
 router.route('/api/v1/distinct/cause')
 .get(function(req, res){
 
@@ -137,6 +161,23 @@ router.route('/api/v1/distinct/disposition')
     });
 });
 
+router.route('/api/v1/distinct/responsible_agency')
+.get(function(req, res){
+
+    req._db.fatalities.distinct("value.death.responsible_agency", function(err, body){
+
+        if(err){
+            log('error', 'distinct cause', err);
+            return;
+        }
+
+        res.json(body);
+    });
+});
+
+*/
+
+
 router.route('/')
 .get(function(req, res){
 
@@ -147,7 +188,7 @@ router.route('/')
             'attr' : [
                 '/data/api/v1?sex=female',
                 '/data/api/v1?sex=female&limit=30',
-                '/data/api/v1?race=Caucasian-American/White',
+                '/data/api/v1?race=European-American/White',
                 '/data/api/v1/?cause=automobile',
                 '/data/api/v1/?state=MD',
                 '/data/api/v1/?state=MD&sex=male',
@@ -159,8 +200,11 @@ router.route('/')
             ],
             'distinct' : [
                 '/data/api/v1/distinct/race',
+                '/data/api/v1/distinct/sex',
+                '/data/api/v1/distinct/mental_illness',
                 '/data/api/v1/distinct/cause',
                 '/data/api/v1/distinct/disposition',
+                '/data/api/v1/distinct/responsible_agency'
             ]
         }
 
