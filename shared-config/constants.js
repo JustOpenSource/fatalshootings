@@ -18,6 +18,11 @@ var c = {
     collection: {        
         fatalities: 'test-fatalities'
     },
+
+    elastic : {
+        host: '3f322411cef8d940000.qbox.io',
+        apiVersion : '1.4'
+    },
     
     url: {}
 };
