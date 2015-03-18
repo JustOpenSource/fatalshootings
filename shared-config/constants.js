@@ -22,8 +22,12 @@ var c = {
     url: {}
 };
 
+var urlRoot = 'http://localhost:3000/';
+
 c.url.mongo = 'mongodb://localhost:' + c.port.mongodb + '/';
-c.url.data = 'http://localhost:3000/data/api/v1';
+c.url.data = urlRoot + 'data/api/v1';
+c.url.list = urlRoot + 'list';
+c.url.distinct = c.url.data + '/distinct/';
 
 //MOVE INTO LOGGER FILE
 var FILE_SEP = '.',

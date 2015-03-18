@@ -1,42 +1,42 @@
 var __base = '../',
-	c = require(__base + 'shared-config/constants'),
-	log = c.getLog('shared-utils/mongo-db'),
+    c = require(__base + 'shared-config/constants'),
+    log = c.getLog('shared-utils/mongo-db'),
 
-	MongoClient = require('mongodb').MongoClient;
+    MongoClient = require('mongodb').MongoClient;
 
-/*
-connect('fe', function(e,d,c){
-	c()
-});
-*/
+    /*
+    connect('fe', function(e,d,c){
+        c()
+    });
+    */
 
 module.exports = function(database, cb){
 
-	//defines default callback to call parent callback 
-	cb = cb || function(e,d,c){c()};
+    //defines default callback to call parent callback
+    cb = cb || function(e,d,c){c()};
 
-	var url = c.url.mongo + database;
+    var url = c.url.mongo + database;
 
-	log('trace', 'attempting to connect to ' + url);
+    log('trace', 'attempting to connect to ' + url);
 
-	// Use connect method to connect to the Server
-	MongoClient.connect(url, function(err, db) {
+    // Use connect method to connect to the Server
+    MongoClient.connect(url, function(err, db) {
 
-		if(!err){
+        if(!err){
 
-			log('trace', 'connected to ' + url);
-		
-			cb(err, db, function(){
-				db.close();
-			});
+            log('trace', 'connected to ' + url);
 
-		} else {
+            cb(err, db, function(){
+                db.close();
+            });
 
-			log('error', 'could not connect to connected to ' + url, err);
+        } else {
 
-			cb(err);
+            log('error', 'could not connect to connected to ' + url, err);
 
-		}
-		
-	});
+            cb(err);
+
+        }
+
+    });
 }

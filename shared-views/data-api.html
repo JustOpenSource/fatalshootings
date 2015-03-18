@@ -12,7 +12,7 @@
 
         <p>Record returns a JSON object with two keys, <strong>body</strong> and <strong>count</strong>. </p>
 
-        <h3><small>Record Keys</small></h3>
+        <h3><small>Data Structure</small></h3>
 
         <ul>
             <li><strong>body</strong>: Array of record data objects.</li>
@@ -58,18 +58,43 @@
 
         <h2>Meta Data</h2>
 
-        <h3>Distinct</h3>
-
-        <p>Distinct values return as an array of strings.</p>
-
-        <pre>['item1', 'item2', 'item3']</pre>
+        <h3>Possible Values</h3>
 
         <p>List of distinct values for attributes within the data set.</p>
+
+        <h3><small>Data Structure</small></h3>
+
+        <pre>['item1', 'item2', 'item3', ...]</pre>
+
+        <h3><small>Examples</small></h3>
 
         <ul>
             {{#url.distinct}}
             <li><a href="{{.}}" target="_blank">{{.}}</a></li>
             {{/url.distinct}}
+        </ul>
+
+        <h3>Possible Values with Count</h3>
+
+        <p>List of distinct values and how many of them occur for attributes within the data set.</p>
+
+        <h3><small>Data Structure</small></h3>
+
+        <ul>
+            <li><strong>_id</strong>: Name of the attribute.</li>
+            <li><strong>count</strong>: Total number of occurances of this attribute.</li>
+        </ul>
+
+        <pre>[{ "_id" : "female", "value" : 236 }, { "_id" : "male", "value" : 2779 }, ...]</pre>
+
+        <p>To get the count, just add <strong>count=true</strong> to the end of the url.</p>
+
+        <h3><small>Examples</small></h3>
+
+        <ul>
+            {{#url.distinctCount}}
+            <li><a href="{{.}}" target="_blank">{{.}}</a></li>
+            {{/url.distinctCount}}
         </ul>
     </div>
 </div>

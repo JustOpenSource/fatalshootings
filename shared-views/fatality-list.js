@@ -21,7 +21,12 @@ module.exports = function(d, cb) {
 
         var deferred = q.defer();
 
-        getView('fatality-list-filter', collection, function(err, data){
+        var listFilterData = {
+            collection: collection,
+            filters: filter
+        }
+
+        getView('fatality-list-filter', listFilterData, function(err, data){
 
             if(err){
 
@@ -76,7 +81,7 @@ module.exports = function(d, cb) {
             results: data.body,
             count: data.count,
             
-            filters: data.filterView,
+            filters: data.filterView.html,
 
             pagination: getView('components/pagination', {
                 count: data.count,

@@ -6,7 +6,8 @@ var c = require(__base + '../shared-config/constants'),
     
     //application imports
     router = express.Router(),
-    renderView = require(__base + '../shared-utils/render-view');
+    renderView = require(__base + '../shared-utils/render-view'),
+    filterUtils = require(__base + '../shared-utils/query-filters');
 
 
 // url/list/
@@ -32,20 +33,19 @@ router.route('/')
             'limit' : req.query.limit,
             'page' : req.query.page
         }
-    
     }, {
 
         title: page_title,
         js: ['main/list'],
         css: ['list']
-    
     });
-
 })
 
-.post(function(req,res){
-    
-    res.send('handle post data');
+.post(function(req, res){
+
+    log('trace', 'list filter post data', req.body);
+
+    res.redirect(filterUtils.buildFilterURL(c.url.list, req.body));
 
 });
 
