@@ -6,12 +6,13 @@ var c = require(__base + '../shared-config/constants'),
     filterUtils = require(__base + '../shared-utils/query-filters'),
     renderView = require(__base + '../shared-utils/render-view');
 
-//npm libraries
-express = require('express'),
+    //npm libraries
+    express = require('express'),
 
     //application imports
     router = express.Router(),
     renderView = require(__base + '../shared-utils/render-view');
+
 
 function getCount(data) {
 
@@ -69,6 +70,28 @@ function getResults(data){
     return deferred.promise;
 }
 
+function getDistinctCount(collection, mapper, cb){
+
+    log('trace', 'get distinct count');
+
+    var reducer = function (race, count) {
+
+        return Array.sum(count);
+    };
+
+    collection.mapReduce(
+        mapper,
+        reducer,
+
+        { out: { inline : true } },
+
+        function(err, response) {
+
+            cb(err, response);
+        }
+    );
+}
+
 // url/data/api
 router.route('/api/v1/')
 .get(function(req, res){
@@ -120,63 +143,75 @@ router.route('/api/v1/distinct/:attr')
         res.status(404).send('"' + attr + '" is not a supported attribute');
     }
 
-    //TODO: Use map reduce to get frequency for each attr
-    req._db.fatalities.distinct(attribute, function(err, body){
+    if(req.query.count){
 
-        if(err){
-            log('error', 'distinct race', err);
-            return;
+        var mapper;
+
+        //build mapper for each attribute
+        if(attr === 'race'){
+
+            mapper = function(){
+                emit(this.value.subject.race, 1);
+            }
+
+        } else if(attr === 'sex'){
+
+            mapper = function(){
+                emit(this.value.subject.sex, 1);
+            }
+
+        } else if(attr === 'mental_illness'){
+
+            mapper = function(){
+                emit(this.value.subject.mental_illness, 1);
+            }
+
+        } else if(attr === 'cause'){
+
+            mapper = function(){
+                emit(this.value.death.cause, 1);
+            }
+
+        } else if(attr === 'disposition'){
+
+            mapper = function(){
+                emit(this.value.death.disposition, 1);
+            }
+
+        } else if(attr === 'responsible_agency'){
+
+            mapper = function(){
+                emit(this.value.death.responsible_agency, 1);
+            }
         }
 
-        res.json(body);
-    });
+        getDistinctCount(req._db.fatalities, mapper, function(err, body){
+
+            if(err){
+                res.status(404).send(err);
+                return;
+            }
+
+            res.json(body);
+        })
+
+    } else {
+
+        req._db.fatalities.distinct(attribute, function(err, body){
+
+            if(err){
+                log('error', 'distinct race', err);
+                return;
+            }
+
+            log('trace', 'got distinct count');
+
+            res.json(body);
+        });
+    }
+
+
 });
-
-/*
-router.route('/api/v1/distinct/cause')
-.get(function(req, res){
-
-    req._db.fatalities.distinct("value.death.cause", function(err, body){
-
-        if(err){
-            log('error', 'distinct cause', err);
-            return;
-        }
-
-        res.json(body);
-    });
-});
-
-router.route('/api/v1/distinct/disposition')
-.get(function(req, res){
-
-    req._db.fatalities.distinct("value.death.disposition", function(err, body){
-
-        if(err){
-            log('error', 'distinct cause', err);
-            return;
-        }
-
-        res.json(body);
-    });
-});
-
-router.route('/api/v1/distinct/responsible_agency')
-.get(function(req, res){
-
-    req._db.fatalities.distinct("value.death.responsible_agency", function(err, body){
-
-        if(err){
-            log('error', 'distinct cause', err);
-            return;
-        }
-
-        res.json(body);
-    });
-});
-
-*/
-
 
 router.route('/')
 .get(function(req, res){
@@ -205,6 +240,10 @@ router.route('/')
                 '/data/api/v1/distinct/cause',
                 '/data/api/v1/distinct/disposition',
                 '/data/api/v1/distinct/responsible_agency'
+            ],
+            'distinctCount' : [
+                '/data/api/v1/distinct/race?count=true',
+                '/data/api/v1/distinct/sex?count=true'
             ]
         }
 
