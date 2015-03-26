@@ -1,13 +1,13 @@
 <html>
 <body>
 
-<script type="text/javascript" src="submit.js"></script>
-
-<p>Please enter your name, then click "Submit":</p>
-
-<form id="entryform" action="entry_data.asp">
-	Name: <input type="text" name="name"><br><br>
-	<input type="button" onclick="getData()" value="Submit">
+<p>Please give us your name, email address, and write your message below.</p>
+<p>When you are finished, click the "Submit" button.</p>
+<form id="entryform">
+	Name: <input type="text" name="name"><br>
+	Email: <input type="text" name="email"><br>
+	Message: <br><textarea name="message" form="entryform" rows="10" cols="50"></textarea><br><br>
+	<input type="submit"" value="Submit">
 </form>
 
 </body>
