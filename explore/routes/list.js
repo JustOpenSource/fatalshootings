@@ -17,7 +17,7 @@ router.route('/')
     var page_title = 'Fatalaties List';
 
     renderView(req, res, 'fatality-list', {
-
+        'foo' : 'bar',
         'filters' : {
 
             'name' : req.query.name,
@@ -39,6 +39,7 @@ router.route('/')
         js: ['main/list'],
         css: ['list']
     });
+
 })
 
 .post(function(req, res){
