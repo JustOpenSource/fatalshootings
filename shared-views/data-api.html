@@ -1,100 +1,103 @@
-<div class="container">
-    <div class="col-md-12">
-        <h1>JSON Data API</h1>
+<div class="page-content">
+    <div class="container">
+
+        <div class="col-md-12 page-header">
+            <h1>JSON Data API</h1>
+        </div>
+
+        <div class="col-md-12">
+            The JSON API, located at <a href="/data/api/v1">/data/api/v1</a>, provides read only access to the Fatal Encounters data set.
 
 
 
-        The JSON API, located at <a href="/data/api/v1">/data/api/v1</a>, provides read only access to the Fatal Encounters data set.
+            <h2>Records</h2>
 
+            <p>Record returns a JSON object with two keys, <strong>body</strong> and <strong>count</strong>. </p>
 
+            <h3><small>Data Structure</small></h3>
 
-        <h2>Records</h2>
+            <ul>
+                <li><strong>body</strong>: Array of record data objects.</li>
+                <li><strong>count</strong>: Total number of records (ignores pagination).</li>
+            </ul>
 
-        <p>Record returns a JSON object with two keys, <strong>body</strong> and <strong>count</strong>. </p>
+            <pre>{ "body" : [&lt;record object&gt;, ...], "count" : &lt;total number of results&gt; }</pre>
 
-        <h3><small>Data Structure</small></h3>
+            <h3><small>Query Params</small></h3>
 
-        <ul>
-            <li><strong>body</strong>: Array of record data objects.</li>
-            <li><strong>count</strong>: Total number of records (ignores pagination).</li>
-        </ul>
+            <ul>
+                <li><strong>name</strong>: Person's full name (e.g. "name=John Doe").</li>
+                <li><strong>race</strong>: Person's race (e.g. "race=European-American/White").</li>
+                <li><strong>sex</strong>: Person's physical sex (e.g. "sex=male").</li>
+                <li><strong>cause</strong>: Cause of person's death (e.g. "cause=gunshot").</li>
+                <li><strong>state</strong>: Two letter abbreviation for American state (e.g. "state=ca").</li>
+            </ul>
 
-        <pre>{ "body" : [&lt;record object&gt;, ...], "count" : &lt;total number of results&gt; }</pre>
+            <h3><small>Examples</small></h3>
 
-        <h3><small>Query Params</small></h3>
+            <ul>
+                {{#url.attr}}
+                <li><a href="{{.}}" target="_blank">{{.}}</a></li>
+                {{/url.attr}}
+            </ul>
 
-        <ul>
-            <li><strong>name</strong>: Person's full name (e.g. "name=John Doe").</li>
-            <li><strong>race</strong>: Person's race (e.g. "race=European-American/White").</li>
-            <li><strong>sex</strong>: Person's physical sex (e.g. "sex=male").</li>
-            <li><strong>cause</strong>: Cause of person's death (e.g. "cause=gunshot").</li>
-            <li><strong>state</strong>: Two letter abbreviation for American state (e.g. "state=ca").</li>
-        </ul>
+            <h2>Pagination</h2>
 
-        <h3><small>Examples</small></h3>
+            <h3><small>Query Params</small></h3>
 
-        <ul>
-            {{#url.attr}}
-            <li><a href="{{.}}" target="_blank">{{.}}</a></li>
-            {{/url.attr}}
-        </ul>
+            <ul>
+                <li><strong>limit</strong>: How many entries to show (e.g. "limit=10"). Set limit to <em>false</em> to return all matching entries.</li>
+                <li><strong>page</strong>: Which page of entries to show (e.g. if limit is 10, then page 2 returns recoreds 11-20). Does nothing if limit is set to <em>false</em>.</li>
+            </ul>
 
-        <h2>Pagination</h2>
+            <h3><small>Examples</small></h3>
 
-        <h3><small>Query Params</small></h3>
+            <ul>
+                {{#url.pagination}}
+                <li><a href="{{.}}" target="_blank">{{.}}</a></li>
+                {{/url.pagination}}
+            </ul>
 
-        <ul>
-            <li><strong>limit</strong>: How many entries to show (e.g. "limit=10"). Set limit to <em>false</em> to return all matching entries.</li>
-            <li><strong>page</strong>: Which page of entries to show (e.g. if limit is 10, then page 2 returns recoreds 11-20). Does nothing if limit is set to <em>false</em>.</li>
-        </ul>
+            <h2>Meta Data</h2>
 
-        <h3><small>Examples</small></h3>
+            <h3>Possible Values</h3>
 
-        <ul>
-            {{#url.pagination}}
-            <li><a href="{{.}}" target="_blank">{{.}}</a></li>
-            {{/url.pagination}}
-        </ul>
+            <p>List of distinct values for attributes within the data set.</p>
 
-        <h2>Meta Data</h2>
+            <h3><small>Data Structure</small></h3>
 
-        <h3>Possible Values</h3>
+            <pre>['item1', 'item2', 'item3', ...]</pre>
 
-        <p>List of distinct values for attributes within the data set.</p>
+            <h3><small>Examples</small></h3>
 
-        <h3><small>Data Structure</small></h3>
+            <ul>
+                {{#url.distinct}}
+                <li><a href="{{.}}" target="_blank">{{.}}</a></li>
+                {{/url.distinct}}
+            </ul>
 
-        <pre>['item1', 'item2', 'item3', ...]</pre>
+            <h3>Possible Values with Count</h3>
 
-        <h3><small>Examples</small></h3>
+            <p>List of distinct values and how many of them occur for attributes within the data set.</p>
 
-        <ul>
-            {{#url.distinct}}
-            <li><a href="{{.}}" target="_blank">{{.}}</a></li>
-            {{/url.distinct}}
-        </ul>
+            <h3><small>Data Structure</small></h3>
 
-        <h3>Possible Values with Count</h3>
+            <ul>
+                <li><strong>_id</strong>: Name of the attribute.</li>
+                <li><strong>count</strong>: Total number of occurances of this attribute.</li>
+            </ul>
 
-        <p>List of distinct values and how many of them occur for attributes within the data set.</p>
+            <pre>[{ "_id" : "female", "value" : 236 }, { "_id" : "male", "value" : 2779 }, ...]</pre>
 
-        <h3><small>Data Structure</small></h3>
+            <p>To get the count, just add <strong>count=true</strong> to the end of the url.</p>
 
-        <ul>
-            <li><strong>_id</strong>: Name of the attribute.</li>
-            <li><strong>count</strong>: Total number of occurances of this attribute.</li>
-        </ul>
+            <h3><small>Examples</small></h3>
 
-        <pre>[{ "_id" : "female", "value" : 236 }, { "_id" : "male", "value" : 2779 }, ...]</pre>
-
-        <p>To get the count, just add <strong>count=true</strong> to the end of the url.</p>
-
-        <h3><small>Examples</small></h3>
-
-        <ul>
-            {{#url.distinctCount}}
-            <li><a href="{{.}}" target="_blank">{{.}}</a></li>
-            {{/url.distinctCount}}
-        </ul>
+            <ul>
+                {{#url.distinctCount}}
+                <li><a href="{{.}}" target="_blank">{{.}}</a></li>
+                {{/url.distinctCount}}
+            </ul>
+        </div>
     </div>
 </div>

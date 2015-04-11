@@ -39,19 +39,30 @@ module.exports = function(d, cb) {
 
         log('trace', 'buildOptions', attributes);
 
+        var optionDefault = 'All '
+
+        if(name === 'sex'){
+
+            optionDefault = optionDefault + 'sexes'
+
+        } else if(name === 'race'){
+
+            optionDefault = optionDefault + 'races'
+
+        } else if(name === 'cause'){
+
+            optionDefault = optionDefault + 'causes'
+        }
+
         options.push({
             value: null,
             selected: false,
-            text: '-' + name + '-'
+            text: optionDefault
         })
 
         _.each(attributes, function(value, i){
 
             if(value) {
-
-                log('trace', 'buildOptions filters', d.filters);
-                log('trace', 'buildOptions is selected?', d.filters[name]);
-
                 options.push({
                     value: value.trim(),
                     selected: d.filters[name] == value.trim() ? 'selected' : false,
@@ -64,8 +75,6 @@ module.exports = function(d, cb) {
     }
 
     function fetchAllComplete(race, sex, cause){
-
-        log('trace', 'filters', d.filters);
 
         log('trace', 'race options', race.values);
         log('trace', 'sex options', sex.values);
