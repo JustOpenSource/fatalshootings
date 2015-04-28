@@ -39,7 +39,6 @@ router.route('/')
         js: ['main/list'],
         css: ['list']
     });
-
 })
 
 .post(function(req, res){

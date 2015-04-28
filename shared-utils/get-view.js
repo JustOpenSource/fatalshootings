@@ -22,6 +22,8 @@ function getView (template, data, cb) {
 
 		html = fs.readFileSync(templateFile).toString();
 
+		//foo
+
 		log('trace', 'retrieved ' + template + ' view template');
 	
 	} catch (err) {
