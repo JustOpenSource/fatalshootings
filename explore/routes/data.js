@@ -1,5 +1,5 @@
 var c = require(__base + '../shared-config/constants'),
-    log = c.getLog('explore/routes/data'),
+    log = c.getLog('admin/routes/data'),
 
     q = require('q'),
 

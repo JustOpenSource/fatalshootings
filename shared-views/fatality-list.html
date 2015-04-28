@@ -28,7 +28,7 @@
 
                     <span class="list-item-value list-item-small">{{value.death.event.date}}</span>
                     
-                    {{#isAdmin}}
+                    {{#admin}}
                     <span class="list-item-controls">
                         <a href="{{{../link_base}}}{{id}}" class="pull-right delete-link">
                             <span class="btn btn-danger">
@@ -36,7 +36,7 @@
                             </span>
                         </a>
                     </span>
-                    {{/isAdmin}}
+                    {{/admin}}
                 </li>
             {{/results}}
             </ul>

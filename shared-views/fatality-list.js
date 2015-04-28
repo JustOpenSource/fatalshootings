@@ -15,6 +15,8 @@ module.exports = function(d, cb) {
     var collection = d._db.fatalities,
         filter = filterUtils.validateFilters(d.filters);
 
+    filter.pending = d.pending ? true : false;
+
     function getQueryFilterOptions() {
 
         log('trace', 'attempt to get query filter options');
@@ -80,6 +82,8 @@ module.exports = function(d, cb) {
 
             results: data.body,
             count: data.count,
+            admin: d.admin,
+            pending: d.pending,
             
             filters: data.filterView.html,
 

@@ -53,6 +53,10 @@ function queryFilter(filter) {
         queryFilters['value.location.state'] = filter.state;
     }
 
+    if(filter.pending) {
+        queryFilters['pending'] = 'true';
+    }
+
     /*
      AGE MUST BE CONVERTED TO INT
      if(filter.age) {
@@ -115,7 +119,8 @@ function validateFilters(d){
         'date_to' : d.date_to,
         'page' : d.page,
         'limit' : d.limit,
-        'skip' : d.skip
+        'skip' : d.skip,
+        'pending' : d.pending || false
     }
 }
 
@@ -152,6 +157,10 @@ function buildFilterURL(rootURL, filter, exclude){
 
     if(!isNaN(filter.page) && exclude.page !== false) {
         params += '&page=' + filter.page;
+    }
+
+    if(filter.pending && exclude.pending !== false){
+        params += '&pending=' + filter.pending;
     }
 
     if(params){
