@@ -1,14 +1,14 @@
-<form id="reportADeathForm">
+<form id="reportADeathForm" method="POST" action="/report">
 	<fieldset>
 	    <legend>About You</legend>
 		<div class="input-group">
 		  <span class="input-group-addon">optional</span>
-		  <input type="text" class="form-control" placeholder="Your Name" id="reporter_name">
+		  <input type="text" class="form-control" placeholder="Your Name" name="reporter_name">
 		</div>
 
 		<div class="input-group">
 		  <span class="input-group-addon"\>optional</span>
-		  <input type="text" class="form-control" placeholder="Your Email" id="reporter_email">
+		  <input type="text" class="form-control" placeholder="Your Email" name="reporter_email">
 		</div>
 	</fieldset>
 	
@@ -17,10 +17,10 @@
 
 	    <div class="form-group">
 			<label>Name</label>
-			<input type="text" class="form-control" placeholder="First Name" id="deceased_firstName">
-			<input type="text" class="form-control" placeholder="Middle Name" id="deceased_middleName">
-			<input type="text" class="form-control" placeholder="Last Name" id="deceased_lastName">
-			<select class="form-control" id="deceased_suffix">
+			<input type="text" class="form-control" placeholder="First Name" name="deceased_firstName">
+			<input type="text" class="form-control" placeholder="Middle Name" name="deceased_middleName">
+			<input type="text" class="form-control" placeholder="Last Name" name="deceased_lastName">
+			<select class="form-control" name="deceased_suffix">
 				<option>Suffix</option>
 			    <option>Sr</option>
 			    <option>Jr</option>
@@ -32,7 +32,7 @@
 
 		<div class="form-group">
 			
-			<select class="form-control" id="deceased_age">
+			<select class="form-control" name="deceased_age">
 				<option>Age</option>
 			    <option>2</option>
 			    <option>3</option>
@@ -88,7 +88,7 @@
 
 		<div class="form-group">
 			
-			<select class="form-control" id="deceased_sex">
+			<select class="form-control" name="deceased_sex">
 				<option>Sex</option>
 			    <option>Male</option>
 			    <option>Female</option>
@@ -98,7 +98,7 @@
 
 		<div class="form-group">
 			
-			<select class="form-control" id="deceased_race">
+			<select class="form-control" name="deceased_race">
 				<option>Race</option>
 				<option>Caucasian (European)</option>
     			<option>Caucasian (Indian)</option>
@@ -136,12 +136,12 @@
 		</div>
 
 		<div class="form-group">
-		  <input type="text" class="form-control" placeholder="Other Race" id="deceased_raceOther">
+		  <input type="text" class="form-control" placeholder="Other Race" name="deceased_raceOther">
 		</div>
 
 		<div class="form-group">
 			
-			<select class="form-control" id="deceased_mentalIllness">
+			<select class="form-control" name="deceased_mentalIllness">
 				<option>Mental Illness</option>
 			    <option>Schizophrenia</option>
 			    <option>Manic Depression</option>
@@ -158,28 +158,28 @@
 
 	    <div class="form-group">
 	    	<label>Date of Death</label>
-			<input type="date" class="form-control" placeholder="Date of Death" id="circumstances_date">
+			<input type="date" class="form-control" placeholder="Date of Death" name="circumstances_date">
 		</div>
 
 		<div class="form-group">
 	    	<label>Where It Happened</label>
-			<input type="text" class="form-control" placeholder="Address 1" id="circumstances_addr1">
-			<input type="text" class="form-control" placeholder="Address 2" id="circumstances_addr2">
+			<input type="text" class="form-control" placeholder="Address 1" name="circumstances_addr1">
+			<input type="text" class="form-control" placeholder="Address 2" name="circumstances_addr2">
 
-			<select class="form-control" id="circumstances_country">
+			<select class="form-control" name="circumstances_country">
 				<option>Country</option>
 			    <option>United States</option>
 			    <option>Mexico</option>
 			</select>
 
-			<input type="text" class="form-control" placeholder="City" id="circumstances_city">
-			<input type="text" class="form-control" placeholder="State" id="circumstances_state">
-			<input type="text" class="form-control" placeholder="Postal Code" id="circumstances_zip">
+			<input type="text" class="form-control" placeholder="City" name="circumstances_city">
+			<input type="text" class="form-control" placeholder="State" name="circumstances_state">
+			<input type="text" class="form-control" placeholder="Postal Code" name="circumstances_zip">
 		</div>
 		
 		<div class="form-group">
 			<label>How It Happened</label>
-			<select class="form-control" id="circumstances_cause">
+			<select class="form-control" name="circumstances_cause">
 				<option>Cause of Death</option>
 			    <option>Gunshot</option>
 			    <option>Assault</option>
@@ -190,13 +190,13 @@
 		</div>
 
 		<div class="form-group">
-		  <input type="text" class="form-control" placeholder="Other Cause" id="circumstances_causeOther">
+		  <input type="text" class="form-control" placeholder="Other Cause" name="circumstances_causeOther">
 		</div>
 
 		<div class="form-group">
 			<label>Why It Happened</label>
 
-			<select class="form-control" id="circumstances_disposition">
+			<select class="form-control" name="circumstances_disposition">
 				<option>Disposition</option>
 			    <option>Justified</option>
 			    <option>Homocide</option>
@@ -205,7 +205,7 @@
 		</div>
 
 		<div class="form-group">
-		  <input type="text" class="form-control" placeholder="Disposition Details" id="circumstances_dispositionOther">
+		  <input type="text" class="form-control" placeholder="Disposition Details" name="circumstances_dispositionOther">
 		</div>
 	</fieldset>
 
@@ -214,10 +214,10 @@
 
 		<div class="form-group">
 			<label>Name</label>
-			<input type="text" class="form-control" placeholder="First Name" id="officer_firstName">
-			<input type="text" class="form-control" placeholder="Middle Name" id="officer_middleName">
-			<input type="text" class="form-control" placeholder="Last Name" id="officer_lastName">
-			<select class="form-control" id="deceased_suffix">
+			<input type="text" class="form-control" placeholder="First Name" name="officer_firstName">
+			<input type="text" class="form-control" placeholder="Middle Name" name="officer_middleName">
+			<input type="text" class="form-control" placeholder="Last Name" name="officer_lastName">
+			<select class="form-control" name="deceased_suffix">
 				<option>Suffix</option>
 			    <option>Sr</option>
 			    <option>Jr</option>
@@ -229,7 +229,7 @@
 
 		<div class="form-group">
 			<label>Agency</label>
-			<input type="text" class="form-control" placeholder="Agency (e.g. Seattle Police Department)" id="officer_agency">
+			<input type="text" class="form-control" placeholder="Agency (e.g. Seattle Police Department)" name="officer_agency">
 		</div>
 	</fieldset>
 
@@ -238,7 +238,9 @@
 
 		<div class="form-group">
 			<label>News Story</label>
-			<input type="text" class="form-control" placeholder="URL" id="source_url">
+			<input type="text" class="form-control" placeholder="URL" name="source_url">
 		</div>
 	</fieldset>
+
+	<input type="submit" value="Send">
 </form>

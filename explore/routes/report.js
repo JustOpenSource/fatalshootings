@@ -7,6 +7,10 @@ var c = require(__base + '../shared-config/constants'),
     renderView = require(__base + '../shared-utils/render-view');
 
 
+function cleanPost(report){
+    return report;
+}
+
 // url/list/
 router.route('/')
 .get(function(req, res){
@@ -20,12 +24,18 @@ router.route('/')
         title: page_title,
         css: ['reportADeathForm']
     });
-
 })
 
 .post(function(req, res){
 
-    log('trace', 'post date', req.body);
+    log('trace', 'post data', req.body);
+
+    var report = cleanPost(req.body);
+
+    req._db.fatalities.insert(req.body, function(err, body){
+
+        log('trace', 'new entry added');
+    });
 });
 
 module.exports = router;
