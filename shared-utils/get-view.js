@@ -8,11 +8,29 @@ var __base = __base || '../',
     PATH_TO_TEMPLATES = __dirname + '/../shared-views/',
     TEMPLATE_EXT = '.html';
 
-function getView (template, data, cb) {
+function getView (lang, template, data, cb) {
 
 	var viewPath = PATH_TO_TEMPLATES + template,
 		templateFile = viewPath + TEMPLATE_EXT,
 		html;
+
+	lang = lang || 'en';
+
+	try {
+
+		log('trace', 'get lang: ' + template);
+
+		data._str = require(__base + 'lang/' + template + '/' + lang);
+
+	} catch (err) {
+
+		log('error', 'could not get lang: ' + template);
+	
+		data._str = {};
+	
+	}
+
+	data._str._lang = lang;
 
 	try {
 
@@ -40,7 +58,7 @@ function getView (template, data, cb) {
 
 			log('trace', 'attempt to retrieve async view model ' + template);
 
-	    	require(viewPath)(data, function(err, data){
+	    	require(viewPath)(data, function(err, d){
 
 	    		if(err){
 
@@ -51,9 +69,11 @@ function getView (template, data, cb) {
 
 	    		log('trace', 'retrieved async view model, calling cb() and passing in view object ' + template);
 
+	    		d._str = data._str;
+
 	    		cb(err, {
-					html: mustache.render(html, data),
-					data: data,
+					html: mustache.render(html, d),
+					data: d,
 					template: html
 				});
 
