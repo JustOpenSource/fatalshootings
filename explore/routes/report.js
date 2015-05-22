@@ -32,6 +32,8 @@ router.route('/')
 
     var report = cleanPost(req.body);
 
+    report.pending = true;
+
     req._db.fatalities.insert(req.body, function(err, body){
 
         log('trace', 'new entry added');
