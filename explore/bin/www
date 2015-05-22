@@ -22,10 +22,13 @@ MongoClient.connect(url, function(err, db) {
                 fatalities : db.collection(c.collection.fatalities)
             };
 
+            req.lang = req.query.lang || 'en';
+
             next();
         });
 
         //routes
+        app.use('/', require('../routes/home'));
         app.use('/list/', require('../routes/list'));
         app.use('/contact/', require('../routes/contact'));
         app.use('/data/', require('../routes/data'));

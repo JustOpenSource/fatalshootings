@@ -1,5 +1,5 @@
 var c = require(__base + '../shared-config/constants'),
-    log = c.getLog('explore/routes/data'),
+    log = c.getLog('explore/routes/home'),
 
     q = require('q'),
 
@@ -15,30 +15,20 @@ express = require('express'),
 
 
 
-// url/data/api
+// url/list/
 router.route('/')
-    .get(function(req, res){
+.get(function(req, res){
 
-        log('trace', '/data/v1/api query', req.query);
+    var page_title = 'Fatal Encounters';
 
-        var data = {};
+    renderView(req, res, 'home', {
+       //view data
+    }, {
 
-        data.filter = filterUtils.validateFilters(req.query);
-
-        data.collection = req._db.fatalities;
-
-        getCount(data)
-            .then(getResults)
-            .then(function(body){
-
-                log('trace', '/data/api/v1 response');
-                res.json(body);
-            })
-            .fail(function(err){
-
-                log('error', 'could not get results', err);
-                //error response
-            });
+        title: page_title,
+        js: ['main/home'],
+        css: ['home']
     });
+})
 
 module.exports = router;

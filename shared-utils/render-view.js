@@ -8,6 +8,8 @@ function renderView (req, res, component, data, locals) {
 
 	data._db = req._db;
 
+	data._str = require(__base + 'lang/' + component + '/' + req.lang);
+
 	getView(component, data, function(err, view){
 
 		if(err){
