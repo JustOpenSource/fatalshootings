@@ -28,7 +28,10 @@ module.exports = function(d, cb) {
             filters: filter
         }
 
-        getView('fatality-list-filter', listFilterData, function(err, data){
+        console.log('$$$$$$$$$$$$$$$$');
+        console.log(d._str._lang);
+
+        getView(d._str._lang, 'fatality-list-filter', listFilterData, function(err, data) {
 
             if(err){
 
@@ -79,7 +82,6 @@ module.exports = function(d, cb) {
         log('trace', 'return results');
 
         cb(null, {
-
             results: data.body,
             count: data.count,
             admin: d.admin,
@@ -87,7 +89,7 @@ module.exports = function(d, cb) {
             
             filters: data.filterView.html,
 
-            pagination: getView('components/pagination', {
+            pagination: getView(d._str._lang, 'components/pagination', {
                 count: data.count,
                 current: filter.page,
                 limit: filter.limit,
