@@ -410,7 +410,9 @@ Templates - [mustache](https://github.com/janl/mustache.js)
 
 Logging - [winston](https://github.com/winstonjs/winston)
 
-Promises = [q](https://github.com/kriskowal/q)
+Promises - [q](https://github.com/kriskowal/q)
+
+Language File Names - [IETF](http://en.wikipedia.org/wiki/IETF_language_tag)
 
 ##Features
 
