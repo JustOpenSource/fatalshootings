@@ -34,14 +34,19 @@ MongoClient.connect(URL, function(err, db) {
 
 	collection.find({}).toArray(function(err, body){
 		
+        console.log(sampleData.rows.length);
+        
 		if(!body.length){
 
-			collection.insert(sampleData.rows, function(err, body){
+            var batches = Math.ceil(sampleData.rows.length / 1000);
+            for (var i = 0; i < batches; i++) {
+        
+                collection.insert(sampleData.rows.slice(i*1000, (i*1000)+1000), function(err, body){
+                    if (err) return console.log(err);
+                    log('trace', 'mongodb imported ' + ((body && body.length) || 0) + ' documents into the ' + messageLocation);
 
-				log('trace', 'mongodb imported ' + body.length + ' documents into the ' + messageLocation);
-
-				db.close();
-			});
+                });
+            }
 
 			return;
 		}

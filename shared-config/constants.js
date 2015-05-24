@@ -12,11 +12,13 @@ var c = {
     },
 
     db: {
-        fatalities: 'test-fatalities'
+        fatalities : 'test-fatalities'
     },
     
-    collection: {        
-        fatalities: 'test-fatalities'
+    collection: {
+        'import'     : 'import',
+        'pending'    : 'pending',
+        'fatalities' : 'test-fatalities'
     },
     
     url: {}

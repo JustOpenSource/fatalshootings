@@ -42,7 +42,7 @@ function queryFilter(filter) {
 
     if(filter.race){
         //TODO: Get rid of space in front of race
-        queryFilters['value.subject.race'] = ' ' + filter.race;
+        queryFilters['value.subject.race'] = filter.race;
     }
 
     if(filter.sex) {

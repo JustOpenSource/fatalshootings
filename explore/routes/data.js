@@ -118,6 +118,44 @@ router.route('/api/v1/')
         });
 });
 
+// url/data/api
+router.route('/api/v1/raw')
+.get(function(req, res){
+
+    log('trace', '/data/v1/api query', req.query);
+
+    var collection = req._db.fatalities;
+
+    collection.find({}).toArray(function(err, body) {
+        
+        var result = 'Name, Age, Sex, Race, State';
+        
+        body.forEach(function(fatality) {
+            var val = fatality.value;
+        
+            result += '\n';
+            result += [
+                 (val.subject.name || '').replace(/,/g, '')
+                ,val.subject.age
+                ,val.subject.sex
+                ,val.subject.race
+                ,val.location.state
+                ,val.death.event.date
+            ].join(', ');
+        
+        });
+        
+        if (!err) {
+            log('trace', '/data/api/v1 response');
+            res.end(result);
+        } else {
+            log('error', 'could not get results', err);
+            res.end(err);
+        }    
+    });
+    
+});
+
 router.route('/api/v1/distinct/:attr')
 .get(function(req, res){
 

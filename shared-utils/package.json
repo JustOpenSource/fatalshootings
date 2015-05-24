@@ -3,7 +3,10 @@
   "version": "0.0.0",
   "private": true,
   "dependencies": {
-    "mongodb" : "*",
-    "mustache" : "*"
+    "mongodb": "*",
+    "mustache": "*"
+  },
+  "devDependencies": {
+    "json-schema-faker": "^0.1.9"
   }
 }

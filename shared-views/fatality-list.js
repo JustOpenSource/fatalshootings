@@ -1,14 +1,14 @@
-var __base = __base || '../',
-    c = require(__base + 'shared-config/constants'),
-    log = c.getLog('shared-views/fatality-list'),
-    httpGet = require(__base + 'shared-utils/http-get'),
+var __base = __base || '../';
+var c = require(__base + 'shared-config/constants');
+var log = c.getLog('shared-views/fatality-list');
+var q = require('q');
 
+var httpGet = q.nfbind(require(__base + 'shared-utils/http-get'));
     //node require
-    q = require('q'),
 
     //app require
-    getView = require(__base + 'shared-utils/get-view'),
-    filterUtils = require(__base + 'shared-utils/query-filters');
+var getView = require(__base + 'shared-utils/get-view');
+var filterUtils = require(__base + 'shared-utils/query-filters');
 
 module.exports = function(d, cb) {
 
@@ -54,27 +54,19 @@ module.exports = function(d, cb) {
 
         log('trace', 'attempt to get results');
 
-        var deferred = q.defer();
-
-        httpGet(filterUtils.buildFilterURL(c.url.data, filter), function(err, body){
-
-            if(err){
-
-                log('error', 'get results', err);
-                return;
-            }
+        return httpGet(filterUtils.buildFilterURL(c.url.data, filter)).then(function(body){
 
             log('trace', 'got results');
 
-            deferred.resolve({
-
+            return {
                 body: body.body,
                 count: body.count,
                 filterView: data.filterView
-            });
+            };
+        }).catch(function(err) {
+            log('error', 'get results', err);
         })
 
-        return deferred.promise;
     }
 
     function returnData(data) {

@@ -3,7 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www"
+    "start": "node ./bin/www",
+    "test": "node spec/support/jasmine.js"
   },
   "dependencies": {
     "body-parser": "^1.8.4",
@@ -13,15 +14,17 @@
     "jsonschema": "^1.0.0",
     "less-middleware": "1.0.x",
     "morgan": "^1.3.2",
-    "q": "^1.0.1",
+    "q": "*",
     "serve-favicon": "^2.1.7",
     "underscore": "1.7.x",
     "hogan-express": "*",
     "mustache": "*",
-    "coffee-script" : "*",
-    "mongodb" : "*",
-    "monk" : "*",
-    "winston" : "*",
-    "q" : "*"
+    "coffee-script": "*",
+    "mongodb": "*",
+    "monk": "*",
+    "winston": "*"
+  },
+  "devDependencies": {
+    "jasmine": "^2.3.1"
   }
 }
