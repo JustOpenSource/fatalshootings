@@ -14,6 +14,8 @@ var c = require(__base + '../shared-config/constants'),
 router.route('/')
 .get(function(req, res){
 
+    log('trace', 'list filter query', req.query);
+
     var page_title = 'Fatalaties List';
 
     renderView(req, res, 'fatality-list', {
