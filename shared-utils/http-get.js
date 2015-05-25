@@ -6,7 +6,7 @@ var __base = __base || '../',
 
 function get(o, cb){
 
-    log('trace', 'http-get request response');
+    log('trace', 'http-get request', o);
 
     var req = http.request(o, function(res) {
 
@@ -25,6 +25,8 @@ function get(o, cb){
 
         res.on('end', function() {
 
+            log('trace', 'http-get response end');
+
             if(status !== 200){
 
                 cb(status);
@@ -34,6 +36,11 @@ function get(o, cb){
                 cb(null, JSON.parse(output));
             }
         });
+    });
+
+    req.on('error', function(e) {
+        log('error', 'http-get request', e.message);
+        cb(e);
     });
 
     req.end();
