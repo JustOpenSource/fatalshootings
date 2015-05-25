@@ -152,7 +152,9 @@ function _singleImport(db, record, cb) {
             log('trace', 'single import complete')
         }
 
-        function insertIntoPending(record) {
+        function insertIntoPending(response) {
+
+            var record = response.ops[0];
             var mappedRecord = generateMappedRecord(record);
 
             // Insert into pending, replacing existing on GUID match
