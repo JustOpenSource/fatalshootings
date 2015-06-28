@@ -8,7 +8,8 @@
         "age" : {
             "type": "integer",
             "minimum" : 0,
-            "maximum" : 150
+            "maximum" : 150,
+            "required": true
         },
 
         "sex": {
