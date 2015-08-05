@@ -19,16 +19,19 @@ module.exports = function(d, cb) {
 
         httpGet(c.url.distinct + attribute, function(err, body){
 
-            if(err){
+            if(err) {
 
-                log('error', 'distinct sex error', err);
+                log('error', 'distinct ' + attribute + ' error', err);
                 deferred.reject(err);
-            }
 
-            deferred.resolve({
-                'values' : body
-            });
-        })
+            } else {
+
+                deferred.resolve({
+                    'values': body
+                });
+
+            }
+        });
 
         return deferred.promise;
     }
@@ -39,7 +42,7 @@ module.exports = function(d, cb) {
 
         log('trace', 'buildOptions', attributes);
 
-        var optionDefault = 'All '
+        var optionDefault = 'All ';
 
         if(name === 'sex'){
 
@@ -58,7 +61,7 @@ module.exports = function(d, cb) {
             value: null,
             selected: false,
             text: optionDefault
-        })
+        });
 
         _.each(attributes, function(value, i){
 
@@ -69,6 +72,7 @@ module.exports = function(d, cb) {
                     text: value
                 })
             }
+
         });
 
         return options;
@@ -100,5 +104,5 @@ module.exports = function(d, cb) {
         cb(null, filterModel);
     }
 
-    q.all([getDistinct('race'), getDistinct('sex'), getDistinct('cause')]).spread(fetchAllComplete);
+    q.all([getDistinct('race'), getDistinct('sex'), getDistinct('cause')]).spread(fetchAllComplete).catch(cb);
 };

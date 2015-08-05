@@ -22,7 +22,7 @@ function renderView (req, res, component, data, locals) {
 
 	getView(req.lang, component, data, function(err, view) {
 
-		if(err){
+		if(err) {
 
 			log('error', 'could not get view', err);
 
@@ -30,15 +30,15 @@ function renderView (req, res, component, data, locals) {
         		'view' : "error"
     		});
 		
+		} else {
+
+			log('trace', 'got view, calling res.render()');
+
+			res.render('view', {
+				'view': view.html,
+				'locals': locals
+			});
 		}
-
-
-		log('trace', 'got view, calling res.render()');
-		
-		res.render('view', {
-        	'view' : view.html,
-        	'locals' : locals
-    	});
 	});
 }
 
