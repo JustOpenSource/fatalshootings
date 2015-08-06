@@ -28,9 +28,6 @@ module.exports = function(d, cb) {
             filters: filter
         }
 
-        console.log('$$$$$$$$$$$$$$$$');
-        console.log(d._str._lang);
-
         getView(d._str._lang, 'fatality-list-filter', listFilterData, function(err, data) {
 
             if(err){

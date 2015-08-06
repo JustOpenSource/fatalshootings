@@ -28,6 +28,7 @@ c.url.mongo = 'mongodb://localhost:' + c.port.mongodb + '/';
 c.url.data = urlRoot + 'data/api/v1';
 c.url.list = urlRoot + 'list';
 c.url.distinct = c.url.data + '/distinct/';
+c.url.details = c.url.data + '/details/';
 
 //MOVE INTO LOGGER FILE
 var FILE_SEP = '.',
