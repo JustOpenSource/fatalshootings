@@ -40,8 +40,8 @@ function getModel(d){
 	        firstSet: false,
 	        firstSep: false,
             middleSet: false,
-            LastSep: false,
             lastSet: false,
+            LastSep: false,
 	        total: total,
             url: d.url
 	    };

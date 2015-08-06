@@ -6,8 +6,7 @@
 {{/success}}
 
 {{#missing}}
-<h2>Missing Values</h2>
-<p>You are missing required values. Complete the form to continue.</p>
+<p><i class="fa fa-exclamation"></i> Missing required values.</p>
 {{/missing}}
 
 <form id="reportADeathForm" method="POST" class="{{#success}}hidden{{/success}}"action="/report">
@@ -30,7 +29,11 @@
 
 	    <div class="form-group">
 			<label>Name</label>
-			<input type="text" class="form-control fe-report-required {{missing.deceased_name}}" placeholder="Full Name" name="deceased_name" value="{{values.subject.name}}">
+			<span class="fe-report-required {{missing.deceased_name}}">
+				<input type="text" class="form-control" placeholder="Full Name" name="deceased_name" value="{{values.subject.name}}">
+				<i class="fa fa-exclamation"></i>
+				<i class="fa fa-asterisk"></i>
+			</span>
 		</div>
 
 		<div class="form-group">
@@ -46,13 +49,17 @@
 
 		<div class="form-group">
 			<label>Sex</label>
-			<select class="form-control fe-report-required {{missing.deceased_sex}}" name="deceased_sex">
-				<option value="">Sex</option>
+			<span class="fe-report-required {{missing.deceased_sex}}">
+				<select class="form-control" name="deceased_sex">
+					<option value="">Sex</option>
 
-				{{#values.optionValues.sex}}
-					<option {{#selected}}selected{{/selected}}>{{text}}</option>
-				{{/values.optionValues.sex}}
-			</select>
+					{{#values.optionValues.sex}}
+						<option {{#selected}}selected{{/selected}}>{{text}}</option>
+					{{/values.optionValues.sex}}
+					<i class="fa fa-exclamation"></i>
+					<i class="fa fa-asterisk"></i>
+				</select>
+			</span>
 		</div>
 
 		<div class="form-group">
@@ -111,7 +118,11 @@
 
 	    <div class="form-group">
 	    	<label>Date of Death</label>
-			<input type="date" class="form-control fe-report-required {{missing.circumstances_date}}" name="circumstances_date" value="{{values.death.date}}">
+	    	<span class="fe-report-required {{missing.circumstances_date}}">
+				<input type="date" class="form-control" name="circumstances_date" value="{{values.death.date}}">
+				<i class="fa fa-exclamation"></i>
+				<i class="fa fa-asterisk"></i>
+			<span>
 		</div>
 
 		<div class="form-group">
@@ -119,15 +130,23 @@
 			<input type="text" class="form-control" placeholder="Address 1" name="circumstances_addr1" value="{{values.location.address_1}}">
 			<input type="text" class="form-control" placeholder="Address 2" name="circumstances_addr2" value="{{values.location.address_2}}">
 
-			<select class="form-control fe-report-required {{missing.circumstances_country}}" name="circumstances_country">
-				<option value="">Country</option>
+			<span class="fe-report-required {{missing.circumstances_country}}">
+				<select class="form-control" name="circumstances_country">
+					<option value="">Country</option>
 
-				{{#values.optionValues.countries}}
-					<option {{#selected}}selected{{/selected}}>{{text}}</option>
-				{{/values.optionValues.countries}}
-			</select>
+					{{#values.optionValues.countries}}
+						<option {{#selected}}selected{{/selected}}>{{text}}</option>
+					{{/values.optionValues.countries}}
+				</select>
+				<i class="fa fa-exclamation"></i>
+				<i class="fa fa-asterisk"></i>
+			</span>
 
-			<input type="text" class="form-control fe-report-required {{missing.circumstances_state}}" placeholder="State" name="circumstances_state" value="{{values.location.state}}">
+			<span class="fe-report-required {{missing.circumstances_state}}">
+				<input type="text" class="form-control" placeholder="State" name="circumstances_state" value="{{values.location.state}}">
+				<i class="fa fa-exclamation"></i>
+			</span>
+			
 			<input type="text" class="form-control" placeholder="City" name="circumstances_city" value="{{values.location.city}}">
 			
 			<input type="text" class="form-control" placeholder="Postal Code" name="circumstances_zip" value="{{values.location.zip}}">
@@ -190,9 +209,16 @@
 
 		<div class="form-group">
 			<label>Online Source</label>
-			<input type="text" class="form-control fe-report-required {{missing.source_url}}" placeholder="URL" name="source_url" value="{{values.source}}">
+			<span class="fe-report-required {{missing.source_url}}">
+				<input type="text" class="form-control" placeholder="URL" name="source_url" value="{{values.source}}">
+				<i class="fa fa-exclamation"></i>
+				<i class="fa fa-asterisk"></i>
+			</span>
 		</div>
 	</fieldset>
 
 	<input type="submit" id="submitDeathReport" value="Report">
+	{{#missing}}
+	<span>Fill in missing values.</span>
+	{{/missing}}
 </form>

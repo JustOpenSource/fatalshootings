@@ -1,0 +1,18 @@
+<h1>Details</h1>
+
+{{#sections}}
+<div class="panel panel-default">
+  	<div class="panel-heading">{{sectionTitle}}</div>
+
+  	<span>
+	  	{{#values}}
+	    <span class="row">
+	    	<span class="fe-details-key col-md-2">{{key}}</span>
+	    	<span class="fe-details-value col-md-8">{{value}}</span>
+	    	<span class="fe-details-controls col-md-2">controls</span>
+	  	</span>
+	  	{{/values}}
+	</span> 
+
+</div>
+{{/sections}}

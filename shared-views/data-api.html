@@ -39,6 +39,14 @@
                 {{/url.attr}}
             </ul>
 
+            <h2>Details</h2>
+            <p>Details returns a JSON object of the entire record. </p>
+            <ul>
+                {{#url.details}}
+                <li><a href="{{.}}" target="_blank">{{.}}</a></li>
+                {{/url.details}}
+            </ul>
+
             <h2>Pagination</h2>
 
             <h3><small>Query Params</small></h3>

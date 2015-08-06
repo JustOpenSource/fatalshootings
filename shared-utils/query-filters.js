@@ -8,7 +8,7 @@ var __base = __base || '../',
 function querySelect() {
 
     return {
-
+        "id" : true,
         "value.subject.name" : true,
         "value.subject.age" : true,
         "value.subject.race" : true,
