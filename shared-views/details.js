@@ -6,6 +6,10 @@ var __base = __base || '../',
 
     httpGet = require(__base + 'shared-utils/http-get');
 
+/*
+TODO: Wire up form elements to use select options for appropriate fields
+*/
+
 function getDetails(id, cb) {
 
     log('trace', 'attempt to get details: ' + id);
@@ -50,7 +54,8 @@ function formatDetails(details){
   	var location = [
   		['country', details.value.location.country || 'us'],
   		['city', details.value.location.city],
-  		['state', details.value.location.county],
+  		['state', details.value.location.state],
+  		['county', details.value.location.county],
   		['zip', details.value.location.zip]
   	];
 
