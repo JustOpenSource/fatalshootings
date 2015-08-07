@@ -31,20 +31,20 @@ function formatDetails(details){
   	}
 
   	var subject = [
-  		['name', details.value.subject.name],
+  		['name', details.value.subject.name, 'subject-name'],
   		['age', details.value.subject.age],
   		['sex', details.value.subject.sex],
   		['race', details.value.subject.race],
-  		['mentall illness', details.value.subject.mental_illness]
+  		['mentall illness', details.value.subject.mental_illness, 'mental-illness']
   	];
 
   	var death = [
+  		['date', details.value.death.event.date],
   		['cause', details.value.death.cause],
   		['notes', details.value.location.death],
   		['agency', details.value.death.responsible_agency],
   		['description', details.value.death.description],
-  		['disposition', details.value.death.disposition],
-  		['date', details.value.death.event.date]
+  		['disposition', details.value.death.disposition]
   	];
 
   	var location = [
@@ -78,6 +78,7 @@ module.exports = function(d, cb) {
 		log('trace', 'get details', body);
 
 		cb(null, {
+			'id' : d.id,
 			'sections' : formatDetails(body)
 		});
 	});
