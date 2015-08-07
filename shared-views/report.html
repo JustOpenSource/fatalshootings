@@ -1,224 +1,229 @@
-<h1>Report a Death</h1>
-{{#success}}
-<h2>Success</h2>
-<p>Thank you for reporting this fatal encounter.  We will review the submission for accuracy, then publish it to the list.</p>
-<p><a href="/report">Report another death</a></p>
-{{/success}}
 
-{{#missing}}
-<p><i class="fa fa-exclamation"></i> Missing required values.</p>
-{{/missing}}
+<div class="page-content">
+    <div class="container">
+		<h1>Report a Death</h1>
+		{{#success}}
+		<h2>Success</h2>
+		<p>Thank you for reporting this fatal encounter.  We will review the submission for accuracy, then publish it to the list.</p>
+		<p><a href="/report">Report another death</a></p>
+		{{/success}}
 
-<form id="reportADeathForm" method="POST" class="{{#success}}hidden{{/success}}"action="/report">
+		{{#missing}}
+		<p><i class="fa fa-exclamation"></i> Missing required values.</p>
+		{{/missing}}
 
-	<fieldset>
-	    <legend>About You</legend>
-		<div class="input-group">
-		  <span class="input-group-addon">optional</span>
-		  <input type="text" class="form-control" placeholder="Your Name" name="reporter_name" value="{{values.submitted_by_name}}">
-		</div>
+		<form id="reportADeathForm" method="POST" class="{{#success}}hidden{{/success}}"action="/report">
 
-		<div class="input-group">
-		  <span class="input-group-addon"\>optional</span>
-		  <input type="text" class="form-control" placeholder="Your Email" name="reporter_email" value="{{values.submitted_by_email}}">
-		</div>
-	</fieldset>
-	
-	<fieldset>
-	    <legend>Deceased</legend>
+			<fieldset>
+			    <legend>About You</legend>
+				<div class="input-group">
+				  <span class="input-group-addon">optional</span>
+				  <input type="text" class="form-control" placeholder="Your Name" name="reporter_name" value="{{values.submitted_by_name}}">
+				</div>
 
-	    <div class="form-group">
-			<label>Name</label>
-			<span class="fe-report-required {{missing.deceased_name}}">
-				<input type="text" class="form-control" placeholder="Full Name" name="deceased_name" value="{{values.subject.name}}">
-				<i class="fa fa-exclamation"></i>
-				<i class="fa fa-asterisk"></i>
-			</span>
-		</div>
-
-		<div class="form-group">
-			<label>Age</label>
-			<select class="form-control" name="deceased_age">
-				<option value="1000">Age</option>
-
-				{{#values.optionValues.age}}
-					<option {{#selected}}selected{{/selected}}>{{text}}</option>
-				{{/values.optionValues.age}}
-			</select>
-		</div>
-
-		<div class="form-group">
-			<label>Sex</label>
-			<span class="fe-report-required {{missing.deceased_sex}}">
-				<select class="form-control" name="deceased_sex">
-					<option value="">Sex</option>
-
-					{{#values.optionValues.sex}}
-						<option {{#selected}}selected{{/selected}}>{{text}}</option>
-					{{/values.optionValues.sex}}
-					<i class="fa fa-exclamation"></i>
-					<i class="fa fa-asterisk"></i>
-				</select>
-			</span>
-		</div>
-
-		<div class="form-group">
-			<label>Gender</label>
-			<select class="form-control" name="deceased_cis">
-				<option value="cisgendered">Cisgendered</option>
-
-			    {{#values.optionValues.cisgendered}}
-					<option {{#selected}}selected{{/selected}}>{{text}}</option>
-				{{/values.optionValues.cisgendered}}
-			</select>
-		</div>
-
-		<div class="form-group">
-			<label>Orientation</label>
-			<select class="form-control" name="deceased_orientation">
-				<option value="">Orientation</option>
-
-				{{#values.optionValues.orientation}}
-					<option {{#selected}}selected{{/selected}}>{{text}}</option>
-				{{/values.optionValues.orientation}}
-			</select>
-		</div>
-
-		<div class="form-group">
-		<label>Race</label>
-			<select class="form-control" name="deceased_race">
-				<option value="">Race</option>
-				{{#values.optionValues.race}}
-					<option {{#selected}}selected{{/selected}}>{{text}}</option>
-				{{/values.optionValues.race}}
-			</select>
-		</div>
-
-		<div class="form-group">
-		  <input type="text" class="form-control" placeholder="Other Race" name="deceased_race_other" value="{{values.subject.race_other}}">
-		</div>
-
-		<div class="form-group">
-			<label>Mental Illness</label>
-			<select class="form-control" name="deceased_mental_illness">
-				<option value="">Mental Illness</option>
-				{{#values.optionValues.mentalIllness}}
-					<option {{#selected}}selected{{/selected}}>{{text}}</option>
-				{{/values.optionValues.mentalIllness}}
-			</select>
-		</div>
-
-		<div class="form-group">
-		  <input type="text" class="form-control" placeholder="Other Mental Illness" name="deceased_mental_illness_other" value="{{values.subject.mental_illness_other}}">
-		</div>
-	</fieldset>
-
-	<fieldset>
-	    <legend>Circumstances</legend>
-
-	    <div class="form-group">
-	    	<label>Date of Death</label>
-	    	<span class="fe-report-required {{missing.circumstances_date}}">
-				<input type="date" class="form-control" name="circumstances_date" value="{{values.death.date}}">
-				<i class="fa fa-exclamation"></i>
-				<i class="fa fa-asterisk"></i>
-			<span>
-		</div>
-
-		<div class="form-group">
-	    	<label>Where It Happened</label>
-			<input type="text" class="form-control" placeholder="Address 1" name="circumstances_addr1" value="{{values.location.address_1}}">
-			<input type="text" class="form-control" placeholder="Address 2" name="circumstances_addr2" value="{{values.location.address_2}}">
-
-			<span class="fe-report-required {{missing.circumstances_country}}">
-				<select class="form-control" name="circumstances_country">
-					<option value="">Country</option>
-
-					{{#values.optionValues.countries}}
-						<option {{#selected}}selected{{/selected}}>{{text}}</option>
-					{{/values.optionValues.countries}}
-				</select>
-				<i class="fa fa-exclamation"></i>
-				<i class="fa fa-asterisk"></i>
-			</span>
-
-			<span class="fe-report-required {{missing.circumstances_state}}">
-				<input type="text" class="form-control" placeholder="State" name="circumstances_state" value="{{values.location.state}}">
-				<i class="fa fa-exclamation"></i>
-			</span>
+				<div class="input-group">
+				  <span class="input-group-addon"\>optional</span>
+				  <input type="text" class="form-control" placeholder="Your Email" name="reporter_email" value="{{values.submitted_by_email}}">
+				</div>
+			</fieldset>
 			
-			<input type="text" class="form-control" placeholder="City" name="circumstances_city" value="{{values.location.city}}">
-			
-			<input type="text" class="form-control" placeholder="Postal Code" name="circumstances_zip" value="{{values.location.zip}}">
-		</div>
-		
-		<div class="form-group">
-			<label>How It Happened</label>
-			<select class="form-control" name="circumstances_cause">
-				<option value="unknown">Cause of Death</option>
+			<fieldset>
+			    <legend>Deceased</legend>
 
-				{{#values.optionValues.causeOfDeath}}
-					<option {{#selected}}selected{{/selected}}>{{text}}</option>
-				{{/values.optionValues.causeOfDeath}}
-			</select>
-		</div>
+			    <div class="form-group">
+					<label>Name</label>
+					<span class="fe-report-required {{missing.deceased_name}}">
+						<input type="text" class="form-control" placeholder="Full Name" name="deceased_name" value="{{values.subject.name}}">
+						<i class="fa fa-exclamation"></i>
+						<i class="fa fa-asterisk"></i>
+					</span>
+				</div>
 
-		<div class="form-group">
-		  <input type="text" class="form-control" placeholder="Other Cause" name="circumstances_causeOther" value="{{values.death.cause_notes}}">
-		</div>
+				<div class="form-group">
+					<label>Age</label>
+					<select class="form-control" name="deceased_age">
+						<option value="1000">Age</option>
 
-		<div class="form-group">
-			<label>Justification for It Happening</label>
+						{{#values.optionValues.age}}
+							<option {{#selected}}selected{{/selected}}>{{text}}</option>
+						{{/values.optionValues.age}}
+					</select>
+				</div>
 
-			<select class="form-control" name="circumstances_disposition">
-				<option value="">Disposition</option>
+				<div class="form-group">
+					<label>Sex</label>
+					<span class="fe-report-required {{missing.deceased_sex}}">
+						<select class="form-control" name="deceased_sex">
+							<option value="">Sex</option>
 
-				{{#values.optionValues.disposition}}
-					<option {{#selected}}selected{{/selected}}>{{text}}</option>
-				{{/values.optionValues.disposition}}
-			</select>
-		</div>
+							{{#values.optionValues.sex}}
+								<option {{#selected}}selected{{/selected}}>{{text}}</option>
+							{{/values.optionValues.sex}}
+							<i class="fa fa-exclamation"></i>
+							<i class="fa fa-asterisk"></i>
+						</select>
+					</span>
+				</div>
 
-		<div class="form-group">
-		  <input type="text" class="form-control" placeholder="Disposition Details" name="circumstances_dispositionOther" value="{{values.death.disposition_other}}">
-		</div>
+				<div class="form-group">
+					<label>Gender</label>
+					<select class="form-control" name="deceased_cis">
+						<option value="cisgendered">Cisgendered</option>
 
-		<div class="form-group">
-			<label>What Happened?</label>
+					    {{#values.optionValues.cisgendered}}
+							<option {{#selected}}selected{{/selected}}>{{text}}</option>
+						{{/values.optionValues.cisgendered}}
+					</select>
+				</div>
 
-			<textarea type="text" class="form-control" placeholder="Disposition Details" name="circumstances_notes" value="{{values.death.disposition_notes}}">{{values.death.disposition_notes}}</textarea>
-		</div>
-	</fieldset>
+				<div class="form-group">
+					<label>Orientation</label>
+					<select class="form-control" name="deceased_orientation">
+						<option value="">Orientation</option>
 
-	<fieldset>
-	    <legend>Officer</legend>
+						{{#values.optionValues.orientation}}
+							<option {{#selected}}selected{{/selected}}>{{text}}</option>
+						{{/values.optionValues.orientation}}
+					</select>
+				</div>
 
-		<div class="form-group">
-			<label>Name</label>
-			<input type="text" class="form-control" placeholder="Full Name" name="officer_name" value="{{values.officer.name}}">
-		</div>
+				<div class="form-group">
+				<label>Race</label>
+					<select class="form-control" name="deceased_race">
+						<option value="">Race</option>
+						{{#values.optionValues.race}}
+							<option {{#selected}}selected{{/selected}}>{{text}}</option>
+						{{/values.optionValues.race}}
+					</select>
+				</div>
 
-		<div class="form-group">
-			<label>Agency</label>
-			<input type="text" class="form-control" placeholder="Agency (e.g. Seattle Police Department)" name="officer_agency" value="{{values.officer.agency}}">
-		</div>
-	</fieldset>
+				<div class="form-group">
+				  <input type="text" class="form-control" placeholder="Other Race" name="deceased_race_other" value="{{values.subject.race_other}}">
+				</div>
 
-	<fieldset>
-	    <legend>Source</legend>
+				<div class="form-group">
+					<label>Mental Illness</label>
+					<select class="form-control" name="deceased_mental_illness">
+						<option value="">Mental Illness</option>
+						{{#values.optionValues.mentalIllness}}
+							<option {{#selected}}selected{{/selected}}>{{text}}</option>
+						{{/values.optionValues.mentalIllness}}
+					</select>
+				</div>
 
-		<div class="form-group">
-			<label>Online Source</label>
-			<span class="fe-report-required {{missing.source_url}}">
-				<input type="text" class="form-control" placeholder="URL" name="source_url" value="{{values.source}}">
-				<i class="fa fa-exclamation"></i>
-				<i class="fa fa-asterisk"></i>
-			</span>
-		</div>
-	</fieldset>
+				<div class="form-group">
+				  <input type="text" class="form-control" placeholder="Other Mental Illness" name="deceased_mental_illness_other" value="{{values.subject.mental_illness_other}}">
+				</div>
+			</fieldset>
 
-	<input type="submit" id="submitDeathReport" value="Report">
-	{{#missing}}
-	<span>Fill in missing values.</span>
-	{{/missing}}
-</form>
+			<fieldset>
+			    <legend>Circumstances</legend>
+
+			    <div class="form-group">
+			    	<label>Date of Death</label>
+			    	<span class="fe-report-required {{missing.circumstances_date}}">
+						<input type="date" class="form-control" name="circumstances_date" value="{{values.death.date}}">
+						<i class="fa fa-exclamation"></i>
+						<i class="fa fa-asterisk"></i>
+					<span>
+				</div>
+
+				<div class="form-group">
+			    	<label>Where It Happened</label>
+					<input type="text" class="form-control" placeholder="Address 1" name="circumstances_addr1" value="{{values.location.address_1}}">
+					<input type="text" class="form-control" placeholder="Address 2" name="circumstances_addr2" value="{{values.location.address_2}}">
+
+					<span class="fe-report-required {{missing.circumstances_country}}">
+						<select class="form-control" name="circumstances_country">
+							<option value="">Country</option>
+
+							{{#values.optionValues.countries}}
+								<option {{#selected}}selected{{/selected}}>{{text}}</option>
+							{{/values.optionValues.countries}}
+						</select>
+						<i class="fa fa-exclamation"></i>
+						<i class="fa fa-asterisk"></i>
+					</span>
+
+					<span class="fe-report-required {{missing.circumstances_state}}">
+						<input type="text" class="form-control" placeholder="State" name="circumstances_state" value="{{values.location.state}}">
+						<i class="fa fa-exclamation"></i>
+					</span>
+					
+					<input type="text" class="form-control" placeholder="City" name="circumstances_city" value="{{values.location.city}}">
+					
+					<input type="text" class="form-control" placeholder="Postal Code" name="circumstances_zip" value="{{values.location.zip}}">
+				</div>
+				
+				<div class="form-group">
+					<label>How It Happened</label>
+					<select class="form-control" name="circumstances_cause">
+						<option value="unknown">Cause of Death</option>
+
+						{{#values.optionValues.causeOfDeath}}
+							<option {{#selected}}selected{{/selected}}>{{text}}</option>
+						{{/values.optionValues.causeOfDeath}}
+					</select>
+				</div>
+
+				<div class="form-group">
+				  <input type="text" class="form-control" placeholder="Other Cause" name="circumstances_causeOther" value="{{values.death.cause_notes}}">
+				</div>
+
+				<div class="form-group">
+					<label>Justification for It Happening</label>
+
+					<select class="form-control" name="circumstances_disposition">
+						<option value="">Disposition</option>
+
+						{{#values.optionValues.disposition}}
+							<option {{#selected}}selected{{/selected}}>{{text}}</option>
+						{{/values.optionValues.disposition}}
+					</select>
+				</div>
+
+				<div class="form-group">
+				  <input type="text" class="form-control" placeholder="Disposition Details" name="circumstances_dispositionOther" value="{{values.death.disposition_other}}">
+				</div>
+
+				<div class="form-group">
+					<label>What Happened?</label>
+
+					<textarea type="text" class="form-control" placeholder="Disposition Details" name="circumstances_notes" value="{{values.death.disposition_notes}}">{{values.death.disposition_notes}}</textarea>
+				</div>
+			</fieldset>
+
+			<fieldset>
+			    <legend>Officer</legend>
+
+				<div class="form-group">
+					<label>Name</label>
+					<input type="text" class="form-control" placeholder="Full Name" name="officer_name" value="{{values.officer.name}}">
+				</div>
+
+				<div class="form-group">
+					<label>Agency</label>
+					<input type="text" class="form-control" placeholder="Agency (e.g. Seattle Police Department)" name="officer_agency" value="{{values.officer.agency}}">
+				</div>
+			</fieldset>
+
+			<fieldset>
+			    <legend>Source</legend>
+
+				<div class="form-group">
+					<label>Online Source</label>
+					<span class="fe-report-required {{missing.source_url}}">
+						<input type="text" class="form-control" placeholder="URL" name="source_url" value="{{values.source}}">
+						<i class="fa fa-exclamation"></i>
+						<i class="fa fa-asterisk"></i>
+					</span>
+				</div>
+			</fieldset>
+
+			<input type="submit" id="submitDeathReport" value="Report">
+			{{#missing}}
+			<span>Fill in missing values.</span>
+			{{/missing}}
+		</form>
+	</div>
+</div>
