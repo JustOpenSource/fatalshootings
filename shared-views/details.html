@@ -1,18 +1,52 @@
-<h1>Details</h1>
+<h1 class="page-header">Details</h1>
 
-{{#sections}}
-<div class="panel panel-default">
-  	<div class="panel-heading">{{sectionTitle}}</div>
+<form id="saveEdits" action="/details/{{id}}" method="POST" >
+	{{#sections}}
+	<div class="panel panel-default">
+	  	<div class="panel-heading">{{sectionTitle}}</div>
 
-  	<span>
-	  	{{#values}}
-	    <span class="row">
-	    	<span class="fe-details-key col-md-2">{{key}}</span>
-	    	<span class="fe-details-value col-md-8">{{value}}</span>
-	    	<span class="fe-details-controls col-md-2">controls</span>
-	  	</span>
-	  	{{/values}}
-	</span> 
+	  	<span class="fe-details-section">
+		  	{{#values}}
+		    <span class="row">
+		    	<span class="fe-details-col fe-details-key col-xs-12 col-md-1">{{key}}</span>
 
-</div>
-{{/sections}}
+		    	<span class="fe-details-col fe-details-value col-xs-12 col-md-5">{{value}}</span>
+
+		    	<span class="fe-details-col fe-details-controls col-xs-12 col-md-2">
+		    		<input type="text" class="form-control" placeholder="{{key}}" value="{{value}}" name="{{key}}" />
+		    	</span>
+		    	<span class="fe-details-col fe-details-controls col-xs-12 col-md-2">
+		    		<input type="text" class="form-control" placeholder="source" name="{{key}}-source" />
+		    	</span>
+
+		    	<span class="fe-details-col fe-details-controls col-xs-12 col-md-2">
+		    		<input type="text" class="form-control" placeholder="notes" name="{{key}}-notes" />
+		    	</span>
+		  	</span>
+		  	{{/values}}
+			
+		</span> 
+
+	</div>
+	{{/sections}}
+
+	<span class="fe-details-section">
+		<span class="col-xs-12 col-md-6"></span>
+		
+
+		<span class="col-xs-12 col-md-2">
+			<input type="text" class="form-control" placeholder="name (optional)" name="suggest-editor-name" />
+		</span>
+
+		<span class="col-xs-12 col-md-2">
+			<input type="text" class="form-control" placeholder="email (optional)" name="suggest-editor-email" />
+		</span>
+		
+		<span class="col-xs-12 col-md-2">
+			<button class="btn btn-primary fe-details-form-submit" type="submit" form="saveEdits" value="Save">Suggest Edits <i class="fa fa-arrow-right"></i></button>
+		</span>
+	</span>
+
+	
+</form>
+
