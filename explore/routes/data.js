@@ -108,8 +108,11 @@ function getDetails(data, id, cb){
     });
 }
 
-// url/data/api
-router.route('/api/v1/')
+/*
+ROOT API
+
+*/
+router.route('/api/:version/')
 .get(function(req, res){
 
     log('trace', '/data/api/v1 query', req.query);
@@ -135,7 +138,7 @@ router.route('/api/v1/')
 });
 
 // url/data/api
-router.route('/api/v1/details/:record_id')
+router.route('/api/:version/details/:record_id')
 .get(function(req, res){
 
     log('trace', '/data/api/v1/details req.params.record_id', req.params.record_id);
@@ -158,7 +161,7 @@ router.route('/api/v1/details/:record_id')
 
 });
 
-router.route('/api/v1/distinct/:attr')
+router.route('/api/:version/distinct/:attr')
 .get(function(req, res){
 
     var attr = req.params.attr,
@@ -298,6 +301,34 @@ router.route('/')
         css: ['data']
 
     });
+});
+
+// url/data/schema
+router.route('/schema/:version')
+.get(function(req, res){
+
+    log('trace', '/data/schema/v1 version', req.params.version);
+
+    var schema = {
+        'test' : 'foo'
+    }
+
+    res.status(200).json(schema);
+
+    /*
+    getSchema(data)
+        .then(getResults)
+        .then(function(body){
+
+            log('trace', '/data/api/v1 response');
+            res.json(body);
+        })
+        .fail(function(err){
+
+            log('error', 'could not get results', err);
+            res.sendStatus(500);
+        });
+    */
 });
 
 module.exports = router;
