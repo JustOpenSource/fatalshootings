@@ -17,7 +17,6 @@ MongoClient.connect(url, function(err, db) {
         log('trace', 'connected to ' + url);
     
         app.use(function(req, res, next){
-            
             req._db = {
                 fatalities : db.collection(c.collection.fatalities)
             };
@@ -32,7 +31,6 @@ MongoClient.connect(url, function(err, db) {
         app.use('/list/', require('../routes/list'));
         app.use('/contact/', require('../routes/contact'));
         app.use('/data/', require('../routes/data'));
-        app.use('/report/', require('../routes/report'));
         app.use('/details/', require('../routes/details'));
 
         // catch 404 and forward to error handler
@@ -65,7 +63,6 @@ MongoClient.connect(url, function(err, db) {
 		        error: {}
 		    });
 		});
-
 
         var server = app.listen(app.get('port'), function() {
         	log('trace', 'listening to ' + server.address().port);

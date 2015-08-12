@@ -22,6 +22,7 @@
     "mongodb" : "*",
     "monk" : "*",
     "winston" : "*",
-    "q" : "*"
+    "q" : "*",
+    "nodemailer" : "*"
   }
 }
