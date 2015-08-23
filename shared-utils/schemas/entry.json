@@ -3,10 +3,32 @@
     "type": "object",
     "properties": {
 
-        "submitted_by": {
+        "reporter_name": {
             "type": "string"
         },
 
+        "reporter_email": {
+            "type": "string"
+        },
+
+        "reporter_notes": {
+            "type": "string"
+        },
+
+        "published" : {
+            "type" : "boolean"
+        },
+
+        "sources" : {
+            "type" : "array",
+            "items" : { 
+                "anyOf" : [{ 
+                    "type" : "string"
+                }]
+            }
+        },
+
+        //sections
         "death" : {
             "type" : {
                 "$ref" : "/fe/death/v1"
@@ -23,16 +45,6 @@
             "type" : {
                 "$ref" : "/fe/subject/v1"
             }
-        },
-
-        "encounter" : {
-            "type" : {
-                "$ref" : "/fe/encounter/v1"
-            }
-        },
-
-        "published" : {
-            "type" : "boolean"
         }
     }
 }

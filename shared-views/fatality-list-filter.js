@@ -7,8 +7,9 @@ var __base = __base || '../',
     q = require('q'),
     _ = require('underscore');
 
+var POST_URL = 'list'
+
 module.exports = function(d, cb) {
-    log('trace', d.filters);
 
     var filterModel = {
         select: []
@@ -17,7 +18,7 @@ module.exports = function(d, cb) {
     function getDistinct(attribute){
         var deferred = q.defer();
 
-        httpGet(c.url.distinct + attribute, function(err, body){
+        httpGet(d.url_distinct + attribute, function(err, body){
 
             if(err){
 
@@ -96,6 +97,8 @@ module.exports = function(d, cb) {
         });
 
         filterModel.name = d.filters.name || null;
+
+        filterModel.postURL = d.url_current;
 
         cb(null, filterModel);
     }

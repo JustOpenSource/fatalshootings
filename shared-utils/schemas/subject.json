@@ -3,37 +3,81 @@
 
     "type": "object",
 
+    "required" : ["name"],
+
     "properties": {
-
-        "age" : {
-            "type": "integer",
-            "minimum" : 0,
-            "maximum" : 150,
-            "required": true
-        },
-
-        "sex": {
-            "enum": [ "male", "female", "intersex", "unknown" ]
-        },
-
-        "cis" : {
-            "type" : "boolean"
-        },
 
         "name" : {
             "type": "string"
         },
 
-        "race" : {
-            "type": "string"
+        "age" : {
+            "type": "integer",
+            "minimum" : 0,
+            "maximum" : 150
         },
 
-        "image_url" : {
-            "type": "string"
+        "sex": {
+            "enum": [ 
+                "Male", 
+                "Female", 
+                "Intersex", 
+                "Unknown"
+            ]
+        },
+
+        "orientation": {
+            "enum": [ 
+                "Homosexual", 
+                "Heterosexual", 
+                "Other", 
+                "Unknown"
+            ]
+        },
+
+        "transgender" : {
+            "type" : "boolean"
+        },
+
+        "race" : {
+            "enum": [
+                "White / European",
+                "Asain Indian",
+                "Middle Eastern",
+                "Black / African American",
+                "Native American or Alaska Native",
+                "Hispanic or Latino",
+                "Jewish",
+                "Asian",
+                "Pacific Islander",
+                "Indigenous Australian",
+                "Other",
+                "Unknown"
+            ]
         },
 
         "mental_illness" : {
-            "type": "string"
+            "enum": [
+                "Schizophrenia",
+                "Manic Depression/Bi-Polar",
+                "Borderline Personality Disorder",
+                "Depression",
+                "Anger Problems",
+                "Anxiety",
+                "Sociopathy",
+                "Psychopathy",
+                "Other",
+                "Unknown"
+            ]
+        },
+
+        "images" : {
+            "type" : "array",
+            "items" : {
+                "anyOf" : [{ 
+                    "type" : "string"
+                }]
+            }
         }
     }
 }
