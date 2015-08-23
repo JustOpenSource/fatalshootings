@@ -11,7 +11,9 @@ var c = require(__base + '../shared-config/constants'),
 
     //application imports
     router = express.Router(),
-    renderView = require(__base + '../shared-utils/render-view');
+    renderView = require(__base + '../shared-utils/render-view'),
+
+    schema = require(__base + '../shared-utils/schema');
 
 
 function getCount(data) {
@@ -304,31 +306,29 @@ router.route('/')
 });
 
 // url/data/schema
-router.route('/schema/:version')
+router.route('/schema/:name/:version')
 .get(function(req, res){
+    var name = req.params.name;
+    var version = req.params.version;
 
-    log('trace', '/data/schema/v1 version', req.params.version);
+    var feSchema = schema.getFullSchema(name, version);
 
-    var schema = {
-        'test' : 'foo'
-    }
+    if(feSchema){
 
-    res.status(200).json(schema);
-
-    /*
-    getSchema(data)
-        .then(getResults)
-        .then(function(body){
-
-            log('trace', '/data/api/v1 response');
-            res.json(body);
-        })
-        .fail(function(err){
-
-            log('error', 'could not get results', err);
-            res.sendStatus(500);
+        fs = require('fs');
+        
+        //temp schema cache, update by hitting endpoint
+        fs.writeFile(__base + '/../shared-utils/schemas-cache/' + name + '.' + version + '.json', JSON.stringify(feSchema), function (err) {
+            
+            if (err) return console.log(err);
+            
+            log('trace', 'updated schema ' + name + '.' + version);
         });
-    */
+
+        res.status(200).json(feSchema);
+    } else {
+        res.status(500);
+    }
 });
 
 module.exports = router;

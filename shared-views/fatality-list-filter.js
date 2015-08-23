@@ -5,36 +5,11 @@ var __base = __base || '../',
 
     //node require
     q = require('q'),
-    _ = require('underscore');
+    _ = require('underscore'),
+
+    feSchema = require(__base + 'shared-utils/schemas-cache/fe.1.json');
 
 module.exports = function(d, cb) {
-
-    var filterModel = {
-        select: []
-    };
-
-    function getDistinct(attribute){
-        var deferred = q.defer();
-
-        log('trace', 'constants ----------', c);
-
-        log('trace', 'get distinct', c.url.distinct);
-
-        httpGet(d.url_distinct + attribute, function(err, body){
-
-            if(err){
-
-                log('error', 'distinct sex error', err);
-                deferred.reject(err);
-            }
-
-            deferred.resolve({
-                'values' : body
-            });
-        })
-
-        return deferred.promise;
-    }
 
     function buildOptions(name, attributes){
 
@@ -77,25 +52,25 @@ module.exports = function(d, cb) {
         return options;
     }
 
-    function fetchAllComplete(race, sex, cause){
+    function fetchAllComplete(){
 
-        log('trace', 'race options', race.values);
-        log('trace', 'sex options', sex.values);
-        log('trace', 'cause options', cause.values);
+        var filterModel = {
+            select: []
+        };
 
         filterModel.select.push({
             name: 'sex',
-            options: buildOptions('sex', sex.values)
+            options: buildOptions('sex', feSchema.properties.person.type.schema.properties.sex.enum)
         });
 
         filterModel.select.push({
             name: 'race',
-            options: buildOptions('race', race.values)
+            options: buildOptions('race', feSchema.properties.person.type.schema.properties.race.items.enum)
         });
 
         filterModel.select.push({
             name: 'cause',
-            options: buildOptions('cause', cause.values)
+            options: buildOptions('cause', feSchema.properties.death.type.schema.properties.cause.enum)
         });
 
         filterModel.name = d.filters.name || null;
@@ -105,5 +80,5 @@ module.exports = function(d, cb) {
         cb(null, filterModel);
     }
 
-    q.all([getDistinct('race'), getDistinct('sex'), getDistinct('cause')]).spread(fetchAllComplete);
+    fetchAllComplete();
 };

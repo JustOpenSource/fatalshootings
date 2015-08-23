@@ -1,16 +1,16 @@
 var __base = __base || '../',
     c = require(__base + 'shared-config/constants'),
     log = c.getLog('shared-views/details'),
-    urls = require(__base + 'explore/app').get('urls'),
     _ = require('underscore'),
 
-    httpGet = require(__base + 'shared-utils/http-get');
+    httpGet = require(__base + 'shared-utils/http-get'),
+    feSchema = require(__base + 'shared-utils/schemas-cache/fe.1.json');
 
 /*
 TODO: Wire up form elements to use select options for appropriate fields
 */
 
-console.log(urls);
+console.log(JSON.stringify(feSchema));
 
 function getDetails(id, url, cb) {
 
@@ -40,7 +40,7 @@ TODO: Generate option values from schema
 */
 function ageOptions(selected){
     var ages = [],
-        upperLimit = 120,
+        upperLimit = feSchema.properties.person.type.schema.properties.age.maximum,
         curr = 1;
 
     selected = parseInt(selected);
@@ -56,97 +56,53 @@ function ageOptions(selected){
         curr++;
     }
 
+    ages.unshift({
+            'selected' : !selected ? true : false,
+            'value' : 'Unknown',
+            'text' : 'Unknown'
+        })
+
     return ages;
 }
 
 function sexOptions(selected){
 
-    console.log('SEX OPTIONS -----------');
-    console.log(selected);
-
-    return generateOptions([
-      'Male', 
-      'Female', 
-      'Intersex'], selected);
+    return generateOptions(feSchema.properties.person.type.schema.properties.sex.enum, selected);
 }
 
 function orientationOptions(selected){
 
-    return generateOptions([
-      'Heterosexual', 
-      'Homosexual', 
-      'Bisexual', 
-      'Other'], selected);
+    return generateOptions(feSchema.properties.person.type.schema.properties.orientation.enum, selected);
 }
 
-
-/*
-TODO: Should this be a true/false checkbox?
-*/
-function cisgenderedOptions(selected){
-
-    return generateOptions([
-      'cisgender', 
-      'transgender'], selected);
-}
-
+//TODO: adjust this to be checkboxes
 function raceOptions(selected){
 
-    return generateOptions([
-      'White / European', 
-      'Asain Indian',
-      'Middle Eastern',
-      'Black / African American',
-      'Native American or Alaska Native',
-      'Hispanic or Latino',
-      'Jewish',
-      'Asian',
-      'Pacific Islander',
-      'Indigenous Australian',
-      'Other'], selected);
+    return generateOptions(feSchema.properties.person.type.schema.properties.race.items.enum, selected);
 }
 
+//TODO: adjust this to be checkboxes
 function mentalIllnessOptions(selected){
 
-    return generateOptions([
-      'Schizophrenia',
-      'Manic Depression',
-      'Depression',
-      'Anger Problems',
-      'Anxiety',
-      'Sociopathy'], selected);
+    return generateOptions(feSchema.properties.person.type.schema.properties.mental_illness.items.enum, selected);
 }
 
 function causeOfDeathOptions(selected){
 
-    return generateOptions([
-      'Gunshot',
-        'Assault',
-        'Vehicle',
-        '"Non Lethal" Weapon',
-        'Unknown',
-        'Other'], selected);
+    return generateOptions(feSchema.properties.death.type.schema.properties.cause.enum, selected);
 }
 
 function dispositionOptions(selected){
 
-    return generateOptions([
-      'Justified',
-      'Homocide',
-      'Other'], selected);
+    return generateOptions(feSchema.properties.death.type.schema.properties.disposition.enum, selected);
 }
 
 function countryOptions(selected){
 
-    return generateOptions([
-      'United States',
-      'Mexico'], selected);
+    return generateOptions(feSchema.properties.location.type.schema.properties.country.enum, selected);
 }
 
 function formatDetails(details){
-
-    console.log('details -------');
-    console.log(details)
 
     function processSectionInputs(section){
 
