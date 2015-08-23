@@ -3,19 +3,21 @@
     "type": "object",
     "properties": {
 
-        "cause" : {"enum": [
-            "asphyxiation",
-            "assault",
-            "automobile",
-            "drug related",
-            "gunshot",
-            "medical emergency",
-            "neglect",
-            "non-lethal weapon",
-            "suicide",
-            "unknown",
-            "other"
-        ]},
+        "cause" : {
+            "enum": [
+                "Asphyxiation",
+                "Assault",
+                "Automobile",
+                "Drug Related",
+                "Gunshot",
+                "Medical Emergency",
+                "Neglect",
+                "Non-Lethal Weapon",
+                "Suicide",
+                "Unknown",
+                "Other"
+            ]
+        },
 
         "cause_notes" : {
             "type": "string"
@@ -29,16 +31,19 @@
             "type": "string"
         },
 
-        "dated_description" : {
-            "type": "string"
+        "date" : {
+            "type": "string",
+            "pattern" : "^([0-9]{1,4})\d\d[/](0[1-9]|1[012])[/](0[1-9]|[12][0-9]|3[01])$" //yyyy/mm/dd
         },
 
         "disposition" : {
-            "type": "string"
-        },
-
-        "source_url" : {
-            "type": "string"
+            "type": {
+                "enum" : [
+                    "Justified",
+                    "Homocide",
+                    "Other"
+                ]
+            }
         }
     }
 }

@@ -86,6 +86,17 @@ function testForRequiredValues(report){
     return missing;
 }
 
+function adjustReportForPost(report){
+    
+    report = {
+        'value' : report
+    }
+    
+    report.pending = true;
+
+    return report;
+}
+
 // url/details/
 router.route('/:id')
 .get(function(req, res){
@@ -112,29 +123,29 @@ router.route('/:id')
 
     var report = formatEntryForDatabase(req.body);
     var required = testForRequiredValues(report);
-    var missing = required.length > 0 ? true : false;
 
-    if(missing){
+    if(required.length > 0){
 
         res.redirect('/details/new?missing=true&missing_values=' + required.join(',') + '&details=' + JSON.stringify(report));
 
     } else {
 
-        report = {
-            'value' : report
-        }
-        
-        report.pending = true;
+        report = adjustReportForPost(report);
+
+        //TODO: adjust to edit current entry
 
         req._db.fatalities.insert(report, function(err, body){
 
             if(err){
+                
                 res.redirect('/details/new?error=true');
+            
             } else {
+
+                log('trace', 'new entry added');
+
                 res.redirect('/details/new?success=true');
             }
-
-            log('trace', 'new entry added');
         });
     }
 });

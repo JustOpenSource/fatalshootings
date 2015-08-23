@@ -1,7 +1,7 @@
 var __base = __base || '../',
     c = require(__base + 'shared-config/constants'),
     log = c.getLog('shared-views/details'),
-
+    urls = require(__base + 'explore/app').get('urls'),
     _ = require('underscore'),
 
     httpGet = require(__base + 'shared-utils/http-get');
@@ -10,12 +10,14 @@ var __base = __base || '../',
 TODO: Wire up form elements to use select options for appropriate fields
 */
 
-function getDetails(id, cb) {
+console.log(urls);
+
+function getDetails(id, url, cb) {
 
     log('trace', 'attempt to get details: ' + id);
 
     /**/
-    httpGet(c.url.details + id, cb);
+    httpGet(url + id, cb);
 	/**/
 }
 
@@ -143,6 +145,9 @@ function countryOptions(selected){
 
 function formatDetails(details){
 
+    console.log('details -------');
+    console.log(details)
+
     function processSectionInputs(section){
 
       _.each(section, function(input, i){
@@ -151,6 +156,10 @@ function formatDetails(details){
 
         if(details.missing_values && details.missing_values.indexOf(input.name) > -1){
           input.status.missing = true;
+        }
+
+        if(details.edit){
+          input.required = false;
         }
 
         if(input.required){
@@ -276,14 +285,14 @@ function formatDetails(details){
         'label' : 'Address Line 1', 
         'value' : details.value.location.address_line_1, 
         'name' : 'location_address_line_1',
-        'input-select' : true,
+        'input-text' : true,
         'options' : countryOptions
       },
       {
         'label' : 'Address Line 2', 
         'value' : details.value.location.address_line_2,
         'name' : 'location_address_line_2',
-        'input-select' : true,
+        'input-text' : true,
         'options' : countryOptions
       },
       {
@@ -377,12 +386,13 @@ module.exports = function(d, cb) {
       'new' : true,
       'id' : d.id,
       'sections' : formatDetails(details),
-      'success' : d.success
+      'success' : d.success,
+      'action' : '/details/new'
     });
 
   } else {
 
-  	getDetails(d.id, function(err, body){
+  	getDetails(d.id, d.locals.url_details, function(err, body){
   		if(err){
   			log('error', 'get details error', err);
 
@@ -398,7 +408,8 @@ module.exports = function(d, cb) {
   		cb(null, {
         'edit' : d.edit || false,
   			'id' : d.id,
-  			'sections' : formatDetails(body)
+  			'sections' : formatDetails(body),
+        'action' : '/details/' + d.id + '?edit=true'
   		});
   	});
   }

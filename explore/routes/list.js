@@ -3,6 +3,7 @@ var c = require(__base + '../shared-config/constants'),
     
     //npm libraries
     express = require('express'),
+    app = express(),
     
     //application imports
     router = express.Router(),
@@ -17,7 +18,6 @@ router.route('/')
     var page_title = 'Fatalaties List';
 
     renderView(req, res, 'fatality-list', {
-        'foo' : 'bar',
         'filters' : {
 
             'name' : req.query.name,
@@ -45,7 +45,7 @@ router.route('/')
 
     log('trace', 'list filter post data', req.body);
 
-    res.redirect(filterUtils.buildFilterURL(c.url.list, req.body));
+    res.redirect(filterUtils.buildFilterURL(req.app.locals.url_root + '/list', req.body));
 
 });
 

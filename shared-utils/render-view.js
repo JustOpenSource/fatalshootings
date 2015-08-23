@@ -18,6 +18,8 @@ function renderView (req, res, component, data, locals) {
 	
 	}
 
+	data.locals = req.app.locals;
+
 	data._str._lang = req.lang;
 
 	getView(req.lang, component, data, function(err, view) {

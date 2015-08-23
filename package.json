@@ -23,6 +23,7 @@
     "monk" : "*",
     "winston" : "*",
     "q" : "*",
-    "nodemailer" : "*"
+    "nodemailer" : "*",
+    "supervisor" : "*"
   }
 }

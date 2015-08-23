@@ -5,11 +5,25 @@ var c = require(__base + '../shared-config/constants');
 var log = c.getLog('explore/bin/www');
 var MongoClient = require('mongodb').MongoClient;
 
-app.set('port', process.env.PORT || 3000);
+app.set('port', process.env.PORT || 5000);
 
-var url = c.url.mongo + c.db.fatalities;
+function unableToConnectToDB(e){
+	log('error', 'missing mongo url', 'generate .env by running: heroku config:get MONGOHQ_URL -s  >> .env');
+
+	if(e){
+		log('error', 'mongo connection error', e);
+	}
+}
+
+var url = process.env.MONGOHQ_URL;
+
+if(!url){
+	unableToConnectToDB();
+	return;
+}
 
 //MAKE THIS PRETTIER AND ABSTRACT IT
+try {
 MongoClient.connect(url, function(err, db) {
 
     if(!err){
@@ -25,6 +39,25 @@ MongoClient.connect(url, function(err, db) {
 
             next();
         });
+
+        //set urls to locals
+        app.use(function(req, res, next) {
+
+			req._rootUrl = function() {
+				var url = req.protocol + "://" + req.get('host');
+
+				return url;
+			}
+
+			req.app.locals.url_root = req._rootUrl();
+			req.app.locals.url_data = req.app.locals.url_root + '/data/api/v1';
+			req.app.locals.url_list = req.app.locals.url_root + '/list';
+			req.app.locals.url_distinct = req.app.locals.url_data + '/distinct/';
+			req.app.locals.url_details = req.app.locals.url_data + '/details/';
+			req.app.locals.url_current = req.app.locals.url_root + req.url;
+
+			return next();
+		});
 
         //routes
         app.use('/', require('../routes/home'));
@@ -77,3 +110,6 @@ MongoClient.connect(url, function(err, db) {
 
     }
 });
+} catch (e){
+	unableToConnectToDB(e);
+}
