@@ -22,14 +22,6 @@ var c = {
     url: {}
 };
 
-var urlRoot = 'http://localhost/';
-
-c.url.mongo = 'mongodb://heroku:c-rJompa5mbNDiERpkBJMfKXbfSazY_YaBGqrnFzmwgao-WRaPHaU_ZED_TU7zp2C8lp3OV1azqFINmN6EQ27A@candidate.37.mongolayer.com:10928,candidate.13.mongolayer.com:11150/app40069500';
-c.url.data = urlRoot + 'data/api/v1';
-c.url.list = urlRoot + 'list';
-c.url.distinct = c.url.data + '/distinct/';
-c.url.details = c.url.data + '/details/';
-
 //MOVE INTO LOGGER FILE
 var FILE_SEP = '.',
     LOGS_DIR = __dirname + '/../log/';
