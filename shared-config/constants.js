@@ -1,6 +1,5 @@
 var winston = require('winston');
 var _ = require('underscore');
-var app = require('../explore/app');
 
 //constants
 var c = {

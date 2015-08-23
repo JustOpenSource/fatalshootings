@@ -1,0 +1,89 @@
+{
+    "id": "person.1",
+
+    "type": "object",
+
+    "required" : ["name"],
+
+    "properties": {
+
+        "name" : {
+            "type": "string"
+        },
+
+        "age" : {
+            "type": "integer",
+            "minimum" : 0,
+            "maximum" : 150
+        },
+
+        "sex": {
+            "enum": [
+                "Unknown",
+                "Male", 
+                "Female", 
+                "Intersex"
+            ]
+        },
+
+        "orientation": {
+            "enum": [ 
+                "Unknown",
+                "Homosexual", 
+                "Heterosexual", 
+                "Other"
+            ]
+        },
+
+        "transgender" : {
+            "type" : "boolean"
+        },
+
+        "race" : {
+            "type" : "array",
+            "items" : { 
+                "enum": [
+                    "Unknown",
+                    "White / European",
+                    "Asain Indian",
+                    "Middle Eastern",
+                    "Black / African American",
+                    "Native American or Alaska Native",
+                    "Hispanic or Latino",
+                    "Jewish",
+                    "Asian",
+                    "Pacific Islander",
+                    "Indigenous Australian",
+                    "Other"
+                ]
+            }
+        },
+
+        "mental_illness" : {
+            "type" : "array",
+            "items" : { 
+                "enum": [
+                    "Unknown",
+                    "Schizophrenia",
+                    "Manic Depression/Bi-Polar",
+                    "Borderline Personality Disorder",
+                    "Depression",
+                    "Anger Problems",
+                    "Anxiety",
+                    "Sociopathy",
+                    "Psychopathy",
+                    "Other"
+                ]
+            }
+        },
+
+        "images" : {
+            "type" : "array",
+            "items" : {
+                "anyOf" : [{ 
+                    "type" : "string"
+                }]
+            }
+        }
+    }
+}
