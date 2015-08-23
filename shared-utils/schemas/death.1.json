@@ -1,10 +1,11 @@
 {
-    "id": "/fe/death/v1",
+    "id": "death.1",
     "type": "object",
     "properties": {
 
         "cause" : {
             "enum": [
+                "Unknown",
                 "Asphyxiation",
                 "Assault",
                 "Automobile",
@@ -14,7 +15,6 @@
                 "Neglect",
                 "Non-Lethal Weapon",
                 "Suicide",
-                "Unknown",
                 "Other"
             ]
         },
@@ -33,7 +33,7 @@
 
         "date" : {
             "type": "string",
-            "pattern" : "^([0-9]{1,4})\d\d[/](0[1-9]|1[012])[/](0[1-9]|[12][0-9]|3[01])$" //yyyy/mm/dd
+            "pattern" : "" 
         },
 
         "disposition" : {

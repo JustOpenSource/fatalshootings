@@ -1,5 +1,5 @@
 {
-    "id": "/fe/entry/v1",
+    "id": "fe.1",
     "type": "object",
     "properties": {
 
@@ -28,22 +28,21 @@
             }
         },
 
-        //sections
         "death" : {
             "type" : {
-                "$ref" : "/fe/death/v1"
+                "$ref" : "death.1"
             }
         },
 
         "location" : {
             "type" : {
-                "$ref" : "/fe/location/v1"
+                "$ref" : "location.1"
             }
         },
 
-        "subject" : {
+        "person" : {
             "type" : {
-                "$ref" : "/fe/subject/v1"
+                "$ref" : "person.1"
             }
         }
     }
