@@ -75,7 +75,7 @@ function schemaValidator(d){
     return allErrors;
 }
 
-/*
+/**/
 var testEntry = {
     "submitted_by" : 'a. person',
     "published" : 'adsf',
