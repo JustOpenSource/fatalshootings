@@ -1,5 +1,9 @@
 Application to explore data from [Fatal Encounters](http://fatalencounters.org).
 
+#OUT OF DATE#
+
+The project has recently moved onto heroku and requires updated onboarding instructions.
+
 ##Table of Contents
 
 * [Setup](#setup)
