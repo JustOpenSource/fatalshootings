@@ -4,13 +4,17 @@ var __base = __base || '../',
     _ = require('underscore'),
 
     httpGet = require(__base + 'shared-utils/http-get'),
-    feSchema = require(__base + 'shared-utils/schemas-cache/fe.1.json');
+    feSchema = require(__base + 'shared-utils/schemas-cache/fe.1.json'),
+    getSchemaLang = require(__base + 'shared-utils/schema-lang-get');
 
 /*
 TODO: Wire up form elements to use select options for appropriate fields
 */
 
-console.log(JSON.stringify(feSchema));
+var personLangOptions;
+var deathLangOptions;
+var locationLangOptions;
+var ageLangDefaultOption;
 
 function getDetails(id, url, cb) {
 
@@ -18,17 +22,17 @@ function getDetails(id, url, cb) {
 
     /**/
     httpGet(url + id, cb);
-	/**/
+	  /**/
 }
 
-function generateOptions(options, selected){
+function generateOptions(options, lang, selected){
     var optionsObj = [];
 
     _.each(options, function(curr){
         optionsObj.push({
             'selected' : selected == curr ? true : false,
             'value' : curr,
-            'text' : curr
+            'text' : lang[curr]
         });
     });
 
@@ -57,52 +61,52 @@ function ageOptions(selected){
     }
 
     ages.unshift({
-            'selected' : !selected ? true : false,
-            'value' : 'Unknown',
-            'text' : 'Unknown'
-        })
+        'selected' : !selected ? true : false,
+        'value' : 'Unknown',
+        'text' : ageLangDefaultOption
+    });
 
     return ages;
 }
 
 function sexOptions(selected){
 
-    return generateOptions(feSchema.properties.person.type.schema.properties.sex.enum, selected);
+    return generateOptions(feSchema.properties.person.type.schema.properties.sex.enum, personLangOptions.sex, selected);
 }
 
 function orientationOptions(selected){
 
-    return generateOptions(feSchema.properties.person.type.schema.properties.orientation.enum, selected);
+    return generateOptions(feSchema.properties.person.type.schema.properties.orientation.enum, personLangOptions.orientation, selected);
 }
 
 //TODO: adjust this to be checkboxes
 function raceOptions(selected){
 
-    return generateOptions(feSchema.properties.person.type.schema.properties.race.items.enum, selected);
+    return generateOptions(feSchema.properties.person.type.schema.properties.race.items.enum, personLangOptions.race, selected);
 }
 
 //TODO: adjust this to be checkboxes
 function mentalIllnessOptions(selected){
 
-    return generateOptions(feSchema.properties.person.type.schema.properties.mental_illness.items.enum, selected);
+    return generateOptions(feSchema.properties.person.type.schema.properties.mental_illness.items.enum, personLangOptions.mental_illness, selected);
 }
 
 function causeOfDeathOptions(selected){
 
-    return generateOptions(feSchema.properties.death.type.schema.properties.cause.enum, selected);
+    return generateOptions(feSchema.properties.death.type.schema.properties.cause.enum, deathLangOptions.cause, selected);
 }
 
 function dispositionOptions(selected){
 
-    return generateOptions(feSchema.properties.death.type.schema.properties.disposition.enum, selected);
+    return generateOptions(feSchema.properties.death.type.schema.properties.disposition.enum, deathLangOptions.disposition, selected);
 }
 
 function countryOptions(selected){
 
-    return generateOptions(feSchema.properties.location.type.schema.properties.country.enum, selected);
+    return generateOptions(feSchema.properties.location.type.schema.properties.country.enum, locationLangOptions.country, selected);
 }
 
-function formatDetails(details){
+function formatDetails(details, str){
 
     function processSectionInputs(section){
 
@@ -145,48 +149,48 @@ function formatDetails(details){
 
   	var subject = [
   		{
-        'label' : 'Name', 
+        'label' : str.section.person.name.label, 
         'value' : details.value.subject.name, 
         'name' : 'subject_name',
         'input-text' : true,
         'required' : true
       },
       {
-        'label' : 'Age', 
+        'label' : str.section.person.age.label, 
         'value' : details.value.subject.age, 
         'name' : 'subject_age',
         'input-select' : true,
         'options' : ageOptions
       },
       {
-        'label' : 'Sex', 
+        'label' : str.section.person.sex.label, 
         'value' : details.value.subject.sex, 
         'name' : 'subject_sex',
         'input-select' : true,
         'options' : sexOptions
       },
       {
-        'label' : 'Orientation', 
+        'label' : str.section.person.orientation.label, 
         'value' : details.value.subject.orientation, 
         'name' : 'subject_orientation',
         'input-select' : true,
         'options' : orientationOptions
       },
       {
-        'label' : 'Transgender',
+        'label' : str.section.person.transgender.label,
         'value' : details.value.subject.transgender,
         'name' : 'subject_transgender',
         'input-checkbox' : true
       },
       {
-        'label' : 'Race', 
+        'label' : str.section.person.race.label, 
         'value' : details.value.subject.race, 
         'name' : 'subject_race',
         'input-select' : true,
         'options' : raceOptions
       },
       {
-        'label' : 'Mentall Illness', 
+        'label' : str.section.person.mental_illness.label, 
         'value' : details.value.subject.mental_illness, 
         'name' : 'subject_mental_illness',
         'input-select' : true,
@@ -196,39 +200,39 @@ function formatDetails(details){
 
     var death = [
       {
-        'label' : 'Date', 
+        'label' : str.section.death.date.label, 
         'value' : details.value.death.date, 
         'name' : 'death_date',
         'input-date' : true,
         'required' : true
       },
       {
-        'label' : 'cause', 
+        'label' : str.section.death.cause.label, 
         'value' : details.value.death.cause, 
         'name' : 'death_cause',
         'input-select' : true,
         'options' : causeOfDeathOptions
       },
       {
-        'label' : 'Cause Notes', 
+        'label' : str.section.death.cause_notes.label, 
         'value' : details.value.death.notes, 
         'name' : 'death_cause_notes',
         'input-textarea' : true
       },
       {
-        'label' : 'Responsible Agency', 
+        'label' : str.section.death.responsible_agency.label,
         'value' : details.value.death.responsible_agency, 
         'name' : 'death_responsible_agency',
         'input-text' : true
       },
       {
-        'label' : 'Description', 
+        'label' : str.section.death.description.label,
         'value' : details.value.death.description, 
         'name' : 'death_description',
         'input-textarea' : true
       },
       {
-        'label' : 'Disposition', 
+        'label' : str.section.death.disposition.label,
         'value' : details.value.death.disposition, 
         'name' : 'death_disposition',
         'input-select' : true,
@@ -238,21 +242,19 @@ function formatDetails(details){
 
     var location = [
       {
-        'label' : 'Address Line 1', 
+        'label' : str.section.location.line_1.label,
         'value' : details.value.location.address_line_1, 
         'name' : 'location_address_line_1',
-        'input-text' : true,
-        'options' : countryOptions
+        'input-text' : true
       },
       {
-        'label' : 'Address Line 2', 
+        'label' : str.section.location.line_2.label,
         'value' : details.value.location.address_line_2,
         'name' : 'location_address_line_2',
-        'input-text' : true,
-        'options' : countryOptions
+        'input-text' : true
       },
       {
-        'label' : 'Country', 
+        'label' : str.section.location.country.label,
         'value' : details.value.location.country || 'us', 
         'name' : 'location_country',
         'input-select' : true,
@@ -260,26 +262,20 @@ function formatDetails(details){
         'required' : true
       },
       {
-        'label' : 'City', 
+        'label' : str.section.location.city.label,
         'value' : details.value.location.city, 
         'name' : 'location_city',
         'input-text' : true
       },
       {
-        'label' : 'State', 
+        'label' : str.section.location.state.label,
         'value' : details.value.location.state, 
         'name' : 'location_state',
         'input-text' : true,
         'required' : true
       },
       {
-        'label' : 'County', 
-        'value' : details.value.location.county, 
-        'name' : 'location_county',
-        'input-text' : true
-      },
-      {
-        'label' : 'Postal Code', 
+        'label' : str.section.location.postal.label,
         'value' : details.value.location.zip, 
         'name' : 'location_zip',
         'input-text' : true
@@ -288,36 +284,36 @@ function formatDetails(details){
 
     var sources = [
       {
-        'label' : 'Sources',
+        'label' : str.section.additional_info.sources.label,
         'value' : details.value.sources, 
         'name' : 'sources',
         'input-textarea' : true,
-        'notes' : 'Use "enter" key to make a new line for each source.',
+        'notes' : str.section.additional_info.sources.notes,
         'required' : true
       }
     ];
 
     if(details.edit){
       sources.push({
-        'label' : 'Edit Notes',
+        'label' : str.section.additional_info.edit_notes.label,
         'value' : details.value.edit_notes, 
         'name' : 'edit_notes',
         'input-textarea' : true,
-        'notes' : 'Please include any comments about your edits.'
+        'notes' : str.section.additional_info.edit_notes.notes
       });
     }
 
     var sections = [{
-  		'sectionTitle' : 'Subject',
+  		'sectionTitle' : str.section.person.title,
   		'values' :  processSectionInputs(subject)
   	}, {
-      'sectionTitle' : 'Death',
+      'sectionTitle' : str.section.death.title,
       'values' :  processSectionInputs(death)
     }, {
-      'sectionTitle' : 'Location',
+      'sectionTitle' : str.section.location.title,
       'values' :  processSectionInputs(location)
     }, {
-      'sectionTitle' : 'Additional Info',
+      'sectionTitle' : str.section.additional_info.title,
       'values' :  processSectionInputs(sources)
     }];
 
@@ -325,6 +321,11 @@ function formatDetails(details){
 }
 
 module.exports = function(d, cb) {
+
+  personLangOptions = getSchemaLang('person', d._str._lang);
+  deathLangOptions = getSchemaLang('death', d._str._lang);
+  locationLangOptions = getSchemaLang('location', d._str._lang);
+  ageLangDefaultOption = d._str.section.person.age.option_default;
 
   if(d.id === 'new'){
 
@@ -338,10 +339,11 @@ module.exports = function(d, cb) {
     }
 
     cb(null, {
+      'missing' : d.missing,
       'edit' : true,
       'new' : true,
       'id' : d.id,
-      'sections' : formatDetails(details),
+      'sections' : formatDetails(details, d._str),
       'success' : d.success,
       'action' : '/details/new'
     });
@@ -364,7 +366,7 @@ module.exports = function(d, cb) {
   		cb(null, {
         'edit' : d.edit || false,
   			'id' : d.id,
-  			'sections' : formatDetails(body),
+  			'sections' : formatDetails(body, d._str),
         'action' : '/details/' + d.id + '?edit=true'
   		});
   	});

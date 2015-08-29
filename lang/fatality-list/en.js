@@ -1,3 +1,4 @@
 module.exports = {
-	test: "English"
+	"title" : "List of people killed by police",
+	"results" : "results"
 }

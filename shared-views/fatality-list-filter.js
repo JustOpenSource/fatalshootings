@@ -7,29 +7,37 @@ var __base = __base || '../',
     q = require('q'),
     _ = require('underscore'),
 
-    feSchema = require(__base + 'shared-utils/schemas-cache/fe.1.json');
+    feSchema = require(__base + 'shared-utils/schemas-cache/fe.1.json'),
+    getSchemaLang = require(__base + 'shared-utils/schema-lang-get');
 
 module.exports = function(d, cb) {
 
+    var personLangOptions = getSchemaLang('person', d._str._lang);
+    var deathLangOptions = getSchemaLang('death', d._str._lang);
+
     function buildOptions(name, attributes){
 
+        var langOptions = {};
         var options = [];
-
-        log('trace', 'buildOptions', attributes);
-
-        var optionDefault = 'All '
+        var optionDefault = d._str.select_label_prefix + ' ';
 
         if(name === 'sex'){
 
-            optionDefault = optionDefault + 'sexes'
+            langOptions = personLangOptions.sex;
+
+            optionDefault = optionDefault + d._str.select_label_sex;
 
         } else if(name === 'race'){
 
-            optionDefault = optionDefault + 'races'
+            langOptions = personLangOptions.race;
+
+            optionDefault = optionDefault + d._str.select_label_race;
 
         } else if(name === 'cause'){
 
-            optionDefault = optionDefault + 'causes'
+            langOptions = deathLangOptions.cause;
+
+            optionDefault = optionDefault + d._str.select_label_cause;
         }
 
         options.push({
@@ -44,7 +52,7 @@ module.exports = function(d, cb) {
                 options.push({
                     value: value.trim(),
                     selected: d.filters[name] == value.trim() ? 'selected' : false,
-                    text: value
+                    text: langOptions[value]
                 })
             }
         });

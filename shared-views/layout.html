@@ -13,6 +13,7 @@
 
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/0.7.1/css/flag-icon.css">
         
 		<link href="/css/style.css" rel="stylesheet" type="text/css">
 
@@ -22,39 +23,6 @@
 		
 	</head>
 	<body>
-        <div class="">
-            <ul class="nav nav-pills">
-                <li class=""><a href="/">Fatal Encounters</a></li>
-
-                <li role="presentation" class=""><a href="/list">List</a></li>
-
-                {{!
-                <li role="presentation" class="dropdown">
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="/charts" role="button" aria-expanded="false">Charts<span class="caret"></span></a>
-                    <ul class="dropdown-menu" role="menu">
-                        <li><a href="/charts/filter">Filter</a></li>
-                        <li><a href="/charts/age">Age</a></li>
-                        <li><a href="/charts/sex">Sex</a></li>
-                        <li><a href="/charts/race">Race</a></li>
-                        <li><a href="/charts/location">Location</a></li>
-                        <li><a href="/charts/cause">Cause</a></li>
-                    </ul>
-                </li>
-                }}
-
-                <li role="presentation" class=""><a href="/data">Data API</a></li>
-
-                {{!
-                <li role="presentation" class=""><a href="/blog">Blog</a></li>
-
-                <li role="presentation" class=""><a href="/volunteer">Volunteer/Donate</a></li>
-                }}
-                <li role="presentation" class=""><a href="/contact">Contact</a></li>
-
-                <li role="presentation" class="nav-item-standout"><a href="/details/new">Report a Death</a></li>
-            </ul>
-        </div>
-
 		{{{yield}}}
 	</body>
 </html>

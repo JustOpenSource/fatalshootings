@@ -1,7 +1,7 @@
 <div class="data-list-controls col-md-12">
     <form class="form-inline" action="{{postURL}}" method="post">
         <div class="form-group">
-            <input type="text" class="form-control" name="name" placeholder="Name" value="{{name}}">
+            <input type="text" class="form-control" name="name" placeholder="{{_str.input_default_name}}" value="{{name}}">
         </div>
 
         {{#select}}
@@ -13,84 +13,9 @@
             </select>
         </div>
         {{/select}}
-
-        <!--
-        <div class="form-group">
-            <select class="form-control">
-                <option>Cause of Death</option>
-                <option value="Gunshot">Gunshot</option>
-            </select>
-        </div>
-
-        <div class="form-group">
-            <select name="age" class="form-control">
-                <option>Age</option>
-                <option value="18">18 and under</option>
-                <option value="19-35">19 to 35</option>
-                <option value="36-50">36 to 50</option>
-                <option value="51">51 and over</option>
-            </select>
-        </div>
-
-        <div class="form-group">
-            <select class="form-control">
-                <option>Race</option>
-                <option>African-American/Black</option>
-                <option>Hispanic/Latino</option>
-                <option>Asain</option>
-                <option>Other</option>
-                <option>Unknown</option>
-            </select>
-        </div>
-
-        <div class="form-group">
-            <select class="form-control">
-                <option>Sex</option>
-                <option>Male</option>
-                <option>Female</option>
-                <option>Other</option>
-            </select>
-        </div>
-
-        <div class="form-group">
-            <select class="form-control">
-                <option>Country</option>
-                <option>United States of America</option>
-                <option>Mexico</option>
-            </select>
-        </div>
-
-        <div class="form-group">
-            <select class="form-control">
-                <option>State</option>
-                <option>WA</option>
-                <option>CA</option>
-                <option>OR</option>
-            </select>
-        </div>
-
-        <div class="form-group">
-            <select class="form-control">
-                <option>From</option>
-                <option>2000</option>
-                <option>2001</option>
-                <option>2002</option>
-            </select>
-        </div>
-
-        <div class="form-group">
-            <select class="form-control">
-                <option>To</option>
-                <option>2001</option>
-                <option>2002</option>
-                <option>2003</option>
-                <option>2004</option>
-            </select>
-        </div>
-        -->
         
         <div class="form-group">
-            <button type="submit" class="btn btn-primary">Filter</button>
+            <button type="submit" class="btn btn-primary">{{_str.filter_button}}</button>
         </div>
     </form>
 </div>

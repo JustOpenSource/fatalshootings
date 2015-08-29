@@ -6,6 +6,7 @@ var __base = __base || '../',
 
 function renderView (req, res, component, data, locals) {
 
+	req.lang = req.lang || 'en';
 	data._db = req._db;
 
 	try {
@@ -22,25 +23,37 @@ function renderView (req, res, component, data, locals) {
 
 	data._str._lang = req.lang;
 
-	getView(req.lang, component, data, function(err, view) {
+	function getNav(cb){
+		var nav_str = require(__base + 'lang/nav/' + req.lang);
 
-		if(err){
+		getView(req.lang, 'nav', { '_str' : nav_str }, function(err, nav) {
+			cb(nav);
+		});
+	}
 
-			log('error', 'could not get view', err);
+	getNav(function(nav){
+		getView(req.lang, component, data, function(err, view) {
 
-			res.render('view', { 
-        		'view' : "error"
-    		});
-		
-		}
+			if(err){
 
+				log('error', 'could not get view', err);
 
-		log('trace', 'got view, calling res.render()');
-		
-		res.render('view', {
-        	'view' : view.html,
-        	'locals' : locals
-    	});
+				res.render('view', { 
+	        		'view' : "error"
+	    		});
+			}
+
+			locals._str = data._str;
+
+			log('trace', 'got view, calling res.render()');
+			
+			res.render('view', {
+				'nav' : nav.html,
+	        	'view' : view.html,
+	        	'locals' : locals
+	    	});
+
+		});
 	});
 }
 
