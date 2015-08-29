@@ -1,16 +1,16 @@
 
 <div class="page-content">
     <div class="container">
-		<h1 class="page-header">Details</h1>
+		<h1 class="page-header">{{_str.title}}</h1>
 
 		{{#success}}
-		<h2>Success</h2>
-		<p>Once the submission is reviewed for accuracy, it will be published to the list.</p>
-		<p><a href="/details/new">Report another death</a></p>
+		<h2>{{_str.success.title}}</h2>
+		<p>{{_str.success.message}}</p>
+		<p><a href="/details/new">{{_str.success.report_another_link_text}}</a></p>
 		{{/success}}
 
 		{{#missing}}
-		<p><i class="fa fa-exclamation"></i> Missing required values.</p>
+		<p><i class="fa fa-exclamation"></i> {{_str.missing}}</p>
 		{{/missing}}
 
 		{{^success}}
@@ -18,14 +18,14 @@
 			<span class="col-xs-12 col-md-10">
 				{{#edit}}
 				{{^new}}
-				<a href="/details/{{id}}"><button class="btn btn-warning" type="button"><i class="fa fa-arrow-left"></i> &nbsp;Cancel</button></a>
+				<a href="/details/{{id}}"><button class="btn btn-warning" type="button"><i class="fa fa-arrow-left"></i> &nbsp;{{_str.cancel}}</button></a>
 				{{/new}}
 				{{/edit}}
 			</span>
 			
 			<span class="fe-details-form-submit-col col-xs-12 col-md-2">
 				{{^edit}}
-				<a href="/details/{{id}}?edit=true"><button class="btn btn-primary" type="button">Suggest Edits &nbsp;<i class="fa fa-pencil"></i></button></a>
+				<a href="/details/{{id}}?edit=true"><button class="btn btn-primary" type="button">{{_str.suggest_edits}} &nbsp;<i class="fa fa-pencil"></i></button></a>
 				{{/edit}}
 			</span>
 		</div>
@@ -54,11 +54,11 @@
 				    		<input type="hidden" value="{{value}}" name="original-{{key}}" />
 
 				    		{{#input-text}}
-				    		<input type="text" {{#required}}required{{/required}} class="form-control" placeholder="{{key}}" value="{{value}}" name="{{name}}" />
+				    		<input type="text" class="form-control" placeholder="{{key}}" value="{{value}}" name="{{name}}" />
 				    		{{/input-text}}
 
 				    		{{#input-select}}
-				    		<select class="form-control" {{#required}}required{{/required}}  name="{{name}}">
+				    		<select class="form-control"  name="{{name}}">
 								{{#options}}
 									<option {{#selected}}selected{{/selected}}>{{text}}</option>
 								{{/options}}
@@ -66,15 +66,15 @@
 				    		{{/input-select}}
 
 				    		{{#input-textarea}}
-				    		<textarea class="form-control" {{#required}}required{{/required}} name="{{name}}">{{value}}</textarea>
+				    		<textarea class="form-control" name="{{name}}">{{value}}</textarea>
 				    		{{/input-textarea}}
 
 				    		{{#input-date}}
-				    			<input type="date" {{#required}}required{{/required}} class="form-control" value="{{value}}" name="{{name}}">
+				    			<input type="date" class="form-control" value="{{value}}" name="{{name}}">
 				    		{{/input-date}}
 
 				    		{{#input-checkbox}}
-				    			<span><input type="checkbox" {{#required}}required{{/required}}  name="{{name}} {{#value}}checked{{/value}}"></span>
+				    			<span><input type="checkbox"  name="{{name}} {{#value}}checked{{/value}}"></span>
 				    		{{/input-checkbox}}
 				    	</span>
 
@@ -106,17 +106,17 @@
 				<span class="col-xs-12 col-md-6"></span>
 				
 				<span class="fe-details-form-submit-col col-xs-12 col-md-2">
-					<input type="text" class="form-control" placeholder="name (optional)" name="suggest-edit-name" />
+					<input type="text" class="form-control" placeholder="{{_str.contact_info.name.label}}" name="suggest-edit-name" />
 				</span>
 
 				<span class="fe-details-form-submit-col col-xs-12 col-md-2">
-					<input type="text" class="form-control" placeholder="email (optional)" name="suggest-edit-email" />
+					<input type="text" class="form-control" placeholder="{{_str.contact_info.email.label}}" name="suggest-edit-email" />
 				</span>
 				
 				<span class="fe-details-form-submit-col col-xs-12 col-md-2">
 					<button class="btn btn-primary fe-details-form-submit" type="submit" form="saveEdits" value="Save">
-						{{^new}}Suggest Edits{{/new}}
-						{{#new}}Save{{/new}}
+						{{^new}}{{_str.submit.suggest_edits}}{{/new}}
+						{{#new}}{{_str.submit.save}}{{/new}}
 						<i class="fa fa-arrow-right"></i>
 					</button>
 				</span>
