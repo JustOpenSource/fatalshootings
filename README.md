@@ -1,6 +1,6 @@
 Application to explore data from [Fatal Encounters](http://fatalencounters.org).
 
-This Application is run on heroku so, you will not have to worry about installing all the sevral dependencies required to run this application!
+This Application is runs on heroku so, you will not have to worry about installing all the sevral dependencies required to run this application!
 
 ##Table of Contents
 
