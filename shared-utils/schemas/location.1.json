@@ -1,0 +1,38 @@
+{
+    "id": "location.1",
+    "type": "object",
+    "properties": {
+
+        "coordinates" : {
+            "latitude" : "number",
+            "longitude" : "number"
+        },
+
+        "country" : {
+            "enum" : [
+                "United States of America",
+                "Mexico"
+            ]
+        },
+
+        "address_line_1" : {
+             "type": "string"
+        },
+
+        "address_line_2" : {
+             "type": "string"
+        },
+
+        "city" : {
+             "type": "string"
+        },
+
+        "state" : {
+            "type": "string"
+        },
+
+        "zipcode" : {
+            "pattern": "string"
+        }
+    }
+}

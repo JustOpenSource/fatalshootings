@@ -1,0 +1,49 @@
+{
+    "id": "fe.1",
+    "type": "object",
+    "properties": {
+
+        "reporter_name": {
+            "type": "string"
+        },
+
+        "reporter_email": {
+            "type": "string"
+        },
+
+        "reporter_notes": {
+            "type": "string"
+        },
+
+        "published" : {
+            "type" : "boolean"
+        },
+
+        "sources" : {
+            "type" : "array",
+            "items" : { 
+                "anyOf" : [{ 
+                    "type" : "string"
+                }]
+            }
+        },
+
+        "death" : {
+            "type" : {
+                "$ref" : "death.1"
+            }
+        },
+
+        "location" : {
+            "type" : {
+                "$ref" : "location.1"
+            }
+        },
+
+        "person" : {
+            "type" : {
+                "$ref" : "person.1"
+            }
+        }
+    }
+}

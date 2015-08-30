@@ -1,38 +1,31 @@
 var winston = require('winston');
-var _ = require('winston');
-        
+var _ = require('underscore');
+
 //constants
 var c = {
 
     port: {
-        'mongodb' : 27017,
-        'explore' : 3000,
+        'explore' : '',
         'admin' : 3001,
         'sys-admin' : 3002
     },
 
     db: {
-        fatalities: 'test-fatalities'
+        fatalities: ''
     },
-    
+
     collection: {        
-        fatalities: 'test-fatalities'
+        fatalities: 'fatal-encounter-records'
     },
     
     url: {}
 };
 
-var urlRoot = 'http://localhost:3000/';
-
-c.url.mongo = 'mongodb://localhost:' + c.port.mongodb + '/';
-c.url.data = urlRoot + 'data/api/v1';
-c.url.list = urlRoot + 'list';
-c.url.distinct = c.url.data + '/distinct/';
-
 //MOVE INTO LOGGER FILE
 var FILE_SEP = '.',
     LOGS_DIR = __dirname + '/../log/';
 
+/*
 var logger = new (winston.Logger)({
 
     levels: {
@@ -85,27 +78,18 @@ function getLogFileName () {
 
     return filename;
 }
+*/
 
 c.getLog = function (location) {
 
     return function (type, msg, data) {
 
-        if(data){
-
-            //if data is not an object, make it one move value into _data property
-            //don't get data by referenc
-            //data = typeof data === 'object' ? JSON.parse(JSON.stringify(data)) : { '_data' : _.clone(data) };
-
-        } else {
-
-            data = {};
-        }
-
-        //add the current location to _loc data property
-        data._loc  = location;
+        data = data || '';
         
         console.log(' ');
-        logger.log(type, msg, data);
+        console.log(location);
+        console.log(msg);
+        console.log(data);
         console.log(' ');
     }
 }

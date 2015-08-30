@@ -1,3 +1,9 @@
+i.fa-exclamation {
+	color: red;
+	font-size: 18px;
+	font-weight: bold;
+}
+
 #reportADeathForm {
 
 	width: 300px;
@@ -8,5 +14,38 @@
 
 	.input-group {
 		margin-bottom: 10px;
+	}
+
+	.fe-report-required {
+		position: relative;
+		width: 100%;
+		display: inline-block;
+
+		i {
+			position: absolute;
+			right: -20px;
+		}
+
+		i.fa-exclamation {
+			visibility: hidden;
+		}
+
+		i.fa-asterisk {
+			visibility: visible; 
+			top: 10px;
+			color: #999;
+		}
+	}
+
+	.fe-report-required-missing {
+
+		i.fa-exclamation {
+			visibility: visible;
+			top: 8px;
+		}
+
+		i.fa-asterisk {
+			visibility: hidden;
+		}
 	}
 }

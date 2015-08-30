@@ -1,0 +1,49 @@
+{
+    "id": "death.1",
+    "type": "object",
+    "properties": {
+
+        "cause" : {
+            "enum": [
+                "Unknown",
+                "Asphyxiation",
+                "Assault",
+                "Automobile",
+                "Drug Related",
+                "Gunshot",
+                "Medical Emergency",
+                "Neglect",
+                "Non-Lethal Weapon",
+                "Suicide",
+                "Other"
+            ]
+        },
+
+        "cause_notes" : {
+            "type": "string"
+        },
+
+        "responsible_agency" : {
+            "type": "string"
+        },
+
+        "description" : {
+            "type": "string"
+        },
+
+        "date" : {
+            "type": "string",
+            "pattern" : "" 
+        },
+
+        "disposition" : {
+            "type": {
+                "enum" : [
+                    "Justified",
+                    "Homocide",
+                    "Other"
+                ]
+            }
+        }
+    }
+}

@@ -5,53 +5,39 @@ var __base = __base || '../',
 
     //node require
     q = require('q'),
-    _ = require('underscore');
+    _ = require('underscore'),
+
+    feSchema = require(__base + 'shared-utils/schemas-cache/fe.1.json'),
+    getSchemaLang = require(__base + 'shared-utils/schema-lang-get');
 
 module.exports = function(d, cb) {
-    log('trace', d.filters);
 
-    var filterModel = {
-        select: []
-    };
-
-    function getDistinct(attribute){
-        var deferred = q.defer();
-
-        httpGet(c.url.distinct + attribute, function(err, body){
-
-            if(err){
-
-                log('error', 'distinct sex error', err);
-                deferred.reject(err);
-            }
-
-            deferred.resolve({
-                'values' : body
-            });
-        })
-
-        return deferred.promise;
-    }
+    var personLangOptions = getSchemaLang('person', d._str._lang);
+    var deathLangOptions = getSchemaLang('death', d._str._lang);
 
     function buildOptions(name, attributes){
 
+        var langOptions = {};
         var options = [];
-
-        log('trace', 'buildOptions', attributes);
-
-        var optionDefault = 'All '
+        var optionDefault = d._str.select_label_prefix + ' ';
 
         if(name === 'sex'){
 
-            optionDefault = optionDefault + 'sexes'
+            langOptions = personLangOptions.sex;
+
+            optionDefault = optionDefault + d._str.select_label_sex;
 
         } else if(name === 'race'){
 
-            optionDefault = optionDefault + 'races'
+            langOptions = personLangOptions.race;
+
+            optionDefault = optionDefault + d._str.select_label_race;
 
         } else if(name === 'cause'){
 
-            optionDefault = optionDefault + 'causes'
+            langOptions = deathLangOptions.cause;
+
+            optionDefault = optionDefault + d._str.select_label_cause;
         }
 
         options.push({
@@ -66,7 +52,7 @@ module.exports = function(d, cb) {
                 options.push({
                     value: value.trim(),
                     selected: d.filters[name] == value.trim() ? 'selected' : false,
-                    text: value
+                    text: langOptions[value]
                 })
             }
         });
@@ -74,31 +60,33 @@ module.exports = function(d, cb) {
         return options;
     }
 
-    function fetchAllComplete(race, sex, cause){
+    function fetchAllComplete(){
 
-        log('trace', 'race options', race.values);
-        log('trace', 'sex options', sex.values);
-        log('trace', 'cause options', cause.values);
+        var filterModel = {
+            select: []
+        };
 
         filterModel.select.push({
             name: 'sex',
-            options: buildOptions('sex', sex.values)
+            options: buildOptions('sex', feSchema.properties.person.type.schema.properties.sex.enum)
         });
 
         filterModel.select.push({
             name: 'race',
-            options: buildOptions('race', race.values)
+            options: buildOptions('race', feSchema.properties.person.type.schema.properties.race.items.enum)
         });
 
         filterModel.select.push({
             name: 'cause',
-            options: buildOptions('cause', cause.values)
+            options: buildOptions('cause', feSchema.properties.death.type.schema.properties.cause.enum)
         });
 
         filterModel.name = d.filters.name || null;
 
+        filterModel.postURL = d.url_current;
+
         cb(null, filterModel);
     }
 
-    q.all([getDistinct('race'), getDistinct('sex'), getDistinct('cause')]).spread(fetchAllComplete);
+    fetchAllComplete();
 };

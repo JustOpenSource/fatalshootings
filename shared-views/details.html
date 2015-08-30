@@ -1,0 +1,130 @@
+
+<div class="page-content">
+    <div class="container">
+		<h1 class="page-header">{{_str.title}}</h1>
+
+		{{#success}}
+		<h2>{{_str.success.title}}</h2>
+		<p>{{_str.success.message}}</p>
+		<p><a href="/details/new">{{_str.success.report_another_link_text}}</a></p>
+		{{/success}}
+
+		{{#missing}}
+		<p><i class="fa fa-exclamation"></i> {{_str.missing}}</p>
+		{{/missing}}
+
+		{{^success}}
+		<div class="fe-details-form-controls-section row">
+			<span class="col-xs-12 col-md-10">
+				{{#edit}}
+				{{^new}}
+				<a href="/details/{{id}}"><button class="btn btn-warning" type="button"><i class="fa fa-arrow-left"></i> &nbsp;{{_str.cancel}}</button></a>
+				{{/new}}
+				{{/edit}}
+			</span>
+			
+			<span class="fe-details-form-submit-col col-xs-12 col-md-2">
+				{{^edit}}
+				<a href="/details/{{id}}?edit=true"><button class="btn btn-primary" type="button">{{_str.suggest_edits}} &nbsp;<i class="fa fa-pencil"></i></button></a>
+				{{/edit}}
+			</span>
+		</div>
+
+		<form id="saveEdits" action="{{action}}" method="POST" class="row">
+
+			{{#sections}}
+			<div class="panel panel-default">
+			  	<div class="panel-heading">{{sectionTitle}}</div>
+
+			  	<span class="fe-details-section">
+				  	{{#values}}
+				    <span class="row {{indicator}}">
+						
+						<span class="fe-details-col fe-details-key col-xs-12 col-md-2">{{label}}</span>
+
+				    	{{^edit}}
+				    	<span class="fe-details-col fe-details-value col-xs-12 col-md-10">
+				    		{{#value}}{{.}}{{/value}}
+				    		{{^value}}<i class="fa fa-question-circle"></i>{{/value}}
+				    	</span>
+				    	{{/edit}}
+
+				    	{{#edit}}
+				    	<span class="fe-details-col fe-details-controls {{#required}}fe-details-required{{/required}} col-xs-12 col-md-5">
+				    		<input type="hidden" value="{{value}}" name="original-{{key}}" />
+
+				    		{{#input-text}}
+				    		<input type="text" class="form-control" placeholder="{{key}}" value="{{value}}" name="{{name}}" />
+				    		{{/input-text}}
+
+				    		{{#input-select}}
+				    		<select class="form-control"  name="{{name}}">
+								{{#options}}
+									<option {{#selected}}selected{{/selected}}>{{text}}</option>
+								{{/options}}
+							</select>
+				    		{{/input-select}}
+
+				    		{{#input-textarea}}
+				    		<textarea class="form-control" name="{{name}}">{{value}}</textarea>
+				    		{{/input-textarea}}
+
+				    		{{#input-date}}
+				    			<input type="date" class="form-control" value="{{value}}" name="{{name}}">
+				    		{{/input-date}}
+
+				    		{{#input-checkbox}}
+				    			<span><input type="checkbox"  name="{{name}} {{#value}}checked{{/value}}"></span>
+				    		{{/input-checkbox}}
+				    	</span>
+
+				    	<span class="fe-details-col fe-details-controls col-xs-12 col-md-1">
+							{{#status}}
+								{{#missing}}
+									<i class="fa fa-exclamation-triangle"></i>
+								{{/missing}}
+
+								{{#required}}
+								<i class="fa fa-asterisk"></i>
+								{{/required}}
+							{{/status}}
+				    	</span>
+
+				    	<span class="fe-details-col fe-details-controls col-xs-12 col-md-4">
+							{{notes}}
+				    	</span>
+				    	{{/edit}}
+				  	</span>
+				  	{{/values}}
+				</span>
+
+			</div>
+			{{/sections}}
+
+			{{#edit}}
+			<span class="fe-details-form-submit-section fe-details-section">
+				<span class="col-xs-12 col-md-6"></span>
+				
+				<span class="fe-details-form-submit-col col-xs-12 col-md-2">
+					<input type="text" class="form-control" placeholder="{{_str.contact_info.name.label}}" name="suggest-edit-name" />
+				</span>
+
+				<span class="fe-details-form-submit-col col-xs-12 col-md-2">
+					<input type="text" class="form-control" placeholder="{{_str.contact_info.email.label}}" name="suggest-edit-email" />
+				</span>
+				
+				<span class="fe-details-form-submit-col col-xs-12 col-md-2">
+					<button class="btn btn-primary fe-details-form-submit" type="submit" form="saveEdits" value="Save">
+						{{^new}}{{_str.submit.suggest_edits}}{{/new}}
+						{{#new}}{{_str.submit.save}}{{/new}}
+						<i class="fa fa-arrow-right"></i>
+					</button>
+				</span>
+			</span>
+			{{/edit}}
+			
+		</form>
+
+		{{/success}}
+	</div>
+</div>

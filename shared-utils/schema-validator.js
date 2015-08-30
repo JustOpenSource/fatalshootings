@@ -11,7 +11,7 @@ var __base = __base || '../',
     //variables
     v = new Validator(),
     schemaPath = './schemas/',
-    schemas = ['entry', 'encounter', 'death', 'location', 'subject'];
+    schemas = ['entry', 'death', 'location', 'person'];
 
 //add schemas to Validator
 _.each(schemas, function(value, i){
@@ -75,7 +75,7 @@ function schemaValidator(d){
     return allErrors;
 }
 
-//
+/*
 var testEntry = {
     "submitted_by" : 'a. person',
     "published" : 'adsf',

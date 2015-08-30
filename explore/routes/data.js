@@ -11,7 +11,9 @@ var c = require(__base + '../shared-config/constants'),
 
     //application imports
     router = express.Router(),
-    renderView = require(__base + '../shared-utils/render-view');
+    renderView = require(__base + '../shared-utils/render-view'),
+
+    schema = require(__base + '../shared-utils/schema');
 
 
 function getCount(data) {
@@ -92,11 +94,30 @@ function getDistinctCount(collection, mapper, cb){
     );
 }
 
-// url/data/api
-router.route('/api/v1/')
+function getDetails(data, id, cb){
+    log('trace', 'attempt to get details');
+
+    data.collection.findOne({
+        
+        id : id
+    
+    }, function(err, body){
+        if(err){
+            cb(err);
+        }
+
+        cb(null, body)
+    });
+}
+
+/*
+ROOT API
+
+*/
+router.route('/api/:version/')
 .get(function(req, res){
 
-    log('trace', '/data/v1/api query', req.query);
+    log('trace', '/data/api/v1 query', req.query);
 
     var data = {};
 
@@ -114,11 +135,35 @@ router.route('/api/v1/')
         .fail(function(err){
 
             log('error', 'could not get results', err);
-            //error response
+            res.sendStatus(500);
         });
 });
 
-router.route('/api/v1/distinct/:attr')
+// url/data/api
+router.route('/api/:version/details/:record_id')
+.get(function(req, res){
+
+    log('trace', '/data/api/v1/details req.params.record_id', req.params.record_id);
+
+    var data = {};
+
+    data.collection = req._db.fatalities;
+
+    getDetails(data, req.params.record_id, function(err, body){
+        if(err){
+            log('error', 'could not get details', err);
+
+            res.sendStatus(500);
+        }
+
+        log('trace', '/data/api/v1/details response', body);
+
+        res.status(200).json(body);
+    });
+
+});
+
+router.route('/api/:version/distinct/:attr')
 .get(function(req, res){
 
     var attr = req.params.attr,
@@ -192,7 +237,7 @@ router.route('/api/v1/distinct/:attr')
                 return;
             }
 
-            res.json(body);
+            res.status(200).json(body);
         })
 
     } else {
@@ -201,12 +246,12 @@ router.route('/api/v1/distinct/:attr')
 
             if(err){
                 log('error', 'distinct race', err);
-                return;
+                res.sendStatus(500);
             }
 
             log('trace', 'got distinct count');
 
-            res.json(body);
+            res.status(200).json(body);
         });
     }
 
@@ -219,6 +264,10 @@ router.route('/')
     renderView(req, res, 'data-api', {
 
         url: {
+
+            'details' : [
+                '/data/api/v1/details/fatality_2798'
+            ],
 
             'attr' : [
                 '/data/api/v1?sex=female',
@@ -254,6 +303,32 @@ router.route('/')
         css: ['data']
 
     });
+});
+
+// url/data/schema
+router.route('/schema/:name/:version')
+.get(function(req, res){
+    var name = req.params.name;
+    var version = req.params.version;
+
+    var feSchema = schema.getFullSchema(name, version);
+
+    if(feSchema){
+
+        fs = require('fs');
+        
+        //temp schema cache, update by hitting endpoint
+        fs.writeFile(__base + '/../shared-utils/schemas-cache/' + name + '.' + version + '.json', JSON.stringify(feSchema), function (err) {
+            
+            if (err) return console.log(err);
+            
+            log('trace', 'updated schema ' + name + '.' + version);
+        });
+
+        res.status(200).json(feSchema);
+    } else {
+        res.status(500);
+    }
 });
 
 module.exports = router;

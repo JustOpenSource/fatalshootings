@@ -5,11 +5,25 @@ var c = require(__base + '../shared-config/constants');
 var log = c.getLog('explore/bin/www');
 var MongoClient = require('mongodb').MongoClient;
 
-app.set('port', process.env.PORT || 3000);
+app.set('port', process.env.PORT);
 
-var url = c.url.mongo + c.db.fatalities;
+function unableToConnectToDB(e){
+	log('error', 'missing mongo url', 'generate .env by running: heroku config:get MONGOHQ_URL -s  >> .env');
+
+	if(e){
+		log('error', 'mongo connection error', e);
+	}
+}
+
+var url = process.env.MONGOHQ_URL;
+
+if(!url){
+	unableToConnectToDB();
+	return;
+}
 
 //MAKE THIS PRETTIER AND ABSTRACT IT
+try {
 MongoClient.connect(url, function(err, db) {
 
     if(!err){
@@ -17,19 +31,40 @@ MongoClient.connect(url, function(err, db) {
         log('trace', 'connected to ' + url);
     
         app.use(function(req, res, next){
-            
             req._db = {
                 fatalities : db.collection(c.collection.fatalities)
             };
 
+            req.lang = req.query.lang || 'en';
+
             next();
         });
 
+        //set urls to locals
+        app.use(function(req, res, next) {
+
+			req._rootUrl = function() {
+				var url = req.protocol + "://" + req.get('host');
+
+				return url;
+			}
+
+			req.app.locals.url_root = req._rootUrl();
+			req.app.locals.url_data = req.app.locals.url_root + '/data/api/v1';
+			req.app.locals.url_list = req.app.locals.url_root + '/list';
+			req.app.locals.url_distinct = req.app.locals.url_data + '/distinct/';
+			req.app.locals.url_details = req.app.locals.url_data + '/details/';
+			req.app.locals.url_current = req.app.locals.url_root + req.url;
+
+			return next();
+		});
+
         //routes
+        app.use('/', require('../routes/home'));
         app.use('/list/', require('../routes/list'));
         app.use('/contact/', require('../routes/contact'));
         app.use('/data/', require('../routes/data'));
-        app.use('/report/', require('../routes/report'));
+        app.use('/details/', require('../routes/details'));
 
         // catch 404 and forward to error handler
 		app.use(function(req, res, next) {
@@ -62,7 +97,6 @@ MongoClient.connect(url, function(err, db) {
 		    });
 		});
 
-
         var server = app.listen(app.get('port'), function() {
         	log('trace', 'listening to ' + server.address().port);
 			debug('Express server listening on port ' + server.address().port);
@@ -76,3 +110,6 @@ MongoClient.connect(url, function(err, db) {
 
     }
 });
+} catch (e){
+	unableToConnectToDB(e);
+}

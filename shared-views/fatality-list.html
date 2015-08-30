@@ -1,7 +1,7 @@
 <div class="page-content">
     <div class="container">
         <div class="page-header col-md-12">
-            <h1>List of People Killed By Police <small>{{ count}} results</small></h1>
+            <h1>{{_str.title}} <small>{{ count}} {{_str.results}}</small></h1>
         </div>
 
         {{{filters}}}
@@ -13,7 +13,7 @@
             {{#results}}
                 <li class="list-group-item clearfix">
                     <span class="list-item-value list-item-large">
-                        <a href="{{id_link_base}}{{id}}">{{value.subject.name}}</a>
+                        <a href="/details/{{id}}">{{value.subject.name}}</a>
                     </span>
 
                     <span class="list-item-value list-item-xtra-small">{{value.subject.age}}</span>

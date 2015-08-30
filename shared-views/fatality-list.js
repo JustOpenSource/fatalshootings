@@ -23,12 +23,14 @@ module.exports = function(d, cb) {
 
         var deferred = q.defer();
 
-        var listFilterData = {
+        getView(d._str._lang, 'fatality-list-filter', {
+
+            url_current: d.locals.url_current,
+            url_distinct: d.locals.url_distinct,
             collection: collection,
             filters: filter
-        }
-
-        getView('fatality-list-filter', listFilterData, function(err, data){
+        
+        }, function(err, data) {
 
             if(err){
 
@@ -53,7 +55,7 @@ module.exports = function(d, cb) {
 
         var deferred = q.defer();
 
-        httpGet(filterUtils.buildFilterURL(c.url.data, filter), function(err, body){
+        httpGet(filterUtils.buildFilterURL(d.locals.url_data, filter), function(err, body){
 
             if(err){
 
@@ -84,14 +86,15 @@ module.exports = function(d, cb) {
             count: data.count,
             admin: d.admin,
             pending: d.pending,
-            
             filters: data.filterView.html,
 
-            pagination: getView('components/pagination', {
+            pagination: getView(d._str._lang, 'components/pagination', {
+
                 count: data.count,
                 current: filter.page,
                 limit: filter.limit,
                 url: filterUtils.buildFilterURL('/list', filter, { page: false })
+            
             }).html
         });
     }
