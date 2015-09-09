@@ -12,6 +12,7 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var hogan = require('hogan-express');
 var app = express();
+var session = require('express-session');
 
 // view engine setup
 app.engine('html', hogan);
@@ -24,8 +25,14 @@ app.set('layout', 'layout');
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(cookieParser());
 app.use(require('less-middleware')(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(session({
+	secret: 'ssshhhhh',
+	cookie: { 
+		httpOnly: false , 
+		maxAge: 24*60*60*1000
+	}
+}));
 
 module.exports = app;
