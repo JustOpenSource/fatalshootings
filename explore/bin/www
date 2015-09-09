@@ -4,6 +4,9 @@ var app = require('../app');
 var c = require(__base + '../shared-config/constants');
 var log = c.getLog('explore/bin/www');
 var MongoClient = require('mongodb').MongoClient;
+var https = require('https');
+var http = require('http');
+var fs = require('fs');
 
 app.set('port', process.env.PORT);
 
@@ -29,16 +32,44 @@ MongoClient.connect(url, function(err, db) {
     if(!err){
 
         log('trace', 'connected to ' + url);
-    
+
+    	log('trace', 'adding  db and lang to');
+
+    	//todo: remove this, add it to locals
         app.use(function(req, res, next){
             req._db = {
-                fatalities : db.collection(c.collection.fatalities)
+                fatalities : db.collection(c.collection.fatalities),
+                users : db.collection(c.collection.users)
             };
 
             req.lang = req.query.lang || 'en';
 
             next();
         });
+
+        // development error handler
+		// will print stacktrace
+		if (app.get('env') === 'development') {
+		    app.use(function(err, req, res, next) {
+		        res.status(err.status || 500);
+		        res.render('error', {
+		            message: err.message,
+		            error: err
+		        });
+		    });
+		}
+
+        // production error handler
+		// no stacktraces leaked to user
+		app.use(function(err, req, res, next) {
+		    res.status(err.status || 500);
+		    res.render('error', {
+		        message: err.message,
+		        error: {}
+		    });
+		});
+
+        log('trace', 'adding app.locals');
 
         //set urls to locals
         app.use(function(req, res, next) {
@@ -59,48 +90,69 @@ MongoClient.connect(url, function(err, db) {
 			return next();
 		});
 
+		log('trace', 'setting up routes');
+
         //routes
         app.use('/', require('../routes/home'));
         app.use('/list/', require('../routes/list'));
         app.use('/contact/', require('../routes/contact'));
         app.use('/data/', require('../routes/data'));
         app.use('/details/', require('../routes/details'));
+		app.use('/login/', require('../routes/login'));
+		app.use('/user/', require('../routes/user'));
+
+		log('trace', 'setting up 404 page');
 
         // catch 404 and forward to error handler
 		app.use(function(req, res, next) {
+
 		    var err = new Error('Not Found');
 		    err.status = 404;
 		    next(err);
+		
 		});
 
-		// error handlers
+		log('trace', 'setting up http server');
 
-		// development error handler
-		// will print stacktrace
-		if (app.get('env') === 'development') {
-		    app.use(function(err, req, res, next) {
-		        res.status(err.status || 500);
-		        res.render('error', {
-		            message: err.message,
-		            error: err
-		        });
-		    });
+		var httpServer = http.createServer(app).listen(app.get('port'));
+
+		log('trace', 'getting key and cert');
+
+		var key, cert;
+
+		try{
+
+			key = fs.readFileSync(__base + '../keys/key.pem');
+		
+		} catch(e){
+		
+			log('trace', 'cannot get key');
+		
 		}
 
-		// production error handler
-		// no stacktraces leaked to user
-		app.use(function(err, req, res, next) {
-		    res.status(err.status || 500);
-		    res.render('error', {
-		        message: err.message,
-		        error: {}
-		    });
-		});
+		try{
+		
+			cert = fs.readFileSync(__base + '../keys/cert.pem');
+		
+		} catch(e){
+		
+			log('trace', 'cannot get cert');
+		
+		}
 
-        var server = app.listen(app.get('port'), function() {
-        	log('trace', 'listening to ' + server.address().port);
-			debug('Express server listening on port ' + server.address().port);
-		});
+		if(key && cert){
+		
+			log('trace', 'creating https options');
+
+			var options = {
+	  			"key" : key,
+	  			"cert" : cert
+			};
+
+			log('trace', 'creating https server');
+
+			var httpsServer = https.createServer(options, app).listen(8000);
+		}
 
     } else {
 
