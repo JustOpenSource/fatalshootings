@@ -45,6 +45,8 @@ Browse to [localhost:5000/list/](localhost:5000/list/).
 ###Database
 
 The database, so far, is a single mongo collection. Each record is based off of the [entry schema](https://github.com/JustOpenSource/fatalshootings/blob/master/shared-utils/schemas/entry.json).
+cal web
+
 
 ###Shared Components
 
