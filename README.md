@@ -1,16 +1,12 @@
 Application to explore data from [Fatal Encounters](http://fatalencounters.org).
 
-#OUT OF DATE#
-
-The project has recently moved onto heroku and requires updated onboarding instructions.
+This Application runs on heroku so, you will not have to worry about installing all the sevral dependencies required to run this application!
 
 ##Table of Contents
 
 * [Setup](#setup)
-	* [Install MongoDB](#install-mongodb)
-	* [Start MongoDB](#start-mongodb)
  	* [Clone the Project](#clone-the-project)
- 	* [Run Node Server](#run-node-server)
+ 	* [Run web app](#run-localweb-server)
 * [Application Architecture](#application-architecture)
 * [API](#api)
  	* [Database Access](#database-access)
@@ -24,115 +20,63 @@ The project has recently moved onto heroku and requires updated onboarding instr
   		* [Using Views](#using-views)
   		 	* [getView()](#getview)
   			* [renderView()](#renderview)
-* [Logging](#logging) 
+* [Logging](#logging)
 	* [getLog()](#getlog)
-	* [log()](#log) 
+	* [log()](#log)
 	* [Log Levels](#log-levels)
 	* [Log Output](#log-output)
 * [Requirements Documentation](#requirements-documentation)
 * [Features](#features)
 
-##Setup
+##clone The Project
 
-Install [node](http://nodejs.org/) and [mongodb](http://www.mongodb.org/downloads). 
-
-###Install MongoDB
-
-Install mongodb and add the bin to your paths.  Confirm that it worked by running:
-
-```
-$ mongo
-```
-
-Create a directory `data` and then inside that put a directory `db`.
-
-mac:
-```
-$ mkdir /data/db
-```
-
-windows:
-```
-$ md /data/db
-```
-
-###Start MongoDB
-
-Open a new terminal window and start the database.
-
-```
-$ mongod --dbpath=/data --port 27017
-```
-
-The database must be running to use the application.
-
-###Clone the Project and install dependencies.
-
-```
 $ git clone https://github.com/JustOpenSource/fatalshootings.git
 $ cd fatalshootings
-$ npm install
 ```
+### Starting the application
 
-###Import Sample Data
+Run:
+heroku local web
 
-```
-$ cd sys-admin
-$ node import-sample-data.js
-```
-
-###Run Node Server
-
-For ease of development, install `supervisor` to watch your files and automatically bounce the server.
-
-```
-$ npm install supervisor -g
-```
-
-Go to the `explore` application, install node dependencies, and run the server.
-
-```
-$ cd explore
-$ supervisor bin/www
-```
-
-Browse to [localhost:3000/list/](localhost:3000/list/).
+Browse to [localhost:5000/list/](localhost:5000/list/).
 
 ##Application Architecture
 
 ###Database
 
 The database, so far, is a single mongo collection. Each record is based off of the [entry schema](https://github.com/JustOpenSource/fatalshootings/blob/master/shared-utils/schemas/entry.json).
+cal web
+
 
 ###Shared Components
 
 Root directories prefixed with "shared-" are accessible by all apps.
 
-The shared-config/constants.js file should be included in every file to access constant values and the logger function. 
+The shared-config/constants.js file should be included in every file to access constant values and the logger function.
 
 ###Applications
 
-Explore and Admin are independent express applications and run on separate ports. 
+Explore and Admin are independent express applications and run on separate ports.
 
-Routes are managed via express. The route roots are defined within bin/www and the route files are in app/routes. 
+Routes are managed via express. The route roots are defined within bin/www and the route files are in app/routes.
 
 Get and Post url end points requests are handled in app/routes.
 
 Views are in /shared-views and contain mustache templates paired with JavaScript model functions that passes a data object to the template.
 
-A node JS API lets you use the views. 
+A node JS API lets you use the views.
 
 ###Accessibility
 
-All basic functionality must work without JavaScript. 
+All basic functionality must work without JavaScript.
 
-All pages must be responsive and support mobile, tablet, and desktop. 
+All pages must be responsive and support mobile, tablet, and desktop.
 
-All UI control strings must be internationalizable. 
+All UI control strings must be internationalizable.
 
 ###Explore Application
 
-Public facing data explorer. 
+Public facing data explorer.
 
 ####List
 
@@ -151,7 +95,7 @@ An individual record's complete details.
 
 ###Sys Admin
 
-Set of utilities and datasets used by engineers in thdevelopment and maintenance of he applications. 
+Set of utilities and datasets used by engineers in thdevelopment and maintenance of he applications.
 
 ##API
 
@@ -181,26 +125,26 @@ function cb(err, db, close){
 	if(err){
 		//handle error
 	}
-	
+
 	db.collection('collection-name')
 	.find({})
 	.toArray(function(err, body){
-	 
+
 		if(err){
 		 	//handle error
 		}
-	
+
 		//do stuff with data
-		
-		//close the db connection once you have the data 
+
+		//close the db connection once you have the data
 		close();
-		
+
 	});
 ```
 
 ####req._db
 
-From within a route request, you can access database collections with the `_db` property on `req`. For an example, see [Routes](#routes). 
+From within a route request, you can access database collections with the `_db` property on `req`. For an example, see [Routes](#routes).
 
 The collection is a [node mongodb](https://github.com/mongodb/node-mongodb-native) collection.  
 
@@ -231,7 +175,7 @@ touch shared-views/view-name.js
 The html file is a [mustache template](https://github.com/janl/mustache.js).
 
 ####Model
-The js file `module.exports` a function called `getModel` that returns a json object in the format that the html template expects. 
+The js file `module.exports` a function called `getModel` that returns a json object in the format that the html template expects.
 
 #####export model function()
 
@@ -255,14 +199,14 @@ module.exports = function(d){
 ```
 /**
  * export model
- * @param d {object} the data passed into the model 
+ * @param d {object} the data passed into the model
  * @param cb {function} a function to runs once the data is available
  */
 module.exports = function(d, cb){
 
 	//processed data object in the format that the html template expects
 	var data = {};
-	
+
 	/**
 	 * cb
 	 * @param err {string || null}  error message or null
@@ -333,20 +277,20 @@ router.route('/').get(function(req, res){
 
 	//data that you will pass to the model
 	var data = {};
-	
+
 	//local variables are processed by the html page template
 	var locals = {
-	
+
 		//title of the html document
 		title: 'Title of HTML Page',
-		
+
 		//require js config file to include on the page
 		js: ['config/list'],
-		
+
 		//css files to include on the page
 		css: ['list']
 	}
-	
+
 	/**
 	 * renderView
 	 * @param req {object} node express request object
@@ -361,7 +305,7 @@ router.route('/').get(function(req, res){
 
 ##Logging
 
-For logging, we are using [winston](https://github.com/winstonjs/winston). 
+For logging, we are using [winston](https://github.com/winstonjs/winston).
 
 To use the logger, include constants and then use `getLog()`.
 
