@@ -3,10 +3,7 @@ var log = c.getLog('explore/routes/home');
 var router = express.Router();
 var password = require('password-hash-and-salt');
 var renderView = require(__base + '../shared-utils/render-view');
-<<<<<<< HEAD
 var _ = require('underscore');
-=======
->>>>>>> 80176e8385e0a55dc90c93ba43a00b565af30b23
 
 //var HOST = req.get('host');
 var HOST = 'localhost:8000';
@@ -14,7 +11,6 @@ var LOGIN_URL = 'https://' + HOST + '/login';
 var DEFAULT_ROLES = ['researcher'];
 
 /*
-<<<<<<< HEAD
 parseRoles
 turn roles array into an object with roleName: true
 **/
@@ -31,8 +27,6 @@ function parseRoles(roles){
 }
 
 /*
-=======
->>>>>>> 80176e8385e0a55dc90c93ba43a00b565af30b23
 findUser
 get the user by email from the users collection
 **/
@@ -95,14 +89,10 @@ router.route('/')
 		res.redirect(LOGIN_URL);
 	}
 
-<<<<<<< HEAD
 	if(req && req.session && req.session.roles){
 		log('trace', 'roles', req.session.roles);
 	}
 	
-
-=======
->>>>>>> 80176e8385e0a55dc90c93ba43a00b565af30b23
     var page_title = 'Contributor Login';
 
     renderView(req, res, 'login', {
@@ -117,6 +107,7 @@ router.route('/')
     });
 })
 
+//TODO: too deeply nested, flatten this out
 .post(function(req, res){
 
 	if(!req.body || req.body.email == '' || req.body.password == ''){
@@ -135,11 +126,7 @@ router.route('/')
 			
 			if(verified){
 
-<<<<<<< HEAD
 				req.session.roles = parseRoles(body.roles);
-=======
-				req.session.roles = body.roles || DEFAULT_ROLES;
->>>>>>> 80176e8385e0a55dc90c93ba43a00b565af30b23
 
 				return res.redirect(LOGIN_URL + '?message=success');
 			
