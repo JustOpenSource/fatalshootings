@@ -3,6 +3,6 @@
 log/*.log
 node_modules
 .idea
-.env
+*.env
 keys/*
 npm-debug.log
