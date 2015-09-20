@@ -9,12 +9,17 @@ var https = require('https');
 var http = require('http');
 var fs = require('fs');
 var session = require('express-session');
+var getView = require(__base + 'utils/get-view');
 
 var writeSchemaCache = require(__base + 'utils/schema-write-cache');
 
 var KEYS_DIR = __dirname + '/' + __base + '../_keys/';
 
 app.set('port', process.env.PORT);
+
+log = function(a, b, c, d){
+
+}
 
 function unableToConnectToDB(e){
 	log('error', 'missing mongo url', 'generate .env by running: heroku config:get MONGOHQ_URL -s  >> .env');

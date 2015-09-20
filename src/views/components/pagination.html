@@ -37,34 +37,34 @@
     <ul class="pagination">
         <li class="{{^prevPage}}disabled{{/prevPage}}">
             <a href="{{url}}page={{prevPage}}" aria-label="Next">
-        <span aria-hidden="true">&laquo;</span>
-        </a>
-    </li>
+                <span aria-hidden="true">&laquo;</span>
+            </a>
+        </li>
 
-    {{#firstSet}}
-    <li class="{{#active}}active{{/active}} {{^active}}hidden-xs{{/active}}"><a href="{{{url}}}page={{number}}">{{number}}</a></li>
-    {{/firstSet}}
+        {{#firstSet}}
+        <li class="{{#active}}active{{/active}} {{^active}}hidden-xs{{/active}}"><a href="{{{url}}}page={{number}}">{{number}}</a></li>
+        {{/firstSet}}
 
-    {{#firstSep}}
-    <li class="disabled hidden-xs"><a>...</a></li>
-    {{/firstSep}}
+        {{#firstSep}}
+        <li class="disabled hidden-xs"><a>...</a></li>
+        {{/firstSep}}
 
-    {{#middleSet}}
-    <li class="{{#active}}active{{/active}} {{^active}}hidden-xs{{/active}}"><a href="{{{url}}}page={{number}}">{{number}}</a></li>
-    {{/middleSet}}
+        {{#middleSet}}
+        <li class="{{#active}}active{{/active}} {{^active}}hidden-xs{{/active}}"><a href="{{{url}}}page={{number}}">{{number}}</a></li>
+        {{/middleSet}}
 
-    {{#lastSep}}
-    <li class="disabled hidden-xs"><a>...</a></li>
-    {{/lastSep}}
+        {{#lastSep}}
+        <li class="disabled hidden-xs"><a>...</a></li>
+        {{/lastSep}}
 
-    {{#lastSet}}
-    <li class="{{#active}}active{{/active}} {{^active}}hidden-xs{{/active}}"><a href="{{{url}}}page={{number}}">{{number}}</a></li>
-    {{/lastSet}}
+        {{#lastSet}}
+        <li class="{{#active}}active{{/active}} {{^active}}hidden-xs{{/active}}"><a href="{{{url}}}page={{number}}">{{number}}</a></li>
+        {{/lastSet}}
 
-    <li class="{{^nextPage}}disabled{{/nextPage}}">
-        <a href="{{url}}page={{nextPage}}" aria-label="Next">
-            <span aria-hidden="true">&raquo;</span>
-        </a>
+        <li class="{{^nextPage}}disabled{{/nextPage}}">
+            <a href="{{url}}page={{nextPage}}" aria-label="Next">
+                <span aria-hidden="true">&raquo;</span>
+            </a>
         </li>
     </ul>
 </nav>

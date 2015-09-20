@@ -40,6 +40,22 @@ function renderView (req, res, component, data, locals) {
 	
 	data._str._lang = req.lang;
 
+	//make renderView available to all sub views
+	data.renderView = function(template, d, cb){
+		
+		d.renderView = data.renderView;
+
+		if(cb){
+
+			getView(req.lang, template, d, cb);
+
+		} else {
+
+			return getView(req.lang, template, d);
+
+		}
+	}
+
 	var nav = getNav(req, user);
 
 	getView(req.lang, component, data, function( err, view ){
@@ -58,13 +74,11 @@ function renderView (req, res, component, data, locals) {
 		log('trace', 'got view, calling res.render()');
 		
 		res.render('view', {
-			'nav' : nav.html,
-        	'view' : view.html,
+			'nav' : nav,
+        	'view' : view,
         	'locals' : locals
     	});
-
 	});
-	
 }
 
 module.exports = renderView;

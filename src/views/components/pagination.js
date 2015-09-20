@@ -1,5 +1,4 @@
 __base = __base || '../';
-
 var c = require(__base + 'constants');
 var log = c.getLog('views/pagination');
 
@@ -177,8 +176,6 @@ function getModel(d){
 
         paginationModel.firstSep = true;
     }
-
-    log('trace', 'paginationModel', paginationModel)
 
     return paginationModel;
 }

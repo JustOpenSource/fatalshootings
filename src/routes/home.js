@@ -20,6 +20,6 @@ router.route('/')
         js: ['main/home'],
         css: ['home']
     });
-})
+});
 
 module.exports = router;

@@ -8,7 +8,7 @@ var PATH_TO_TEMPLATES = __dirname + '/' + __base + 'views/';
 var TEMPLATE_EXT = '.html';
 var DEFAULT_LANG = 'en';
 
-function getStrings(template){
+function getStrings(template, lang){
 
 	var str = {};
 
@@ -71,13 +71,9 @@ function getModel(template, viewPath){
 }
 
 function syncModel(template, model, data, html, cb){
+	
 	var data = model(data);
-
-	var returnValue = {
-		html: mustache.render(html, data),
-		data: data,
-		template: html
-	};
+	var returnValue = mustache.render(html, data);
 
 	//even if the view is sync, allow it to be called with a callback
 	if(cb){
@@ -104,16 +100,10 @@ function asyncModel(template, model, data, html, cb){
 
 		d._str = data._str;
 
-		cb(null, {
-			html: mustache.render(html, d),
-			data: d,
-			template: html
-		});
+		cb(null, mustache.render(html, d));
 	});
-
 }
 
-//TODO: Too Deeply Nested
 function getView (lang, template, data, cb) {
 
 	var viewPath = PATH_TO_TEMPLATES + template;
@@ -122,7 +112,7 @@ function getView (lang, template, data, cb) {
 
 	var model = getModel(template, viewPath);
 
-	data._str = getStrings(template);
+	data._str = getStrings(template, lang);
 
 	//sync model
 	if(model.length === 1){
@@ -137,34 +127,5 @@ function getView (lang, template, data, cb) {
 	}
 
 };
-
-/*/ SYNCHRONOUSE USAGE
-
-var testView = getView('components/pagination', {
-	total: 50,
-	current: 32
-});
-
-//log('trace', 'testView pagination', testView);
-
-/**/
-
-/*/ ASYNCHRONOUSE USAGE
-
-getView(component, data, function(err, template){
-
-	if(err){
-		res.render('view', { 
-    		'view' : "error"
-		});
-	}
-	
-	res.render('view', { 
-    	'view' : template.html
-	});
-
-});
-
-/**/
 
 module.exports = getView;

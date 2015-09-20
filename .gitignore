@@ -2,10 +2,7 @@ nbproject
 log
 node_modules
 _keys
-
 .idea
 .env
-
 npm-debug.log
-
 /**/*.css

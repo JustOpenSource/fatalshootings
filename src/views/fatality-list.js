@@ -4,13 +4,12 @@ var c = require(__base + 'constants');
 var log = c.getLog('views/fatality-list');
 var httpGet = require(__base + 'utils/http-get');
 var q = require('q');
-var getView = require(__base + 'utils/get-view');
 var filterUtils = require(__base + 'utils/query-filters');
 
 module.exports = function(d, cb) {
 
-    var collection = d._db.fatalities,
-        filter = filterUtils.validateFilters(d.filters);
+    var collection = d._db.fatalities;
+    var filter = filterUtils.validateFilters(d.filters);
 
     filter.pending = d.pending ? true : false;
 
@@ -20,7 +19,7 @@ module.exports = function(d, cb) {
 
         var deferred = q.defer();
 
-        getView(d._str._lang, 'fatality-list-filter', {
+        d.renderView('fatality-list-filter', {
 
             url_current: d.locals.url_current,
             url_distinct: d.locals.url_distinct,
@@ -84,24 +83,16 @@ module.exports = function(d, cb) {
 
         var filterUrl = filterUtils.buildFilterURL('/list', filter, { page: false });
 
-        log('trace', 'filterUrl', filterUrl);
-
         log('trace', 'build pagination');
-
-        log('trace', 'build pagination data.count', data.count);
-        log('trace', 'build pagination filter.page', filter.page);
-        log('trace', 'build pagination filter.limit', filter.limit);
-
-
         
-        var pagination = getView(d._str._lang, 'components/pagination', {
+        var pagination = d.renderView('components/pagination', {
 
             count: data.count,
             current: filter.page,
             limit: filter.limit,
             url: filterUrl
         
-        }).html;
+        });
 
         log('trace', 'build pagination success');
 
@@ -111,7 +102,7 @@ module.exports = function(d, cb) {
             count: data.count,
             admin: d.admin,
             pending: d.pending,
-            filters: data.filterView.html,
+            filters: data.filterView,
             pagination: pagination
 
         });
