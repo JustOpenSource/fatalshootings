@@ -1,9 +1,0 @@
-{
-  "name": "fe-shared-utils",
-  "version": "0.0.0",
-  "private": true,
-  "dependencies": {
-    "mongodb" : "*",
-    "mustache" : "*"
-  }
-}

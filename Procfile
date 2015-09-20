@@ -1,1 +1,1 @@
-web: node explore/bin/www
+web: node src/bin/www

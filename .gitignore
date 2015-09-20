@@ -1,8 +1,11 @@
-/nbproject/
-*/npm-debug.log
-log/*.log
+nbproject
+log
 node_modules
+_keys
+
 .idea
 .env
-keys/*
+
 npm-debug.log
+
+/**/*.css
