@@ -1,12 +1,6 @@
 //constants
 var c = {
 
-    port: {
-        'explore' : '',
-        'admin' : 3001,
-        'sys-admin' : 3002
-    },
-
     db: {
         fatalities: ''
     },

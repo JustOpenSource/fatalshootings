@@ -1,6 +1,6 @@
 var __base = __base || '../';
 var c = require(__base + 'constants');
-var log = c.getLog('utils/schema-lang-get');
+var log = require(__base + 'utils/log')('utils/schema-get-lang');
 
 var SCHEMA_LANG_DIR = __base + 'lang/schemas/';
 

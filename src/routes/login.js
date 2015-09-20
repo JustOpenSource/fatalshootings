@@ -1,8 +1,6 @@
-var LOG_PATH = 'routes/login';
-
 var __base = __base || '../';
 var c = require(__base + 'constants');
-var log = c.getLog(LOG_PATH);
+var log = require(__base + 'utils/log')('routes/login');
 var router = require('express').Router();
 var password = require('password-hash-and-salt');
 var renderView = require(__base + 'utils/render-view');

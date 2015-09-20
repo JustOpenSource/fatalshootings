@@ -1,6 +1,7 @@
 var __base = __base || '../';
 var c = require(__base + 'constants');
-var log = c.getLog('utils/mongo-db');
+var log = require(__base + 'utils/log')('utils/mongo-db');
+
 var MongoClient = require('mongodb').MongoClient;
 
 module.exports = function(database, cb){

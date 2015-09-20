@@ -1,6 +1,6 @@
 var __base = __base || '../';
 var c = require(__base + 'constants');
-var log = c.getLog('utils/query-filters');
+var log = require(__base + 'utils/log')('utils/query-filters');
 
 var DEFAULT_LIMIT = 10;
 

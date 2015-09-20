@@ -1,6 +1,6 @@
 var __base = __base || '../';
 var c = require(__base + 'constants');
-var log = require(__base + 'utils/log').createLog('utils/schema-write-cache');
+var log = require(__base + 'utils/log')('utils/schema-write-cache');
 var schema = require(__base + 'utils/schema');
 var fs = require('fs');
 

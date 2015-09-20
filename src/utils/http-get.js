@@ -1,25 +1,25 @@
 var __base = __base || '../';
 var c = require(__base + 'constants');
-var log = c.getLog('utils/http-get');
+var log = require(__base + 'utils/log')('http-get');
 var http = require('http');
 
-function get(o, cb){
+function get(path, cb){
 
-    log('trace', 'http-get request response: ' + o);
+    log('trace', 'http-get request response: ' + path);
 
-    var req = http.request(o, function(res) {
+    var req = http.request(path, function(res) {
 
-        //TODO: Add proper trace logging in this function
         log('trace', 'http-get request response');
 
-        var status = res.statusCode,
-            output = '';
+        var status = res.statusCode;
+        var output = '';
 
         res.setEncoding('utf8');
 
         res.on('data', function(chunk) {
 
             output += chunk;
+
         });
 
         res.on('end', function() {

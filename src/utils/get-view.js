@@ -1,6 +1,6 @@
 var __base = __base || '../';
 var c = require(__base + 'constants');
-var log = c.getLog('utils/get-view');
+var log = require(__base + 'utils/log')('get-view');
 var fs = require('fs');
 var mustache = require('mustache');
 
@@ -71,7 +71,7 @@ function getModel(template, viewPath){
 }
 
 function syncModel(template, model, data, html, cb){
-	
+
 	var data = model(data);
 	var returnValue = mustache.render(html, data);
 

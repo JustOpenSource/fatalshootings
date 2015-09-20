@@ -1,6 +1,6 @@
 var __base = __base || '../';
 var c = require(__base + 'constants');
-var log = c.getLog('routes/contact');
+var log = require(__base + 'utils/log')('routes/contact');
 var router = require('express').Router();
 var renderView = require(__base + 'utils/render-view');
 

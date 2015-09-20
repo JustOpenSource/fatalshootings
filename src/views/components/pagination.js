@@ -1,6 +1,6 @@
 __base = __base || '../';
 var c = require(__base + 'constants');
-var log = c.getLog('views/pagination');
+var log = require(__base + 'utils/log')('views/pagination');
 
 var DEFAULT_CURRENT = 1;
 var DEFAULT_SIZE = 7;

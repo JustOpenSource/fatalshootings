@@ -1,6 +1,6 @@
 var __base = __base || '../';
 var c = require(__base + 'constants');
-var log = c.getLog('utils/render-view');
+var log = require(__base + 'utils/log')('utils/render-view');
 var getView = require(__base + 'utils/get-view');
 var _ = require('underscore');
 

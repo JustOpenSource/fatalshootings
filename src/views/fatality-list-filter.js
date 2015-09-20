@@ -1,6 +1,6 @@
 __base = __base || '../';
 var c = require(__base + 'constants');
-var log = c.getLog('views/fatality-list-filter');
+var log = require(__base + 'utils/log')('views/fatality-list-filter');
 var httpGet = require(__base + 'utils/http-get');
 var q = require('q');
 var _ = require('underscore');

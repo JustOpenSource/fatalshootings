@@ -3,7 +3,7 @@ var __base = __base || '../';
 var debug = require('debug')('dashboard');
 var app = require(__base + 'app');
 var c = require(__base + 'constants');
-var log = require(__base + 'utils/log').createLog('src/bin/www');
+var log = require(__base + 'utils/log')('src/bin/www');
 var MongoClient = require('mongodb').MongoClient;
 var https = require('https');
 var http = require('http');
@@ -16,10 +16,6 @@ var writeSchemaCache = require(__base + 'utils/schema-write-cache');
 var KEYS_DIR = __dirname + '/' + __base + '../_keys/';
 
 app.set('port', process.env.PORT);
-
-log = function(a, b, c, d){
-
-}
 
 function unableToConnectToDB(e){
 	log('error', 'missing mongo url', 'generate .env by running: heroku config:get MONGOHQ_URL -s  >> .env');

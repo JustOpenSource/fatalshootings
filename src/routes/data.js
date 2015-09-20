@@ -1,6 +1,6 @@
 var __base = __base || '../';
 var c = require(__base + 'constants');
-var log = c.getLog('routes/data');
+var log = require(__base + 'utils/log')('routes/data');
 var q = require('q');
 var filterUtils = require(__base + 'utils/query-filters');
 var renderView = require(__base + 'utils/render-view');

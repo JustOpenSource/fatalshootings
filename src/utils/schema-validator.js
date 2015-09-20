@@ -1,6 +1,6 @@
 var __base = __base || '../';
 var c = require(__base + 'constants');
-var log = c.getLog('utils/schema-validator');
+var log = require(__base + 'utils/log')('utils/schema-validator');
 var _ = require('underscore');
 var jsonvalidator = require('jsonschema');
 

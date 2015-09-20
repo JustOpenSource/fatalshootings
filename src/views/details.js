@@ -1,6 +1,6 @@
 __base = __base || '../';
 var c = require(__base + 'constants');
-var log = c.getLog('views/details');
+var log = require(__base + 'utils/log')('views/details');
 var _ = require('underscore');
 var httpGet = require(__base + 'utils/http-get');
 var feSchema = require(__base + 'schemas/fe.1.json');

@@ -1,6 +1,6 @@
 var __base = __base || '../';
 var c = require(__base + 'constants');
-var log = c.getLog('utils/schema');
+var log = require(__base + 'utils/log')('utils/schema');
 var _ = require('underscore');
 
 //TODO: Make this function recursive
