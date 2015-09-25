@@ -3,5 +3,6 @@ module.exports = {
 	"list" : "lista",
 	"data-api" : "datos",
 	"contact" : "contacto",
-	"report" : "Informe de muerte"
+	"report" : "Informe de muerte",
+    "login" : "log in"
 }

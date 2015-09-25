@@ -35,9 +35,7 @@ function renderView (req, res, component, data, locals) {
 	}
 
 	data.locals = req.app.locals;
-
-	var user = req.session && req.session.user ? req.session.user : null;
-	
+	data._user = req.session && req.session.user ? req.session.user : null;
 	data._str._lang = req.lang;
 
 	//make renderView available to all sub views
@@ -56,7 +54,7 @@ function renderView (req, res, component, data, locals) {
 		}
 	}
 
-	var nav = getNav(req, user);
+	var nav = getNav(req, data._user);
 
 	getView(req.lang, component, data, function( err, view ){
 

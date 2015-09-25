@@ -84,6 +84,8 @@ module.exports = function(d, cb) {
 
         filterModel.postURL = d.url_current;
 
+        filterModel.user = d._user;
+
         cb(null, filterModel);
     }
 

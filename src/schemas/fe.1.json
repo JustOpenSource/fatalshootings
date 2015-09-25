@@ -3,6 +3,14 @@
     "type": "object",
     "properties": {
 
+        "recordState" : {
+            "enum": [
+                "new",
+                "pending",
+                "published"
+            ]
+        },
+
         "reporter_name": {
             "type": "string"
         },

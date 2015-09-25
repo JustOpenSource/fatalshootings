@@ -15,18 +15,30 @@ var DEFAULT_ROLES = ['researcher'];
 parseRoles
 turn roles array into an object with roleName: true
 **/
-function parseRoles(roles){
-	var rolesObj = [];
+function parseRolesCollection(roles){
+	var rolesCollection = [];
 
 	roles = roles ? roles : DEFAULT_ROLES;
 
 	_.each(roles, function(role){
-		rolesObj.push({
+		rolesCollection.push({
 			"name" : role
 		});
 	});
 
-	return rolesObj;
+	return rolesCollection;
+}
+
+function parseRolesObject(roles){
+    var rolesObject = {};
+
+    roles = roles ? roles : DEFAULT_ROLES;
+
+    _.each(roles, function(role){
+        rolesObject[role] = true;
+    });
+
+    return rolesObject;
 }
 
 /*
@@ -131,7 +143,8 @@ router.route('/')
 
 				req.session.user = {
 					username: body.username,
-					roles: parseRoles(body.roles)
+					roles: parseRolesCollection(body.roles),
+                    rolesObject: parseRolesObject(body.roles)
 				}
 
 				return res.redirect(LOGIN_URL + '?message=success');

@@ -21,6 +21,7 @@ module.exports = function(d, cb) {
 
         d.renderView('fatality-list-filter', {
 
+            _user: d._user,
             url_current: d.locals.url_current,
             url_distinct: d.locals.url_distinct,
             collection: collection,
@@ -73,6 +74,7 @@ module.exports = function(d, cb) {
         return deferred.promise;
     }
 
+    //TODO: Handle no results case
     function returnData(data) {
 
         log('trace', 'return results');
@@ -98,6 +100,7 @@ module.exports = function(d, cb) {
 
         cb(null, {
 
+            user: d._user,
             results: data.body,
             count: data.count,
             admin: d.admin,

@@ -39,8 +39,19 @@
 
         
     </ul>
+
     <ul class="nav nav-pills col-md-3">
         <li role="presentation"><a href="#" class="fe-lang-chooser flag flag-icon-background flag-icon-us"></a></li>
         <li role="presentation"><a href="#" class="fe-lang-chooser flag flag-icon-background flag-icon-mx"></a></li>
+
+        {{#user.username}}
+        <span class="fe-user-role">{{.}}</span>
+        {{/user.username}}
+
+        {{^user.username}}
+        <li role="presentation" class=""><a href="/login/">{{_str.login}}</a></li>
+        {{/user.username}}
+
+        
     </ul>
 </div>

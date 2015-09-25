@@ -17,6 +17,7 @@ router.route('/')
         title: page_title,
         js: ['main/home'],
         css: ['home']
+        
     });
 })
 

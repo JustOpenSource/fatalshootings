@@ -21,6 +21,7 @@ function querySelect() {
 
 function querySort() {
 
+    //TODO: change this to date once date is normalized
     return {
         "value.subject.age" : 1
     }
@@ -50,11 +51,11 @@ function queryFilter(filter) {
     }
 
     if(filter.state) {
-        queryFilters['value.location.state'] = filter.state;
+        queryFilters['value.location.state'] = 'new';
     }
 
-    if(filter.pending) {
-        queryFilters['pending'] = 'true';
+    if(filter.recordState) {
+        queryFilters['recordState'] = filter.recordState;
     }
 
     /*
@@ -120,9 +121,9 @@ function validateFilters(d){
         'date_from' : d.date_from,
         'date_to' : d.date_to,
         'page' : d.page,
+        'recordState' : d.recordState || false,
         'limit' : d.limit,
-        'skip' : d.skip,
-        'pending' : d.pending || false
+        'skip' : d.skip
     }
 }
 
@@ -161,8 +162,8 @@ function buildFilterURL(rootURL, filter, exclude){
         params += '&page=' + filter.page;
     }
 
-    if(filter.pending && exclude.pending !== false){
-        params += '&pending=' + filter.pending;
+    if(filter.recordState && filter.recordState !== false){
+        params += '&recordState=' + filter.recordState;
     }
 
     if(params){

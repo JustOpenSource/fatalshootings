@@ -4,9 +4,13 @@
             <h1>{{_str.title}} <small>{{ count}} {{_str.results}}</small></h1>
         </div>
 
-        {{{filters}}}
+        <div class="data-list-controls col-md-12">
+            {{{filters}}}
+        </div>
 
-        {{{pagination}}}
+        <div class="col-md-12">
+            {{{pagination}}}
+        </div>
 
         <div class="col-md-12">
             <ul class="list-group">
@@ -44,6 +48,9 @@
             <p>No results available</p>
             {{/results}}
         </div>
-        {{{pagination}}}
+
+        <div class="col-md-12">
+            {{{pagination}}}
+        </div>
     </div>
 </div>
