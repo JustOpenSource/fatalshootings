@@ -16,8 +16,12 @@
             <ul class="list-group">
             {{#results}}
                 <li class="list-group-item clearfix">
+                    {{#assigned}}
+                    <span class="list-item-value list-item-assigned-{{.}} list-item-xtra-small"><i class="fa fa-check"></i></span>
+                    {{/assigned}}
+
                     <span class="list-item-value list-item-large">
-                        <a href="/details/{{id}}">{{value.subject.name}}</a>
+                        <a href="/details/{{id}}" target="_blank">{{value.subject.name}}</a>
                     </span>
 
                     <span class="list-item-value list-item-xtra-small">{{value.subject.age}}</span>

@@ -11,6 +11,10 @@
             ]
         },
 
+        "assignee" : {
+            "type" : "string"
+        },
+
         "reporter_name": {
             "type": "string"
         },
@@ -23,9 +27,7 @@
             "type": "string"
         },
 
-        "published" : {
-            "type" : "boolean"
-        },
+        
 
         "sources" : {
             "type" : "array",

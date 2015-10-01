@@ -1,24 +1,37 @@
 <form class="form-inline" action="{{postURL}}" method="post">
-    
     <div class="col-md-12">
+        {{#user.username}}
+        <div class="form-group">
+            <select name="recordState" class="form-control">
+                
+                <option value="">Record Status</option>
+                <option value="new">new</option>
+                <option value="pending">pending</option>
+                <option value="published">published</option>
+               
+            </select>
+        </div>
 
-    {{#user.rolesObject.researcher}}
-    <div class="radio">
-        <label>
-            <input type="radio" value="new" name="recordState"> New
-        </label>
-    </div>
-    {{/user.rolesObject.researcher}}
+        <div class="form-group">
+            <select name="assigned" class="form-control">
+                
+                <option value="">Assigned To</option>
+                <option value="me">assiged to me</option>
+                <option value="nobody">assigned to nobody</option>
+               
+            </select>
+        </div>
 
-    {{#user.rolesObject.editor}}
-    <div class="radio">
-        <label>
-            <input type="radio" value="pending" name="recordState"> Pending
-        </label>
+        <div class="form-group">
+            <div class="checkbox">
+                <label>
+                    <input type="checkbox" name="saveFilter"> Save Filter
+                </label>
+            </div>
+        </div>
+        {{/user.username}}
     </div>
-    {{/user.rolesObject.editor}}
 
-    </div>
 
     <div class="col-md-12">
         <div class="form-group">

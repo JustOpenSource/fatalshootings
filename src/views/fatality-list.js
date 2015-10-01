@@ -5,6 +5,7 @@ var log = require(__base + 'utils/log')('views/fatality-list');
 var httpGet = require(__base + 'utils/http-get');
 var q = require('q');
 var filterUtils = require(__base + 'utils/query-filters');
+var _ = require('underscore');
 
 module.exports = function(d, cb) {
 
@@ -97,6 +98,34 @@ module.exports = function(d, cb) {
         });
 
         log('trace', 'build pagination success');
+
+        
+
+        _.each(data.body, function(entry, i){
+
+            /*
+            log('trace', 'current entry', entry);
+            log('trace', 'current user', d._user);
+            log('trace', 'current username', d._user.username);
+            log('trace', 'current assignee', entry.assignee);
+*/
+            if( d._user && d._user.username === entry.assignee ){
+                
+                data.body[i].assigned = 'me';
+
+            } else if( entry.assignee ){
+                
+                data.body[i].assigned = 'other';
+            
+            } else {
+                
+                data.body[i].assigned = 'nobody';
+            }
+
+            
+        });
+
+        log('trace', 'current entry', data.body);
 
         cb(null, {
 

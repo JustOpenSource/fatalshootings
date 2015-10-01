@@ -8,13 +8,21 @@ module.exports = function(location) {
 
         if(msg){
 
-            //don't leave data null or undefined, set it to empty string
-            dataString = data ? ' : ' + JSON.stringify(data) : '';
+            var output = location + ' : ' + msg + (data ? ' : ' + JSON.stringify(data) : '');
 
-            //if type is error, convert to all caps
-            type = type === 'error' ? '########### ' + type.toUpperCase() : type;
+            if(type === 'error'){
+                
+                console.error('! Error : ' + output);
 
-            console.log(location + ' : ' + type + ' : ' + msg + dataString);
+            } else if(type === 'warn'){
+                
+                console.warn('Warning : ' + output);
+            
+            } else {
+                
+                console.log(output);
+            
+            }
         }
     }
 };

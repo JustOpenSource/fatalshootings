@@ -15,7 +15,8 @@ function querySelect() {
         "value.subject.sex" : true,
         "value.death.cause" : true,
         "value.death.event.date" : true,
-        "value.location.state" : true
+        "value.location.state" : true,
+        "assignee" : true
     }
 }
 
@@ -27,7 +28,7 @@ function querySort() {
     }
 }
 
-function queryFilter(filter) {
+function queryFilter(filter, username) {
 
     log('trace', 'filter query params', filter);
 
@@ -56,6 +57,10 @@ function queryFilter(filter) {
 
     if(filter.recordState) {
         queryFilters['recordState'] = filter.recordState;
+    }
+
+    if(username && filter.assigned === 'me') {
+        queryFilters['assignee'] = username;
     }
 
     /*
@@ -164,6 +169,10 @@ function buildFilterURL(rootURL, filter, exclude){
 
     if(filter.recordState && filter.recordState !== false){
         params += '&recordState=' + filter.recordState;
+    }
+
+    if(filter.assigned && filter.assigned !== false){
+        params += '&assigned=' + filter.assigned;
     }
 
     if(params){

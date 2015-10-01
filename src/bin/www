@@ -37,6 +37,15 @@ log('trace', 'write schema cache');
 writeSchemaCache('fe', 1);
 
 function setupServer(db){
+
+	//UPDATE RECORDS IN SAMPLE DATABASE
+	/*
+	db.collection(c.collection.fatalities).update({},
+		{$set : {"recordState":'published'}},
+		{upsert:false,
+		multi:true}) 
+	*/
+
 	log('trace', 'setup sessions');
 
     if(!process.env.SESSION_SECRET){
@@ -51,6 +60,20 @@ function setupServer(db){
 			maxAge: 24*60*60*1000
 		}
 	}));
+
+	//to test as logged in user
+	app.use(function(req, res, next){
+		req.session.user = {
+	        'username' : 'test',
+	        'roles' : [{'name': 'admin'}, {'name' : 'researcher'}, {'name': 'editor'}],
+	        'rolesObject' : {
+	            'admin' : true,
+	            'researcher' : true,
+	            'editor' : true
+	        }
+	    }
+	    next();
+    });
 
 	log('trace', 'adding  db and lang to req');
 

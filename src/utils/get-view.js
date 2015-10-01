@@ -22,7 +22,7 @@ function getStrings(template, lang){
 
 	} catch (err) {
 
-		log('error', 'could not get lang: ' + template);
+		log('warn', 'could not get lang: ' + template);
 	
 	}
 
@@ -53,21 +53,10 @@ function getTemplate(template, viewPath){
 
 function getModel(template, viewPath){
 
-	var model;
+	log('trace', 'attempt to retrieve async view model ' + template);
 
-	try {
-
-		log('trace', 'attempt to retrieve async view model ' + template);
-
-		model = require(viewPath);
+	return require(viewPath);
 	
-	} catch(err){
-		
-		log('error', 'require() failed, async view model ' + template + ' contains errors', err);
-	
-	}
-
-	return model;
 }
 
 function syncModel(template, model, data, html, cb){
