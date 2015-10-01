@@ -39,12 +39,18 @@ writeSchemaCache('fe', 1);
 function setupServer(db){
 
 	//UPDATE RECORDS IN SAMPLE DATABASE
+	//DANGER DANGER DANGER, DO NOT UNCOMMENT UNLESS YOU KNOW EXACTLY WHAT YOU ARE DOING
 	/*
 	db.collection(c.collection.fatalities).update({},
-		{$set : {"recordState":'published'}},
+		{
+			$unset : {"recordState":'new'},
+			$unset : {"recordState":'published'},
+			$unset : {"recordState":'pending'},
+			$set : {"record_state":'published'}
+		},
 		{upsert:false,
 		multi:true}) 
-	*/
+	/**/
 
 	log('trace', 'setup sessions');
 

@@ -26,7 +26,8 @@ router.route('/')
             'date_to' : req.query.date_to,
             'limit' : req.query.limit,
             'page' : req.query.page,
-            'recordState' : req.query.recordState
+            'record_state' : req.query.record_state,
+            'assignee' : req.query.assignee
         }
     }, {
 

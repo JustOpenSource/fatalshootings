@@ -1,26 +1,16 @@
 <form class="form-inline" action="{{postURL}}" method="post">
     <div class="col-md-12">
         {{#user.username}}
-        <div class="form-group">
-            <select name="recordState" class="form-control">
-                
-                <option value="">Record Status</option>
-                <option value="new">new</option>
-                <option value="pending">pending</option>
-                <option value="published">published</option>
-               
-            </select>
-        </div>
 
+        {{#userFilter}}
         <div class="form-group">
-            <select name="assigned" class="form-control">
-                
-                <option value="">Assigned To</option>
-                <option value="me">assiged to me</option>
-                <option value="nobody">assigned to nobody</option>
-               
+            <select name="{{name}}" class="form-control">
+                {{#options}}
+                <option value="{{value}}" {{selected}}>{{text}}</option>
+                {{/options}}
             </select>
         </div>
+        {{/userFilter}}
 
         <div class="form-group">
             <div class="checkbox">
@@ -38,7 +28,7 @@
             <input type="text" class="form-control" name="name" placeholder="{{_str.input_default_name}}" value="{{name}}">
         </div>
 
-        {{#select}}
+        {{#publicFilter}}
         <div class="form-group">
             <select name="{{name}}" class="form-control">
                 {{#options}}
@@ -46,7 +36,7 @@
                 {{/options}}
             </select>
         </div>
-        {{/select}}
+        {{/publicFilter}}
         
         <div class="form-group">
             <button type="submit" class="btn btn-primary">{{_str.filter_button}}</button>

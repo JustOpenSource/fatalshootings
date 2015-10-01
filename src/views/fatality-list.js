@@ -12,8 +12,6 @@ module.exports = function(d, cb) {
     var collection = d._db.fatalities;
     var filter = filterUtils.validateFilters(d.filters);
 
-    filter.pending = d.pending ? true : false;
-
     function getQueryFilterOptions() {
 
         log('trace', 'attempt to get query filter options');
@@ -99,8 +97,6 @@ module.exports = function(d, cb) {
 
         log('trace', 'build pagination success');
 
-        
-
         _.each(data.body, function(entry, i){
 
             /*
@@ -108,7 +104,8 @@ module.exports = function(d, cb) {
             log('trace', 'current user', d._user);
             log('trace', 'current username', d._user.username);
             log('trace', 'current assignee', entry.assignee);
-*/
+            */
+
             if( d._user && d._user.username === entry.assignee ){
                 
                 data.body[i].assigned = 'me';

@@ -16,7 +16,8 @@ function querySelect() {
         "value.death.cause" : true,
         "value.death.event.date" : true,
         "value.location.state" : true,
-        "assignee" : true
+        "assignee" : true,
+        "record_state" : true
     }
 }
 
@@ -55,8 +56,8 @@ function queryFilter(filter, username) {
         queryFilters['value.location.state'] = 'new';
     }
 
-    if(filter.recordState) {
-        queryFilters['recordState'] = filter.recordState;
+    if(filter.record_state) {
+        queryFilters['record_state'] = filter.record_state;
     }
 
     if(username && filter.assigned === 'me') {
@@ -89,6 +90,7 @@ function queryFilter(filter, username) {
 
 }
 
+//TODO: actually validate the filters
 function validateFilters(d){
 
     log('trace', 'validateFilters');
@@ -126,7 +128,8 @@ function validateFilters(d){
         'date_from' : d.date_from,
         'date_to' : d.date_to,
         'page' : d.page,
-        'recordState' : d.recordState || false,
+        'record_state' : d.record_state,
+        'assignee' : d.assignee,
         'limit' : d.limit,
         'skip' : d.skip
     }
@@ -167,12 +170,12 @@ function buildFilterURL(rootURL, filter, exclude){
         params += '&page=' + filter.page;
     }
 
-    if(filter.recordState && filter.recordState !== false){
-        params += '&recordState=' + filter.recordState;
+    if(filter.record_state && filter.record_state !== false){
+        params += '&record_state=' + filter.record_state;
     }
 
-    if(filter.assigned && filter.assigned !== false){
-        params += '&assigned=' + filter.assigned;
+    if(filter.assignee && filter.assigned !== false){
+        params += '&assignee=' + filter.assignee;
     }
 
     if(params){

@@ -3,7 +3,7 @@
     "type": "object",
     "properties": {
 
-        "recordState" : {
+        "record_state" : {
             "enum": [
                 "new",
                 "pending",
@@ -13,6 +13,13 @@
 
         "assignee" : {
             "type" : "string"
+        },
+
+        "assignee_options" : {
+            "enum": [
+                "me",
+                "nobody"
+            ]
         },
 
         "reporter_name": {

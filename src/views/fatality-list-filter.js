@@ -7,77 +7,108 @@ var _ = require('underscore');
 var feSchema = require(__base + 'schemas-cache/fe.1.json');
 var getSchemaLang = require(__base + 'utils/schema-lang-get');
 
-module.exports = function(d, cb) {
+var RECORD_STATUS_ATTRIBUTES = ['new', 'pending', 'published'];
+var ASSIGNEE_ATTRIBUTES = ['me', 'nobody'];
 
+function buildOptions(name, attributes, d){
+
+    //TODO: remove the need for these to be manually brought in, just choose the right options based on the name
     var personLangOptions = getSchemaLang('person', d._str._lang);
     var deathLangOptions = getSchemaLang('death', d._str._lang);
+    var assigneeLangOptions = getSchemaLang('assignee', d._str._lang);
+    var recordStateLangOptions = getSchemaLang('record_state', d._str._lang);
 
-    function buildOptions(name, attributes){
+    var langOptions = {};
+    var options = [];
+    var optionDefault = d._str.select_label_prefix + ' ';
 
-        var langOptions = {};
-        var options = [];
-        var optionDefault = d._str.select_label_prefix + ' ';
+    //TODO: remove the need for the case if here, just select the right values based on the name
+    if(name === 'sex'){
 
-        if(name === 'sex'){
+        langOptions = personLangOptions.sex;
 
-            langOptions = personLangOptions.sex;
+        optionDefault = optionDefault + d._str.select_label_sex;
 
-            optionDefault = optionDefault + d._str.select_label_sex;
+    } else if(name === 'race'){
 
-        } else if(name === 'race'){
+        langOptions = personLangOptions.race;
 
-            langOptions = personLangOptions.race;
+        optionDefault = optionDefault + d._str.select_label_race;
 
-            optionDefault = optionDefault + d._str.select_label_race;
+    } else if(name === 'cause'){
 
-        } else if(name === 'cause'){
+        langOptions = deathLangOptions.cause;
 
-            langOptions = deathLangOptions.cause;
+        optionDefault = optionDefault + d._str.select_label_cause;
+    
+    } else if(name === 'record_state'){
 
-            optionDefault = optionDefault + d._str.select_label_cause;
-        }
+        langOptions = recordStateLangOptions;
 
-        options.push({
-            value: null,
-            selected: false,
-            text: optionDefault
-        })
+        optionDefault = d._str.select_record_status;
 
-        _.each(attributes, function(value, i){
+    } else if(name === 'assignee'){
+        
+        langOptions = assigneeLangOptions;
 
-            if(value) {
-                options.push({
-                    value: value.trim(),
-                    selected: d.filters[name] == value.trim() ? 'selected' : false,
-                    text: langOptions[value]
-                })
-            }
-        });
+        optionDefault = d._str.select_assignee;
 
-        return options;
     }
+
+    options.push({
+        value: null,
+        selected: false,
+        text: optionDefault
+    })
+
+    _.each(attributes, function(value, i){
+
+        if(value) {
+            options.push({
+                value: value.trim(),
+                selected: d.filters[name] === value.trim() ? 'selected' : false,
+                text: langOptions[value]
+            })
+        }
+    });
+
+    return options;
+}
+
+module.exports = function(d, cb) {
 
     function fetchAllComplete(){
 
         log('trace', 'feSchema 1', feSchema.properties.person);
 
         var filterModel = {
-            select: []
+            userFilter: [],
+            publicFilter: []
         };
 
-        filterModel.select.push({
+        filterModel.userFilter.push({
+            name: 'record_state',
+            options: buildOptions('record_state', RECORD_STATUS_ATTRIBUTES, d)
+        });
+
+        filterModel.userFilter.push({
+            name: 'assignee',
+            options: buildOptions('assignee', ASSIGNEE_ATTRIBUTES, d)
+        });
+
+        filterModel.publicFilter.push({
             name: 'sex',
-            options: buildOptions('sex', feSchema.properties.person.type.schema.properties.sex.enum)
+            options: buildOptions('sex', feSchema.properties.person.type.schema.properties.sex.enum, d)
         });
 
-        filterModel.select.push({
+        filterModel.publicFilter.push({
             name: 'race',
-            options: buildOptions('race', feSchema.properties.person.type.schema.properties.race.items.enum)
+            options: buildOptions('race', feSchema.properties.person.type.schema.properties.race.items.enum, d)
         });
 
-        filterModel.select.push({
+        filterModel.publicFilter.push({
             name: 'cause',
-            options: buildOptions('cause', feSchema.properties.death.type.schema.properties.cause.enum)
+            options: buildOptions('cause', feSchema.properties.death.type.schema.properties.cause.enum, d)
         });
 
         filterModel.name = d.filters.name || null;
