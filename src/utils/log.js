@@ -2,27 +2,33 @@ var log = {};
 
 module.exports = function(location) {
 
-    return function(type, msg, data) {
+    function logger() {
 
-        var dataString;
+        this.log = function(type, msg, data){
+        
+            var dataString;
 
-        if(msg){
+            if(msg){
 
-            var output = location + ' : ' + msg + (data ? ' : ' + JSON.stringify(data) : '');
+                var output = location + ' : ' + msg + (data ? ' : ' + JSON.stringify(data) : '');
 
-            if(type === 'error'){
+                if(type === 'error'){
+                    
+                    console.error('! Error : ' + output);
+
+                } else if(type === 'warn'){
+                    
+                    console.warn('Warning : ' + output);
                 
-                console.error('! Error : ' + output);
-
-            } else if(type === 'warn'){
+                } else {
+                    
+                    console.log(output);
                 
-                console.warn('Warning : ' + output);
-            
-            } else {
-                
-                console.log(output);
-            
+                }
             }
         }
     }
+
+    //return new instance of logger
+    return new logger().log;
 };
