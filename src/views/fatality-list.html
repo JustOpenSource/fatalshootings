@@ -17,7 +17,11 @@
             {{#results}}
                 <li class="list-group-item clearfix">
                     {{#assigned}}
-                    <span class="list-item-value list-item-assigned-{{.}} list-item-xtra-small"><i class="fa fa-check"></i></span>
+                    <span class="list-item-value list-item-assigned-{{state}} list-item-xtra-small">
+                        <a href="javascript:;" title="{{title}}">
+                            <i class="fa fa-check"></i>
+                        </a>
+                    </span>
                     {{/assigned}}
 
                     <span class="list-item-value list-item-large">

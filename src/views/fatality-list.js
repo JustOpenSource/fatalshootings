@@ -12,6 +12,8 @@ module.exports = function(d, cb) {
     var collection = d._db.fatalities;
     var filter = filterUtils.validateFilters(d.filters);
 
+    log('trace', 'validated list filters', filter);
+
     function getQueryFilterOptions() {
 
         log('trace', 'attempt to get query filter options');
@@ -108,15 +110,24 @@ module.exports = function(d, cb) {
 
             if( d._user && d._user.username === entry.assignee ){
                 
-                data.body[i].assigned = 'me';
+                data.body[i].assigned =  {
+                    'state': 'me',
+                    'title': 'Assigned to me'
+                }
 
             } else if( entry.assignee ){
                 
-                data.body[i].assigned = 'other';
+                data.body[i].assigned = {
+                    'state': 'other',
+                    'title': 'Assigned to someone else'
+                }
             
             } else {
                 
-                data.body[i].assigned = 'nobody';
+                data.body[i].assigned = {
+                    'state': 'nobody',
+                    'title': 'Not assigned'
+                }
             }
 
             

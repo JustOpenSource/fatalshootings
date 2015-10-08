@@ -60,8 +60,12 @@ function queryFilter(filter, username) {
         queryFilters['record_state'] = filter.record_state;
     }
 
-    if(username && filter.assigned === 'me') {
+    if(typeof username !== 'undefined' && filter.assignee === 'me') {
         queryFilters['assignee'] = username;
+    }
+
+    if(filter.assignee === 'nobody') {
+        queryFilters['assignee'] = '';
     }
 
     /*
@@ -174,7 +178,7 @@ function buildFilterURL(rootURL, filter, exclude){
         params += '&record_state=' + filter.record_state;
     }
 
-    if(filter.assignee && filter.assigned !== false){
+    if(filter.assignee && filter.assignee !== false){
         params += '&assignee=' + filter.assignee;
     }
 
@@ -196,8 +200,8 @@ module.exports = {
         return querySort();
     },
 
-    queryFilter: function(filter) {
-        return queryFilter(filter);
+    queryFilter: function(filter, username) {
+        return queryFilter(filter, username);
     },
 
     validateFilters: function(d) {

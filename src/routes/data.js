@@ -14,7 +14,7 @@ function getCount(data) {
 
     var deferred = q.defer();
 
-    data.collection.find(filterUtils.queryFilter(data.filter), filterUtils.querySelect())
+    data.collection.find(filterUtils.queryFilter(data.filter, data._user.username), filterUtils.querySelect())
         .count(function(err, count){
 
             if(err){
@@ -36,11 +36,9 @@ function getCount(data) {
 
 function getResults(data){
 
-    log('trace', 'attempt to get results');
-
     var deferred = q.defer();
 
-    data.collection.find(filterUtils.queryFilter(data.filter), filterUtils.querySelect())
+    data.collection.find(filterUtils.queryFilter(data.filter, data._user.username), filterUtils.querySelect())
     .sort(filterUtils.querySort())
     .skip(data.filter.skip || 0).limit(data.filter.limit)
     .toArray(function(err, body){
@@ -113,6 +111,7 @@ router.route('/api/:version/')
 
     var data = {};
 
+    data._user = req.session && req.session.user ? req.session.user : null;
     data.filter = filterUtils.validateFilters(req.query);
 
     data.collection = req._db.fatalities;
