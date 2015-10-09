@@ -56,9 +56,26 @@ module.exports = function(d, cb) {
 
         httpGet(filterUtils.buildFilterURL(d.locals.url_data, filter), function(err, body){
 
+            log('error', 'body count!!!!!!!!!!!!!!!');
+            log('trace', 'err', err);
+            log('trace', 'body', body);
+            log('trace', 'body count', body.count);
+
             if(err){
 
                 log('error', 'get results', err);
+                return;
+            }
+
+            if(body.count < 1){
+
+                cb(null, {
+
+                    noResults: true,
+                    filters: data.filterView
+
+                });
+
                 return;
             }
 
