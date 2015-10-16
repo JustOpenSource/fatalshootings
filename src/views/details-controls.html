@@ -1,0 +1,45 @@
+<div class="fe-details-form-controls-section row">
+    
+    <span class="col-xs-12 col-md-2">
+
+        {{#cancelButton}}
+        <a href="/details/{{id}}"><button class="btn btn-warning" type="button"><i class="fa fa-arrow-left"></i> &nbsp;{{_str.cancel}}</button></a>
+        {{/cancelButton}}
+
+    </span>
+
+    <span class="fe-details-form-submit-col col-xs-12 col-md-10">
+
+        {{#suggestEdits}}
+        <a href="/details/{{id}}?edit=true" class="fe-details-user-controls pull-right">
+            <button class="btn btn-default" type="button">
+                {{_str.suggest_edits}}
+                <i class="fa fa-pencil"></i>
+            </button>
+        </a>
+        {{/suggestEdits}}
+
+        {{#removeAssignment}}
+        <a href="/details/{{id}}?removeAssignment=true" class="fe-details-user-controls pull-right">
+            <button class="btn btn-default fe-details-form-submit" type="button">
+                Unassign
+                <i class="fa fa-close"></i>
+            </button>
+        </a>
+        {{/removeAssignment}}
+
+        {{#addAssignment}}
+        <a href="/details/{{id}}?addAssignment=true"  class="fe-details-user-controls pull-right">
+            <button class="btn btn-default fe-details-form-submit" type="button">
+                Assign to Me
+                <i class="fa fa-star"></i>
+            </button>
+        </a>
+        {{/addAssignment}}
+
+        {{#alreadyAssigned}}
+            <span class="pull-right"><i class="fa fa-lock"></i> This record is already assigned to another user. <a href="/list">Return to the list.</a></span>
+        {{/alreadyAssigned}}
+
+    </span>
+</div>

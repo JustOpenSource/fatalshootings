@@ -6,6 +6,86 @@ var httpGet = require(__base + 'utils/http-get');
 var feSchema = require(__base + 'schemas/fe.1.json');
 var getSchemaLang = require(__base + 'utils/schema-lang-get');
 
+/**
+ * details view model
+ * 
+ * @param {string} d.id - ID of the entry.
+ * @param {boolean} d.edit - Is the form in edit mode.
+ * @param {boolean} d.success - Did the form successfully post.
+ * @param {object} d.missing_values - Where there missing values.
+ * @param {object} d.details - Details already filled in by user.
+ */
+
+//TODO: add schema to models and adjust renderView to validate against schema
+/*
+function main({
+        "id" : {
+            "type": "string"
+        }
+
+    }, d, cb) {
+*/
+
+function main(d, cb) {
+
+    personLangOptions = getSchemaLang('person', d._str._lang);
+    deathLangOptions = getSchemaLang('death', d._str._lang);
+    locationLangOptions = getSchemaLang('location', d._str._lang);
+    ageLangDefaultOption = d._str.section.person.age.option_default;
+
+    if(d.id === 'new'){
+
+        var details = null;
+
+        if(d.missing){
+            details = {
+                value : d.details,
+                missing_values : d.missing_values
+            }
+        }
+
+        cb(null, {
+            'edit' : true,
+            'missing' : d.missing,
+            'controls' : generateControls(d, {
+                edit: true,
+                isNew: true
+            }),
+            'id' : d.id,
+            'sections' : formatDetails(details, d._str),
+            'success' : d.success,
+            'action' : '/details/new'
+        });
+
+    } else {
+
+        getDetails(d.id, d.locals.url_details, function(err, body){
+            if(err){
+                log('error', 'get details error', err);
+
+                //cb(err)
+            }
+
+            log('trace', 'get details', body);
+
+            //is not a new record
+            body.isNew = false;
+
+            if(d.edit){
+                body.edit = true;
+            }
+
+            cb(null, {
+                'edit' : d.edit,
+                'id' : d.id,
+                'controls' : generateControls(d, body),
+                'sections' : formatDetails(body, d._str),
+                'action' : '/details/' + d.id + '?edit=true'
+            });
+        });
+    }
+}
+
 /*
 TODO: Wire up form elements to use select options for appropriate fields
 */
@@ -21,7 +101,7 @@ function getDetails(id, url, cb) {
 
     /**/
     httpGet(url + id, cb);
-	  /**/
+	/**/
 }
 
 function generateOptions(options, lang, selected){
@@ -109,47 +189,46 @@ function formatDetails(details, str){
 
     function processSectionInputs(section){
 
-      _.each(section, function(input, i){
+    _.each(section, function(input, i){
 
         input.status = {};
 
         if(details.missing_values && details.missing_values.indexOf(input.name) > -1){
-          input.status.missing = true;
+            input.status.missing = true;
         }
 
         if(details.edit){
-          input.required = false;
+            input.required = false;
         }
 
         if(input.required){
-          input.status.required = true;
+            input.status.required = true;
         }
 
         if(typeof input.options === 'function'){
-          
-          input.options = input.options(input.value);
+            input.options = input.options(input.value);
         }
-      });
+    });
 
-      return section;
+    return section;
     }
 
     if(!details){
-      var details = {
-        'value' : {
-          'subject' : {},
-          'death' : {
-            event: {}
-          },
-          'location' : {}
+        var details = {
+            'value' : {
+                'subject' : {},
+                'location' : {},
+                'death' : {
+                    event: {}
+                }
+            }
         }
-      }
     }
 
   	var subject = [
   		{
-        'label' : str.section.person.name.label, 
-        'value' : details.value.subject.name, 
+        'label' : str.section.person.name.label,
+        'value' : details.value.subject.name,
         'name' : 'subject_name',
         'input-text' : true,
         'required' : true
@@ -319,55 +398,18 @@ function formatDetails(details, str){
     return sections;
 }
 
-module.exports = function(d, cb) {
+function generateControls(d, body){
 
-  personLangOptions = getSchemaLang('person', d._str._lang);
-  deathLangOptions = getSchemaLang('death', d._str._lang);
-  locationLangOptions = getSchemaLang('location', d._str._lang);
-  ageLangDefaultOption = d._str.section.person.age.option_default;
+    body = body ? body : {};
 
-  if(d.id === 'new'){
-
-    var details = null;
-
-    if(d.missing){
-      details = {
-        value : d.details,
-        missing_values : d.missing_values
-      }
-    }
-
-    cb(null, {
-      'missing' : d.missing,
-      'edit' : true,
-      'new' : true,
-      'id' : d.id,
-      'sections' : formatDetails(details, d._str),
-      'success' : d.success,
-      'action' : '/details/new'
+    return d.renderView('details-controls', {
+        "id": d.id,
+        "edit": body.edit,
+        "new" : body.isNew,
+        "user" : d._user,
+        "state" : body.record_state,
+        "assignee" : body.assignee
     });
-
-  } else {
-
-  	getDetails(d.id, d.locals.url_details, function(err, body){
-  		if(err){
-  			log('error', 'get details error', err);
-
-  			//cb(err)
-  		}
-
-  		log('trace', 'get details', body);
-
-      if(d.edit){
-        body.edit = true;
-      }
-
-  		cb(null, {
-        'edit' : d.edit || false,
-  			'id' : d.id,
-  			'sections' : formatDetails(body, d._str),
-        'action' : '/details/' + d.id + '?edit=true'
-  		});
-  	});
-  }
 }
+
+module.exports = main;

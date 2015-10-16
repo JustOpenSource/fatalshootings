@@ -12,6 +12,13 @@ module.exports = function(location) {
 
                 var output = location + ' : ' + msg + (data ? ' : ' + JSON.stringify(data) : '');
 
+                if(type === 'find'){
+                    
+                    console.error('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
+
+                }
+
+
                 if(type === 'error'){
                     
                     console.error('! Error : ' + output);

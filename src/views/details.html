@@ -14,21 +14,8 @@
 		{{/missing}}
 
 		{{^success}}
-		<div class="fe-details-form-controls-section row">
-			<span class="col-xs-12 col-md-10">
-				{{#edit}}
-				{{^new}}
-				<a href="/details/{{id}}"><button class="btn btn-warning" type="button"><i class="fa fa-arrow-left"></i> &nbsp;{{_str.cancel}}</button></a>
-				{{/new}}
-				{{/edit}}
-			</span>
-			
-			<span class="fe-details-form-submit-col col-xs-12 col-md-2">
-				{{^edit}}
-				<a href="/details/{{id}}?edit=true"><button class="btn btn-primary" type="button">{{_str.suggest_edits}} &nbsp;<i class="fa fa-pencil"></i></button></a>
-				{{/edit}}
-			</span>
-		</div>
+		
+		{{{controls}}}
 
 		<form id="saveEdits" action="{{action}}" method="POST" class="row">
 

@@ -7,7 +7,7 @@ var q = require('q');
 var filterUtils = require(__base + 'utils/query-filters');
 var _ = require('underscore');
 
-module.exports = function(d, cb) {
+function main(d, cb) {
 
     var collection = d._db.fatalities;
     var filter = filterUtils.validateFilters(d.filters);
@@ -55,11 +55,6 @@ module.exports = function(d, cb) {
         var deferred = q.defer();
 
         httpGet(filterUtils.buildFilterURL(d.locals.url_data, filter), function(err, body){
-
-            log('error', 'body count!!!!!!!!!!!!!!!');
-            log('trace', 'err', err);
-            log('trace', 'body', body);
-            log('trace', 'body count', body.count);
 
             if(err){
 
@@ -176,3 +171,5 @@ module.exports = function(d, cb) {
 
     });
 }
+
+module.exports = main;

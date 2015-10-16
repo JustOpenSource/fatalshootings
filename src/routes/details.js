@@ -5,9 +5,79 @@ var _ = require('underscore');
 var router = require('express').Router();
 var renderView = require(__base + 'utils/render-view');
 
+// url/details/
+router.route('/:id')
+.get(function(req, res){
+
+    handleStateAndAssignmentChanges(req, res);
+
+    var page_title = 'Details';
+
+    renderView(req, res, 'details', {
+  
+        "id" : req.params.id,
+        "edit" : req.query.edit,
+        "missing" : req.query.missing,
+        "success" : req.query.success,
+        "missing_values" : req.query.missing_values,
+        "details" : req.query.details ? JSON.parse(req.query.details) : null
+
+    }, {
+
+        title: page_title,
+        css: ['details']
+    });
+})
+
+.post(function(req, res){
+
+    var report = formatEntryForDatabase(req.body);
+    var required = testForRequiredValues(report);
+
+    if(required.length > 0){
+
+        res.redirect('/details/new?missing=true&missing_values=' + required.join(',') + '&details=' + JSON.stringify(report));
+
+    } else {
+
+        report = adjustReportForPost(report);
+
+        //TODO: adjust to edit current entry
+
+        req._db.fatalities.insert(report, function(err, body){
+
+            if(err){
+                
+                res.redirect('/details/new?error=true');
+            
+            } else {
+
+                log('trace', 'new entry added');
+
+                res.redirect('/details/new?success=true');
+            }
+        });
+    }
+});
+
+function handleStateAndAssignmentChanges(req, res){
+
+    log('find', 'handleStateAndAssignmentChanges');
+
+    if(req.query.removeAssignment === 'true'){
+        res.redirect('/details/' + req.params.id + '?removeAssignment=complete');
+    }
+
+    if(req.query.addAssignment === 'true'){
+        res.redirect('/details/' + req.params.id + '?addAssignment=complete');
+    }
+
+    //res.redirect('/details/new?error=true');
+
+}
 
 function formatEntryForDatabase(entry){
-    
+
     var formattedEntry = {
         "submitted_by_name" : entry.reporter_name,
         "submitted_by_email" : entry.reporter_email,
@@ -93,58 +163,5 @@ function adjustReportForPost(report){
 
     return report;
 }
-
-// url/details/
-router.route('/:id')
-.get(function(req, res){
-
-    var page_title = 'Details';
-
-    renderView(req, res, 'details', {
-        
-    	"id" : req.params.id,
-        "edit" : req.query.edit,
-        "missing" : req.query.missing,
-        "success" : req.query.success,
-        "missing_values" : req.query.missing_values,
-        "details" : req.query.details ? JSON.parse(req.query.details) : null
-
-    }, {
-
-        title: page_title,
-        css: ['details']
-    });
-})
-
-.post(function(req, res){
-
-    var report = formatEntryForDatabase(req.body);
-    var required = testForRequiredValues(report);
-
-    if(required.length > 0){
-
-        res.redirect('/details/new?missing=true&missing_values=' + required.join(',') + '&details=' + JSON.stringify(report));
-
-    } else {
-
-        report = adjustReportForPost(report);
-
-        //TODO: adjust to edit current entry
-
-        req._db.fatalities.insert(report, function(err, body){
-
-            if(err){
-                
-                res.redirect('/details/new?error=true');
-            
-            } else {
-
-                log('trace', 'new entry added');
-
-                res.redirect('/details/new?success=true');
-            }
-        });
-    }
-});
 
 module.exports = router;
