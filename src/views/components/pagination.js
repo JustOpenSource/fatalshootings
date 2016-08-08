@@ -17,11 +17,8 @@ function getModel(d){
 
     //check for required data
 	if(!d.count){
-
 		log('error',  'pagination model requires d.count');
-		
         return;
-	
     }
 
     log('trace', 'data passed into the pagination model', d);

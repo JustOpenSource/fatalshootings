@@ -40,11 +40,11 @@ router.route('/:id')
 
     } else {
 
-        report = adjustReportForPost(report);
-
         //TODO: adjust to edit current entry
 
-        req._db.fatalities.insert(report, function(err, body){
+        req._db.fatalities.insert({
+            'value' : report
+        }, function(err, body){
 
             if(err){
                 
@@ -65,15 +65,40 @@ function handleStateAndAssignmentChanges(req, res){
     log('find', 'handleStateAndAssignmentChanges');
 
     if(req.query.removeAssignment === 'true'){
+
+        /*
+        req._db.fatalities.update({}, {
+
+            $set : {"assignee" : ""}
+        
+        }, {
+
+            upsert:false,
+            multi:true
+        
+        }); 
+        */
+
         res.redirect('/details/' + req.params.id + '?removeAssignment=complete');
     }
 
     if(req.query.addAssignment === 'true'){
+        
+        /*    
+        req._db.fatalities.update({}, {
+
+            $set : {"assignee" : "test"}
+        
+        }, {
+
+            upsert:false,
+            multi:true
+        
+        }); 
+        */
+
         res.redirect('/details/' + req.params.id + '?addAssignment=complete');
     }
-
-    //res.redirect('/details/new?error=true');
-
 }
 
 function formatEntryForDatabase(entry){
@@ -151,17 +176,6 @@ function testForRequiredValues(report){
     });
 
     return missing;
-}
-
-function adjustReportForPost(report){
-    
-    report = {
-        'value' : report
-    }
-    
-    report.pending = true;
-
-    return report;
 }
 
 module.exports = router;

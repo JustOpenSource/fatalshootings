@@ -16,7 +16,7 @@ module.exports = {
 	"race" : {
 		"Unknown" : "Spanish Unknown",
 	    "White / European" : "Spanish White / European",
-	    "Asain Indian" : "Spanish Asain Indian",
+	    "Asian Indian" : "Spanish Asian Indian",
 	    "Middle Eastern" : "Spanish Middle Eastern",
 	    "Black / African American" : "Spanish Black / African American",
 	    "Native American or Alaska Native" : "Spanish Native American or Alaska Native",
@@ -26,18 +26,5 @@ module.exports = {
 	    "Pacific Islander" : "Spanish ",
 	    "Indigenous Australian" : "Spanish Indigenous Australian",
 	    "Other" : "Spanish Other",
-	},
-
-	"mental_illness" : {
-		"Unknown" : "Spanish Unknown",
-	    "Schizophrenia" : "Spanish Schizophrenia",
-	    "Manic Depression/Bi-Polar" : "Spanish Manic Depression/Bi-Polar",
-	    "Borderline Personality Disorder" : "Spanish Borderline Personality Disorder",
-	    "Depression" : "Spanish Depression",
-	    "Anger Problems" : "Spanish Anger Problems",
-	    "Anxiety" : "Spanish Anxiety",
-	    "Sociopathy" : "Spanish Sociopathy",
-	    "Psychopathy" : "Spanish Psychopathy",
-	    "Other" : "Spanish Other"
 	}
 }

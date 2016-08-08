@@ -2,6 +2,7 @@
     {{#user.username}}
     <div class="col-md-12 fe-margin-bottom-sm fe-user-filters">
 
+    <!--
         {{#userFilter}}
         <div class="form-group">
             <select name="{{name}}" class="form-control">
@@ -22,11 +23,14 @@
         
     </div>
     {{/user.username}}
+    -->
 
     <div class="col-md-12">
         <div class="form-group">
             <input type="text" class="form-control" name="name" placeholder="{{_str.input_default_name}}" value="{{name}}">
         </div>
+
+        <input type="hidden" name="limit" value="{{limit}}">
 
         {{#publicFilter}}
         <div class="form-group">
@@ -46,4 +50,12 @@
             <a href="/list">Clear Filter</a>
         </div>
     </div>
+
+    <!--
+    <div class="col-md-12">
+        <div class="form-group">
+            <a href="/list?filters=all">More filters</a>
+        </div>
+    </div>
+    -->
 </form>

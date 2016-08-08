@@ -9,7 +9,6 @@ var _ = require('underscore');
 
 function main(d, cb) {
 
-    var collection = d._db.fatalities;
     var filter = filterUtils.validateFilters(d.filters);
 
     log('trace', 'validated list filters', filter);
@@ -25,7 +24,6 @@ function main(d, cb) {
             _user: d._user,
             url_current: d.locals.url_current,
             url_distinct: d.locals.url_distinct,
-            collection: collection,
             filters: filter
         
         }, function(err, data) {
@@ -54,11 +52,26 @@ function main(d, cb) {
 
         var deferred = q.defer();
 
+        console.log('get results');
+        console.log(d.locals.url_data);
+
+        //TODO: Handle data api connection error and what that does to this view
         httpGet(filterUtils.buildFilterURL(d.locals.url_data, filter), function(err, body){
 
-            if(err){
 
+            //log('error', 'GET RESULTS', body);
+
+
+            if(err){
                 log('error', 'get results', err);
+
+                cb(null, {
+
+                    httpGetError: true,
+                    filters: data.filterView
+
+                });
+
                 return;
             }
 
@@ -145,7 +158,7 @@ function main(d, cb) {
             
         });
 
-        log('trace', 'current entry', data.body);
+        //log('trace', 'current entry', data.body);
 
         cb(null, {
 
@@ -164,7 +177,7 @@ function main(d, cb) {
     getQueryFilterOptions()
     .then(getResults)
     .then(returnData)
-    .fail(function(err) {
+    .catch(function(err) {
 
         log('error', 'could not get fatality list view', err);
         cb(err);

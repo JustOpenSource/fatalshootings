@@ -51,15 +51,19 @@ function main(d, cb) {
                 edit: true,
                 isNew: true
             }),
+            'submit' : generateSubmit(d, {
+                edit: true,
+                isNew: true
+            }),
             'id' : d.id,
-            'sections' : formatDetails(details, d._str),
+            'sections' : formatDetails(details, d._str, d._user),
             'success' : d.success,
             'action' : '/details/new'
         });
 
     } else {
 
-        getDetails(d.id, d.locals.url_details, function(err, body){
+        httpGet(d.locals.url_details + d.id, function(err, body){
             if(err){
                 log('error', 'get details error', err);
 
@@ -69,7 +73,7 @@ function main(d, cb) {
             log('trace', 'get details', body);
 
             //is not a new record
-            body.isNew = false;
+            //body.isNew = false;
 
             if(d.edit){
                 body.edit = true;
@@ -79,7 +83,8 @@ function main(d, cb) {
                 'edit' : d.edit,
                 'id' : d.id,
                 'controls' : generateControls(d, body),
-                'sections' : formatDetails(body, d._str),
+                'submit' : generateSubmit(d, body),
+                'sections' : formatDetails(body, d._str, d._user),
                 'action' : '/details/' + d.id + '?edit=true'
             });
         });
@@ -94,15 +99,6 @@ var personLangOptions;
 var deathLangOptions;
 var locationLangOptions;
 var ageLangDefaultOption;
-
-function getDetails(id, url, cb) {
-
-    log('trace', 'attempt to get details: ' + id);
-
-    /**/
-    httpGet(url + id, cb);
-	/**/
-}
 
 function generateOptions(options, lang, selected){
     var optionsObj = [];
@@ -185,32 +181,37 @@ function countryOptions(selected){
     return generateOptions(feSchema.properties.location.type.schema.properties.country.enum, locationLangOptions.country, selected);
 }
 
-function formatDetails(details, str){
+function formatDetails(details, str, user){
 
     function processSectionInputs(section){
 
-    _.each(section, function(input, i){
+        _.each(section, function(input, i){
 
-        input.status = {};
+            input.status = {};
 
-        if(details.missing_values && details.missing_values.indexOf(input.name) > -1){
-            input.status.missing = true;
-        }
+            if(details.missing_values && details.missing_values.indexOf(input.name) > -1){
+                input.status.missing = true;
+            }
 
-        if(details.edit){
-            input.required = false;
-        }
+            if(details.edit){
+                input.required = false;
+            }
 
-        if(input.required){
-            input.status.required = true;
-        }
+            if(input.required){
+                input.status.required = true;
+            }
 
-        if(typeof input.options === 'function'){
-            input.options = input.options(input.value);
-        }
-    });
+            if(typeof input.options === 'function'){
+                input.options = input.options(input.value);
+            }
+        });
 
-    return section;
+        return section;
+
+    }
+
+    function isRequired(){
+        return user.username ? false : true;
     }
 
     if(!details){
@@ -231,7 +232,7 @@ function formatDetails(details, str){
         'value' : details.value.subject.name,
         'name' : 'subject_name',
         'input-text' : true,
-        'required' : true
+        'required' : isRequired()
       },
       {
         'label' : str.section.person.age.label, 
@@ -282,7 +283,7 @@ function formatDetails(details, str){
         'value' : details.value.death.date, 
         'name' : 'death_date',
         'input-date' : true,
-        'required' : true
+        'required' : isRequired()
       },
       {
         'label' : str.section.death.cause.label, 
@@ -337,7 +338,7 @@ function formatDetails(details, str){
         'name' : 'location_country',
         'input-select' : true,
         'options' : countryOptions,
-        'required' : true
+        'required' : isRequired()
       },
       {
         'label' : str.section.location.city.label,
@@ -350,7 +351,7 @@ function formatDetails(details, str){
         'value' : details.value.location.state, 
         'name' : 'location_state',
         'input-text' : true,
-        'required' : true
+        'required' : isRequired()
       },
       {
         'label' : str.section.location.postal.label,
@@ -367,32 +368,32 @@ function formatDetails(details, str){
         'name' : 'sources',
         'input-textarea' : true,
         'notes' : str.section.additional_info.sources.notes,
-        'required' : true
+        'required' : isRequired()
       }
     ];
 
     if(details.edit){
-      sources.push({
-        'label' : str.section.additional_info.edit_notes.label,
-        'value' : details.value.edit_notes, 
-        'name' : 'edit_notes',
-        'input-textarea' : true,
-        'notes' : str.section.additional_info.edit_notes.notes
-      });
+        sources.push({
+            'label' : str.section.additional_info.edit_notes.label,
+            'value' : details.value.edit_notes, 
+            'name' : 'edit_notes',
+            'input-textarea' : true,
+            'notes' : str.section.additional_info.edit_notes.notes
+        });
     }
 
     var sections = [{
   		'sectionTitle' : str.section.person.title,
   		'values' :  processSectionInputs(subject)
   	}, {
-      'sectionTitle' : str.section.death.title,
-      'values' :  processSectionInputs(death)
+        'sectionTitle' : str.section.death.title,
+        'values' :  processSectionInputs(death)
     }, {
-      'sectionTitle' : str.section.location.title,
-      'values' :  processSectionInputs(location)
+        'sectionTitle' : str.section.location.title,
+        'values' :  processSectionInputs(location)
     }, {
-      'sectionTitle' : str.section.additional_info.title,
-      'values' :  processSectionInputs(sources)
+        'sectionTitle' : str.section.additional_info.title,
+        'values' :  processSectionInputs(sources)
     }];
 
     return sections;
@@ -410,6 +411,26 @@ function generateControls(d, body){
         "state" : body.record_state,
         "assignee" : body.assignee
     });
+}
+
+function generateSubmit(d, body){
+
+    body = body ? body : {};
+
+    log('find', 'test');
+
+    var submit = d.renderView('details-submit', {
+        "id": d.id,
+        "edit": body.edit,
+        "new" : body.isNew,
+        "user" : d._user,
+        "state" : body.record_state,
+        "assignee" : body.assignee
+    });
+
+    log('find', submit);
+
+    return submit;
 }
 
 module.exports = main;

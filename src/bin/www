@@ -14,9 +14,13 @@ var getView = require(__base + 'utils/get-view');
 var writeSchemaCache = require(__base + 'utils/schema-write-cache');
 
 var KEYS_DIR = __dirname + '/' + __base + '../_keys/';
+var DEFAULT_LANG = 'en';
+var PORT = 3000;
+var SESSION_SECRET = 'thisisasecret';
 
-app.set('port', process.env.PORT);
+app.set('port', PORT);
 
+/*
 function unableToConnectToDB(e){
 	log('error', 'missing mongo url', 'generate .env by running: heroku config:get MONGOHQ_URL -s  >> .env');
 
@@ -31,12 +35,13 @@ if(!url){
 	unableToConnectToDB();
 	return;
 }
+*/
 
 log('trace', 'write schema cache');
 
 writeSchemaCache('fe', 1);
 
-function setupServer(db){
+function setupServer(){
 
 	//UPDATE RECORDS IN SAMPLE DATABASE
 	//DANGER DANGER DANGER, DO NOT UNCOMMENT UNLESS YOU KNOW EXACTLY WHAT YOU ARE DOING
@@ -54,13 +59,13 @@ function setupServer(db){
 
 	log('trace', 'setup sessions');
 
-    if(!process.env.SESSION_SECRET){
+    if(!SESSION_SECRET){
     	log('trace', 'add SESSION_SECRET to .env');
     }
 
     //sessions
 	app.use(session({
-		secret: process.env.SESSION_SECRET,
+		secret: SESSION_SECRET,
 		cookie: { 
 			httpOnly: false , 
 			maxAge: 24*60*60*1000
@@ -81,17 +86,11 @@ function setupServer(db){
 	    next();
     });
 
-	log('trace', 'adding  db and lang to req');
+	log('trace', 'lang to req');
 
-	//todo: remove this, add it to locals
     app.use(function(req, res, next){
 
-        req._db = {
-            fatalities : db.collection(c.collection.fatalities),
-            users : db.collection(c.collection.users)
-        };
-
-        req.lang = req.query.lang || 'en';
+        req.lang = req.query.lang || DEFAULT_LANG;
 
         next();
     });
@@ -215,7 +214,9 @@ function setupServer(db){
 	}
 }
 
+
 //MAKE THIS PRETTIER AND ABSTRACT IT
+/*
 try {
 
 	MongoClient.connect(url, function(err, db) {
@@ -236,3 +237,6 @@ try {
 } catch (e){
 	unableToConnectToDB(e);
 }
+*/
+
+setupServer();

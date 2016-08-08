@@ -131,6 +131,8 @@ function validateFilters(d){
         'zip' : d.zip,
         'date_from' : d.date_from,
         'date_to' : d.date_to,
+        'age_from' : d.age_from,
+        'age_to' : d.age_to,
         'page' : d.page,
         'record_state' : d.record_state,
         'assignee' : d.assignee,
@@ -148,6 +150,18 @@ function buildFilterURL(rootURL, filter, exclude){
     //turn this into a loop
     if(filter.name && exclude.name !== false){
         params += 'name=' + filter.name;
+    }
+
+    if(filter.cause && exclude.cause !== false){
+        params += '&cause=' + filter.cause;
+    }
+
+    if(filter.age_from && exclude.age_from !== false){
+        params += '&age_from=' + filter.age_from;
+    }
+
+    if(filter.age_to && exclude.age_to !== false){
+        params += '&age_to=' + filter.age_to;
     }
 
     if(filter.cause && exclude.cause !== false){

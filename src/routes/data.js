@@ -1,13 +1,213 @@
 var __base = __base || '../';
 var c = require(__base + 'constants');
-var log = require(__base + 'utils/log')('routes/data');
+var log = require(__base + 'utils/log')(__dirname);
 var q = require('q');
+var httpGet = require(__base + 'utils/http-get');
 var filterUtils = require(__base + 'utils/query-filters');
 var renderView = require(__base + 'utils/render-view');
 var router = require('express').Router();
 var renderView = require(__base + 'utils/render-view');
+var Db = require(__base + 'utils/db-drivers/dynamodb');
+
+const dbInstance = new Db({
+    'table' : 'sdf-test1'
+});
+
+function getResults(data){
+    var deferred = q.defer();
+
+    log('trace', 'filters', data.filter);
+
+    dbInstance.getResults(data.filter, (err, response)=>{
+
+            if(err){
+                log('error', 'could not get results', err);
+                deferred.reject(err);
+            }
+
+            data.count = response.count;
+            data.body = response.items;
+
+            deferred.resolve(data);
+        }
+    );
+    return deferred.promise;
+}
+
+function getResult(data){
+    var deferred = q.defer();
+
+    log('trace', 'filters', data.filter);
+
+    dbInstance.getResult(data.id, (err, response)=>{
+
+            if(err){
+                log('error', 'could not get results', err);
+                deferred.reject(err);
+            }
+
+            console.log('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ response');
+            console.log('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ response');
+            console.log('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ response');
+            console.log('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ response');
+            console.log(response.Responses['sdf-test1'][0].body);
+
+            data.value = response.Responses['sdf-test1'][0].body;
+
+            deferred.resolve(data);
+        }
+    );
+    return deferred.promise;
+}
+
+/*
+ROOT API
+*/
+router.route('/api/:version/')
+.get(function(req, res){
+
+    log('trace', '/data/api/v1 query', req.query);
+
+    var data = {
+        'count' : 0
+    };
+
+    data._user = req.session && req.session.user ? req.session.user : null;
+    data.filter = filterUtils.validateFilters(req.query);
+
+    getResults(data)
+        .then((body)=>{
+
+            log('trace', '/data/api/v1 response');
+            res.json(body);
+        })
+        .catch(function(err){
+
+            log('error', 'could not get results', err);
+            res.sendStatus(500);
+        });
 
 
+});
+
+router.route('/api/:version/details/:record_id')
+.get(function(req, res){
+
+    log('trace', '/data/api/v1/details req.params.record_id', req.params.record_id);
+
+    var data = {
+        'id' : req.params.record_id
+    };
+
+    getResult(data)
+        .then((body)=>{
+
+            log('trace', '/data/api/v1 response');
+            res.json(body);
+        })
+        .catch(function(err){
+
+            log('error', 'could not get results', err);
+            res.sendStatus(500);
+        });
+});
+
+router.route('/')
+.get(function(req, res){
+
+    renderView(req, res, 'data-api', {
+
+        url: {
+
+            'details' : [
+                '/data/api/v1/details/fatality_2798'
+            ],
+
+            'attr' : [
+                '/data/api/v1?sex=female',
+                '/data/api/v1?sex=female&limit=30',
+                '/data/api/v1?race=European-American/White',
+                '/data/api/v1/?cause=automobile',
+                '/data/api/v1/?state=MD',
+                '/data/api/v1/?state=MD&sex=male',
+                '/data/api/v1/?limit=false'
+            ],
+
+            'pagination' : [
+                '/data/api/v1/?sex=male&limit=5&page=2',
+                '/data/api/v1/?sex=male&cause=gunshot&limit=5&page=2'
+            ],
+
+            'distinct' : [
+                '/data/api/v1/distinct/race',
+                '/data/api/v1/distinct/sex',
+                '/data/api/v1/distinct/mental_illness',
+                '/data/api/v1/distinct/cause',
+                '/data/api/v1/distinct/disposition',
+                '/data/api/v1/distinct/responsible_agency'
+            ],
+
+            'distinctCount' : [
+                '/data/api/v1/distinct/race?count=true',
+                '/data/api/v1/distinct/sex?count=true'
+            ]
+        }
+
+    }, {
+
+        title: 'Data API',
+        js: ['main/data'],
+        css: ['data']
+
+    });
+});
+
+/*
+router.route('/api/:version/')
+.get(function(req, res){
+
+    //DJANGO
+    var data = {
+        'count' : 0
+    };
+
+    var resultsURL = "http://fe-backend.herokuapp.com/api/subjects/?format=json"
+
+    console.log(resultsURL);
+
+    httpGet(resultsURL, function(err, body){
+        console.log('error -----');
+        console.log(err);
+        console.log(body);
+
+        res.status(200).json(data);
+    });
+    
+    //OLD
+    data._user = req.session && req.session.user ? req.session.user : null;
+    data.filter = filterUtils.validateFilters(req.query);
+
+    //HERE IS WHERE WE GET THE DATA
+    data.collection = req._db.fatalities;
+
+    getCount(data)
+        .then(getResults)
+        .then(function(body){
+
+            log('trace', '/data/api/v1 response');
+            res.json(body);
+        })
+        .fail(function(err){
+
+            log('error', 'could not get results', err);
+            res.sendStatus(500);
+        });
+
+      
+});
+*/
+
+/*
 function getCount(data) {
 
     log('trace', 'attempt to get count');
@@ -33,7 +233,10 @@ function getCount(data) {
 
     return deferred.promise;
 }
+*/
 
+
+/*
 function getResults(data){
 
     var deferred = q.defer();
@@ -61,7 +264,9 @@ function getResults(data){
 
     return deferred.promise;
 }
+*/
 
+/*
 function getDistinctCount(collection, mapper, cb){
 
     log('trace', 'get distinct count');
@@ -99,37 +304,9 @@ function getDetails(data, id, cb){
         cb(null, body)
     });
 }
+*/
 
 /*
-ROOT API
-
-*/
-router.route('/api/:version/')
-.get(function(req, res){
-
-    log('trace', '/data/api/v1 query', req.query);
-
-    var data = {};
-
-    data._user = req.session && req.session.user ? req.session.user : null;
-    data.filter = filterUtils.validateFilters(req.query);
-
-    data.collection = req._db.fatalities;
-
-    getCount(data)
-        .then(getResults)
-        .then(function(body){
-
-            log('trace', '/data/api/v1 response');
-            res.json(body);
-        })
-        .fail(function(err){
-
-            log('error', 'could not get results', err);
-            res.sendStatus(500);
-        });
-});
-
 // url/data/api
 router.route('/api/:version/details/:record_id')
 .get(function(req, res){
@@ -153,7 +330,9 @@ router.route('/api/:version/details/:record_id')
     });
 
 });
+*/
 
+/*
 router.route('/api/:version/distinct/:attr')
 .get(function(req, res){
 
@@ -248,52 +427,6 @@ router.route('/api/:version/distinct/:attr')
 
 
 });
-
-router.route('/')
-.get(function(req, res){
-
-    renderView(req, res, 'data-api', {
-
-        url: {
-
-            'details' : [
-                '/data/api/v1/details/fatality_2798'
-            ],
-
-            'attr' : [
-                '/data/api/v1?sex=female',
-                '/data/api/v1?sex=female&limit=30',
-                '/data/api/v1?race=European-American/White',
-                '/data/api/v1/?cause=automobile',
-                '/data/api/v1/?state=MD',
-                '/data/api/v1/?state=MD&sex=male',
-                '/data/api/v1/?limit=false',
-            ],
-            'pagination' : [
-                '/data/api/v1/?sex=male&limit=5&page=2',
-                '/data/api/v1/?sex=male&cause=gunshot&limit=5&page=2'
-            ],
-            'distinct' : [
-                '/data/api/v1/distinct/race',
-                '/data/api/v1/distinct/sex',
-                '/data/api/v1/distinct/mental_illness',
-                '/data/api/v1/distinct/cause',
-                '/data/api/v1/distinct/disposition',
-                '/data/api/v1/distinct/responsible_agency'
-            ],
-            'distinctCount' : [
-                '/data/api/v1/distinct/race?count=true',
-                '/data/api/v1/distinct/sex?count=true'
-            ]
-        }
-
-    }, {
-
-        title: 'Data API',
-        js: ['main/data'],
-        css: ['data']
-
-    });
-});
+*/
 
 module.exports = router;

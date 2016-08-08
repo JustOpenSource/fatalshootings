@@ -3,6 +3,9 @@
     <div class="container">
 		<h1 class="page-header">{{_str.title}}</h1>
 
+
+		<!--
+
 		{{#success}}
 		<h2>{{_str.success.title}}</h2>
 		<p>{{_str.success.message}}</p>
@@ -16,6 +19,8 @@
 		{{^success}}
 		
 		{{{controls}}}
+
+		-->
 
 		<form id="saveEdits" action="{{action}}" method="POST" class="row">
 
@@ -88,28 +93,12 @@
 			</div>
 			{{/sections}}
 
-			{{#edit}}
-			<span class="fe-details-form-submit-section fe-details-section">
-				<span class="col-xs-12 col-md-6"></span>
-				
-				<span class="fe-details-form-submit-col col-xs-12 col-md-2">
-					<input type="text" class="form-control" placeholder="{{_str.contact_info.name.label}}" name="suggest-edit-name" />
-				</span>
+			<!-- 
 
-				<span class="fe-details-form-submit-col col-xs-12 col-md-2">
-					<input type="text" class="form-control" placeholder="{{_str.contact_info.email.label}}" name="suggest-edit-email" />
-				</span>
-				
-				<span class="fe-details-form-submit-col col-xs-12 col-md-2">
-					<button class="btn btn-primary fe-details-form-submit" type="submit" form="saveEdits" value="Save">
-						{{^new}}{{_str.submit.suggest_edits}}{{/new}}
-						{{#new}}{{_str.submit.save}}{{/new}}
-						<i class="fa fa-arrow-right"></i>
-					</button>
-				</span>
-			</span>
-			{{/edit}}
+			{{{submit}}}
 			
+			-->
+
 		</form>
 
 		{{/success}}

@@ -16,7 +16,7 @@ module.exports = {
 	"race" : {
 		"Unknown" : "Unknown",
 	    "White / European" : "White / European",
-	    "Asain Indian" : "Asain Indian",
+	    "Asian Indian" : "Asian Indian",
 	    "Middle Eastern" : "Middle Eastern",
 	    "Black / African American" : "Black / African American",
 	    "Native American or Alaska Native" : "Native American or Alaska Native",

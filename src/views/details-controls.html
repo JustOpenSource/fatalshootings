@@ -11,30 +11,30 @@
     <span class="fe-details-form-submit-col col-xs-12 col-md-10">
 
         {{#suggestEdits}}
-        <a href="/details/{{id}}?edit=true" class="fe-details-user-controls pull-right">
-            <button class="btn btn-default" type="button">
+        <form action="/details/{{id}}?edit=true" method="POST" class="fe-details-user-controls pull-right">
+            <button class="btn btn-default" type="submit">
                 {{_str.suggest_edits}}
                 <i class="fa fa-pencil"></i>
             </button>
-        </a>
+        </form>
         {{/suggestEdits}}
 
         {{#removeAssignment}}
-        <a href="/details/{{id}}?removeAssignment=true" class="fe-details-user-controls pull-right">
-            <button class="btn btn-default fe-details-form-submit" type="button">
+        <form action="/details/{{id}}?removeAssignment=true" method="POST" class="fe-details-user-controls pull-right">
+            <button class="btn btn-default fe-details-form-submit" type="submit">
                 Unassign
                 <i class="fa fa-close"></i>
             </button>
-        </a>
+        </form>
         {{/removeAssignment}}
 
         {{#addAssignment}}
-        <a href="/details/{{id}}?addAssignment=true"  class="fe-details-user-controls pull-right">
-            <button class="btn btn-default fe-details-form-submit" type="button">
+        <form action="/details/{{id}}?addAssignment=true" method="POST" class="fe-details-user-controls pull-right">
+            <button class="btn btn-default fe-details-form-submit" type="submit">
                 Assign to Me
                 <i class="fa fa-star"></i>
             </button>
-        </a>
+        </form>
         {{/addAssignment}}
 
         {{#alreadyAssigned}}

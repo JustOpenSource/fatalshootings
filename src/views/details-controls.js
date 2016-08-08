@@ -120,7 +120,8 @@ function setButtons(d){
     d.alreadyAssigned = function(){
 
         if( assignedToOther 
-            && d.state !== 'published' ){
+            && d.state !== 'published' 
+            && !d.new){
 
             return true;
         }

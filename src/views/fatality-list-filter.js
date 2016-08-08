@@ -7,7 +7,7 @@ var _ = require('underscore');
 var feSchema = require(__base + 'schemas-cache/fe.1.json');
 var getSchemaLang = require(__base + 'utils/schema-lang-get');
 
-var RECORD_STATUS_ATTRIBUTES = ['new', 'pending', 'published'];
+var RECORD_STATUS_ATTRIBUTES = ['suggestions', 'new', 'pending', 'published'];
 var ASSIGNEE_ATTRIBUTES = ['me', 'nobody'];
 
 function buildOptions(name, attributes, d){
@@ -41,6 +41,18 @@ function buildOptions(name, attributes, d){
 
         optionDefault = optionDefault + d._str.select_label_cause;
     
+    } else if(name === 'age_from'){
+
+        langOptions = {'0':'0', '10':'10', '20':'20', '30':'30', '40':'40', '50':'50', '60':'60', '70':'70', '80':'80', '90':'90'};
+
+        optionDefault = 'Age From';
+    
+    } else if(name === 'age_to'){
+
+        langOptions = {'0':'0', '10':'10', '20':'20', '30':'30', '40':'40', '50':'50', '60':'60', '70':'70', '80':'80', '90':'90'};
+
+        optionDefault = 'Age To';
+    
     } else if(name === 'record_state'){
 
         langOptions = recordStateLangOptions;
@@ -63,7 +75,14 @@ function buildOptions(name, attributes, d){
 
     _.each(attributes, function(value, i){
 
-        if(value) {
+        if(name === 'age_from'){
+            console.log(d.filters);
+            console.log(d.filters[name]);
+            console.log(value);
+            console.log(d.filters[name] === value.trim());
+        }
+
+        if(value.length) {
             options.push({
                 value: value.trim(),
                 selected: d.filters[name] === value.trim() ? 'selected' : false,
@@ -78,6 +97,8 @@ function buildOptions(name, attributes, d){
 module.exports = function(d, cb) {
 
     function fetchAllComplete(){
+
+        console.log(feSchema.properties.person.type.schema.properties.sex.enum);
 
         log('trace', 'feSchema 1', feSchema.properties.person);
 
@@ -102,6 +123,16 @@ module.exports = function(d, cb) {
         });
 
         filterModel.publicFilter.push({
+            name: 'age_from',
+            options: buildOptions('age_from', ['0', '10', '20', '30', '40', '50', '60', '70', '80', '90'], d)
+        });
+
+        filterModel.publicFilter.push({
+            name: 'age_to',
+            options: buildOptions('age_to', ['0', '10', '20', '30', '40', '50', '60', '70', '80', '90'], d)
+        });
+
+        filterModel.publicFilter.push({
             name: 'race',
             options: buildOptions('race', feSchema.properties.person.type.schema.properties.race.items.enum, d)
         });
@@ -114,6 +145,8 @@ module.exports = function(d, cb) {
         filterModel.name = d.filters.name || null;
 
         filterModel.postURL = d.url_current;
+
+        filterModel.limit = d.filters.limit;
 
         filterModel.user = d._user;
 

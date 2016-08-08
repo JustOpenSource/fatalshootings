@@ -11,6 +11,11 @@ router.route('/')
 
     var page_title = 'Fatalaties List';
 
+    console.log('req.query !!!!!!!!!!!!!!!!!!');
+    console.log('req.query !!!!!!!!!!!!!!!!!!');
+    console.log('req.query !!!!!!!!!!!!!!!!!!');
+    console.log(req.query);
+
     renderView(req, res, 'fatality-list', {
         'filters' : {
 
@@ -22,6 +27,8 @@ router.route('/')
             'country' : req.query.country,
             'state' : req.query.state,
             'zip' : req.query.zip,
+            'age_from' : req.query.age_from,
+            'age_to' : req.query.age_to,
             'date_from' : req.query.date_from,
             'date_to' : req.query.date_to,
             'limit' : req.query.limit,

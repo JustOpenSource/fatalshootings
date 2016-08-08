@@ -8,20 +8,22 @@ var validate = jsonvalidator.validate;
 var Validator = jsonvalidator.Validator;
 var v = new Validator();
 
-var schemaPath = __base + 'schemas/',
-var schemas = ['entry', 'death', 'location', 'person'];
+var schemaPath = __base + 'schemas/';
+var schemas = ['fe.1', 'death.1', 'location.1', 'person.1', 'user.1'];
 
 //add schemas to Validator
 _.each(schemas, function(value, i){
     v.addSchema(require(schemaPath + value + '.json'));
 });
 
+console.log(v);
+
 function schemaValidator(d){
 
     var allErrors = [];
 
     function subValidate (schema) {
-        var schemaPath = '/fe/' + schema + '/v1';
+        var schemaPath = '/' + schema + '/v1';
             subValidated = v.validate(d[schema], v.schemas[schemaPath]),
             subErrors = _.values(subValidated.errors);
 
@@ -34,7 +36,7 @@ function schemaValidator(d){
         return subErrors;
     }
 
-    var validated = v.validate(d, v.schemas['/fe/entry/v1']),
+    var validated = v.validate(d, v.schemas['/fe.1']),
         errors = _.values(validated.errors),
         instance = '';
 
@@ -44,36 +46,36 @@ function schemaValidator(d){
 
         _.each(errors, function(err, i){
 
+            /*
+
             //TODO: use schema array to make this simpler
             //TODO: turn this into a loop and find a better way to identify sub schemas
-            if (err.property === 'instance.subject') {
+            if (err.property === 'instance.person') {
 
-                allErrors = allErrors.concat(subValidate('subject'));
+                allErrors = allErrors.concat(subValidate('person.1'));
 
             } else if (err.property === 'instance.death') {
 
-                allErrors = allErrors.concat(subValidate('death'));
+                allErrors = allErrors.concat(subValidate('death.1'));
 
             } else if (err.property === 'instance.location') {
 
-                allErrors = allErrors.concat(subValidate('location'));
-
-            } else if (err.property === 'instance.encounter') {
-
-                allErrors = allErrors.concat(subValidate('encounter'));
+                allErrors = allErrors.concat(subValidate('location.1'));
 
             } else if (err.property) {
 
                 allErrors = allErrors.concat([errors[i]]);
 
             }
+
+            */
         });
     }
 
     return allErrors;
 }
 
-/*
+
 var testEntry = {
     "submitted_by" : 'a. person',
     "published" : 'adsf',

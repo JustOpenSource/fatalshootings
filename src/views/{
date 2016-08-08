@@ -1,0 +1,35 @@
+{
+    "user": {
+
+        "username": "test",
+
+        "roles": [
+
+            {
+                "name": "admin"
+            },
+
+            {
+                "name": "researcher"
+            },
+
+            {
+                "name": "editor"
+            }
+        ],
+
+        "rolesObject": {
+
+            "admin": true,
+            "researcher": true,
+            "editor": true
+
+        }
+    },
+    
+    "results": [...],
+
+    "count": 161,
+
+    "filters": "HTML"
+}
