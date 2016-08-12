@@ -14,18 +14,15 @@ module.exports = {
 	},
 
 	"race" : {
+
 		"Unknown" : "Unknown",
-	    "White / European" : "White / European",
-	    "Asian Indian" : "Asian Indian",
-	    "Middle Eastern" : "Middle Eastern",
-	    "Black / African American" : "Black / African American",
-	    "Native American or Alaska Native" : "Native American or Alaska Native",
-	    "Hispanic or Latino" : "Hispanic or Latino",
-	    "Jewish" : "Jewish",
-	    "Asian" : "Asian",
-	    "Pacific Islander" : "",
-	    "Indigenous Australian" : "Indigenous Australian",
-	    "Other" : "Other",
+		"African-American/Black" : "African-American/Black",
+		"European-American/White" : "European-American/White",
+		"Hispanic/Latino" : "Hispanic/Latino",
+		"Asian" : "Asian",
+		"Race unspecified" : "Race unspecified"
+
+		
 	},
 
 	"mental_illness" : {

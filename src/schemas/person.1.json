@@ -21,7 +21,7 @@
             "enum": [
                 "Unknown",
                 "Male", 
-                "Female", 
+                "Female",
                 "Intersex"
             ]
         },
@@ -44,17 +44,11 @@
             "items" : { 
                 "enum": [
                     "Unknown",
-                    "White / European",
-                    "Asain Indian",
-                    "Middle Eastern",
-                    "Black / African American",
-                    "Native American or Alaska Native",
-                    "Hispanic or Latino",
-                    "Jewish",
+                    "African-American/Black",
+                    "European-American/White",
+                    "Hispanic/Latino",
                     "Asian",
-                    "Pacific Islander",
-                    "Indigenous Australian",
-                    "Other"
+                    "Race unspecified"
                 ]
             }
         },
@@ -63,16 +57,7 @@
             "type" : "array",
             "items" : { 
                 "enum": [
-                    "Unknown",
-                    "Schizophrenia",
-                    "Manic Depression/Bi-Polar",
-                    "Borderline Personality Disorder",
-                    "Depression",
-                    "Anger Problems",
-                    "Anxiety",
-                    "Sociopathy",
-                    "Psychopathy",
-                    "Other"
+                    "Unknown"
                 ]
             }
         },

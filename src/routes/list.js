@@ -11,11 +11,6 @@ router.route('/')
 
     var page_title = 'Fatalaties List';
 
-    console.log('req.query !!!!!!!!!!!!!!!!!!');
-    console.log('req.query !!!!!!!!!!!!!!!!!!');
-    console.log('req.query !!!!!!!!!!!!!!!!!!');
-    console.log(req.query);
-
     renderView(req, res, 'fatality-list', {
         'filters' : {
 

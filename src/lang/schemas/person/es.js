@@ -14,17 +14,11 @@ module.exports = {
 	},
 
 	"race" : {
-		"Unknown" : "Spanish Unknown",
-	    "White / European" : "Spanish White / European",
-	    "Asian Indian" : "Spanish Asian Indian",
-	    "Middle Eastern" : "Spanish Middle Eastern",
-	    "Black / African American" : "Spanish Black / African American",
-	    "Native American or Alaska Native" : "Spanish Native American or Alaska Native",
-	    "Hispanic or Latino" : "Spanish Hispanic or Latino",
-	    "Jewish" : "Spanish Jewish",
-	    "Asian" : "Spanish Asian",
-	    "Pacific Islander" : "Spanish ",
-	    "Indigenous Australian" : "Spanish Indigenous Australian",
-	    "Other" : "Spanish Other",
+		"Unknown" : "Unknown",
+		"African-American/Black" : "African-American/Black",
+		"European-American/White" : "European-American/White",
+		"Hispanic/Latino" : "Hispanic/Latino",
+		"Asian" : "Asian",
+		"Race unspecified" : "Race unspecified"
 	}
 }

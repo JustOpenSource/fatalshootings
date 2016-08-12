@@ -10,13 +10,11 @@ var renderView = require(__base + 'utils/render-view');
 var Db = require(__base + 'utils/db-drivers/dynamodb');
 
 const dbInstance = new Db({
-    'table' : 'sdf-test1'
+    'table' : 'sdf-test2'
 });
 
 function getResults(data){
     var deferred = q.defer();
-
-    log('trace', 'filters', data.filter);
 
     dbInstance.getResults(data.filter, (err, response)=>{
 
@@ -31,13 +29,12 @@ function getResults(data){
             deferred.resolve(data);
         }
     );
+    
     return deferred.promise;
 }
 
 function getResult(data){
     var deferred = q.defer();
-
-    log('trace', 'filters', data.filter);
 
     dbInstance.getResult(data.id, (err, response)=>{
 
@@ -45,12 +42,6 @@ function getResult(data){
                 log('error', 'could not get results', err);
                 deferred.reject(err);
             }
-
-            console.log('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ response');
-            console.log('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ response');
-            console.log('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ response');
-            console.log('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ response');
-            console.log(response.Responses['sdf-test1'][0].body);
 
             data.value = response.Responses['sdf-test1'][0].body;
 
@@ -65,8 +56,6 @@ ROOT API
 */
 router.route('/api/:version/')
 .get(function(req, res){
-
-    log('trace', '/data/api/v1 query', req.query);
 
     var data = {
         'count' : 0

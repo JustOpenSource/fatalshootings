@@ -11,11 +11,7 @@ function main(d, cb) {
 
     var filter = filterUtils.validateFilters(d.filters);
 
-    log('trace', 'validated list filters', filter);
-
     function getQueryFilterOptions() {
-
-        log('trace', 'attempt to get query filter options');
 
         var deferred = q.defer();
 
@@ -35,8 +31,6 @@ function main(d, cb) {
                 deferred.reject(err);
             }
 
-            log('trace', 'got query filter options');
-
             deferred.resolve({
                 filterView: data
             });
@@ -48,19 +42,10 @@ function main(d, cb) {
     //get result entries for current page
     function getResults(data) {
 
-        log('trace', 'attempt to get results');
-
         var deferred = q.defer();
-
-        console.log('get results');
-        console.log(d.locals.url_data);
 
         //TODO: Handle data api connection error and what that does to this view
         httpGet(filterUtils.buildFilterURL(d.locals.url_data, filter), function(err, body){
-
-
-            //log('error', 'GET RESULTS', body);
-
 
             if(err){
                 log('error', 'get results', err);
@@ -69,7 +54,6 @@ function main(d, cb) {
 
                     httpGetError: true,
                     filters: data.filterView
-
                 });
 
                 return;
@@ -81,7 +65,6 @@ function main(d, cb) {
 
                     noResults: true,
                     filters: data.filterView
-
                 });
 
                 return;
@@ -103,16 +86,8 @@ function main(d, cb) {
     //TODO: Handle no results case
     function returnData(data) {
 
-        log('trace', 'return results');
-
         var pagination;
-
-        log('trace', 'build filterUrl');
-
         var filterUrl = filterUtils.buildFilterURL('/list', filter, { page: false });
-
-        log('trace', 'build pagination');
-        
         var pagination = d.renderView('components/pagination', {
 
             count: data.count,
@@ -121,8 +96,6 @@ function main(d, cb) {
             url: filterUrl
         
         });
-
-        log('trace', 'build pagination success');
 
         _.each(data.body, function(entry, i){
 

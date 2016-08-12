@@ -45,11 +45,11 @@
 
                     <span class="list-item-value list-item-large">Race</span>
 
-                    <span class="list-item-value list-item-large">Cause</span>
+                    <span class="list-item-value list-item-med">Cause</span>
                     
-                    <span class="list-item-value list-item-xtra-small">State</span>
+                    <span class="list-item-value list-item-small">State</span>
 
-                    <span class="list-item-value list-item-small">Date</span>
+                    <span class="list-item-value list-item-large">Date</span>
                 </li>
             </ul>
 
@@ -67,20 +67,20 @@
                     -->
 
                     <span class="list-item-value list-item-large">
-                        <a href="/details/{{id}}" target="_blank">{{body.subject.name}}</a>
+                        <a href="/details/{{id}}" target="_blank">{{person_name}}</a>
                     </span>
 
-                    <span class="list-item-value list-item-xtra-small">{{body.subject.age}}</span>
+                    <span class="list-item-value list-item-xtra-small">{{person_age}}</span>
 
-                    <span class="list-item-value list-item-med">{{body.subject.sex}}</span>
+                    <span class="list-item-value list-item-med">{{person_gender}}</span>
 
-                    <span class="list-item-value list-item-large">{{body.subject.race}}</span>
+                    <span class="list-item-value list-item-large">{{person_race}}</span>
 
-                    <span class="list-item-value list-item-large">{{body.death.cause}}</span>
+                    <span class="list-item-value list-item-med">{{death_cause}}</span>
                     
-                    <span class="list-item-value list-item-xtra-small">{{body.location.state}}</span>
+                    <span class="list-item-value list-item-small">{{death_location_state}}</span>
 
-                    <span class="list-item-value list-item-small">{{body.death.event.date}}</span>
+                    <span class="list-item-value list-item-large">{{death_date}}</span>
                     
                     {{#admin}}
                     <span class="list-item-controls">

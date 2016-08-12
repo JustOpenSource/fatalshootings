@@ -1,0 +1,38 @@
+var Doc = require('../utils/import-data');
+var Db = require('../utils/db-drivers/dynamodb');
+
+var DB_TABLE = 'sdf-test2';
+var BATCH_LENGTH = 500;
+
+var doc = new Doc();
+var db = new Db({
+    'table' : DB_TABLE
+});
+
+var startIndex = 1500;
+var sliceTo;
+var doc = doc.transformedCollection;
+var length = doc.length;
+
+function recursivePush() {
+
+    sliceTo = (sliceTo >= length) ? length : startIndex + BATCH_LENGTH;
+
+    let sliceOfCollection = doc.slice(startIndex, sliceTo);
+
+    db.setResults(sliceOfCollection, (err, response)=>{
+
+        if(err){
+            console.log('ERROR ----');
+            console.log(err);
+            return;
+        }
+
+        if(sliceTo !== length){
+            startIndex = sliceTo + 1;
+            recursivePush();
+        }
+    });
+}
+
+recursivePush();

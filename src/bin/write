@@ -1,0 +1,1 @@
+var write = require('../utils/write-collection');

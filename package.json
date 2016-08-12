@@ -33,7 +33,9 @@
     "supervisor": "0.7.1",
     "underscore": "1.8.3",
     "winston": "1.0.1",
-    "fuzzy" : "*"
+    "fuzzy" : "*",
+    "redis" : "*",
+    "google-spreadsheet" : "*"
   },
   "description": "Application to explore data from [Fatal Encounters](http://fatalencounters.org).",
   "main": "SCHEMACONF.js",

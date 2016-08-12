@@ -5,19 +5,29 @@ var getSchema = require('../schema').getFullSchema;
 var cache = require('memory-cache');
 var fuzzy = require('fuzzy');
 
+//google docs json src
+//https://spreadsheets.google.com/feeds/list/1dKmaV_JiWcG8XBoRgP8b4e9Eopkpgt7FL7nyspvzAsE/od6/public/basic?alt=json
+
 var fe = getSchema('fe', '1');
+var RESULTS_CACHE_KEY = 'table-results-cache';
+var AWS_REGION = 'us-west-2';
+const RECURSIVE_SET_TIMEOUT = 10;
+const SET_PAGINATION_TIMEOUT = 10;
+
+const TEMP_DB = __base + '../data/fe.json';
 
 function handleError(err){
     console.log(err, err.stack);
 }
 
 class DbDriverDynamo {
-    constructor(config) {
+    constructor(config){
 
         this.config = {};
         this.config.table = config.table;
+        this.tempCollection = [];
 
-        AWS.config.update({region: 'us-west-2', loglevel: 1});
+        AWS.config.update({region: AWS_REGION, loglevel: 1});
 
         this.docClient = new AWS.DynamoDB.DocumentClient();
     }
@@ -26,12 +36,18 @@ class DbDriverDynamo {
         console.log(err, err.stack);
     }
 
+    addResults(items){__base + '../data/fe.json'
+
+        //this.tempCollection = this.tempCollection.concat(items);
+        this.tempCollection = items;
+    }
+
     processResults(items, filter, cb){
-        var items = this.applyFilter(items, filter);
+        let filteredItems = this.applyFilter(items, filter);
 
         cb(null, {
-            items : this.applyPagination(items, filter),
-            count : items.length
+            items : this.applyPagination(filteredItems, filter),
+            count : filteredItems.length
         });
     }
 
@@ -66,6 +82,9 @@ class DbDriverDynamo {
         }
 
         function testFromNum(filterBy, value){
+
+            //console.log(value);
+
             return testBase(filterBy, value, ()=>{
                 return parseInt(filterBy) <= parseInt(value)
             });
@@ -82,12 +101,12 @@ class DbDriverDynamo {
 
             var shouldReturn = false;
         
-            if( testValue(filter.sex, item.body.subject.sex)
-                && testValue(filter.race, item.body.subject.race)
-                && testValue(filter.cause, item.body.death.cause) 
-                && testFromNum(filter.age_from, item.body.subject.age) 
-                && testToNum(filter.age_to, item.body.subject.age)
-                && testText(filter.name, item.body.subject.name) ){
+            if( testValue(filter.sex, item.person_gender)
+                && testValue(filter.race, item.person_race)
+                && testValue(filter.cause, item.death_cause) 
+                && testFromNum(filter.age_from, item.person_age) 
+                && testToNum(filter.age_to, item.person_age)
+                && testText(filter.name, item.person_name) ){
 
                 shouldReturn = true;
             }
@@ -103,6 +122,68 @@ class DbDriverDynamo {
     }
 
     /* PUBLIC METHODS */
+    setResult(record, cb) {
+
+        if(!record.id){
+            cb(null, true);
+            return;
+        }
+
+        var setResultParam = {
+            TableName: this.config.table,
+            Item : record
+        };
+
+        this.docClient.put(setResultParam, (err, data)=>{
+            data.id = record.id;
+
+            if (err) {
+                log('error', record.id);
+                this.handleError(err);
+            }
+
+            else {
+                cb(err, data);
+            }
+        });
+    }
+
+    setResults(collection, cb) {
+
+        log('trace', 'setResults collection length', collection.length);
+
+        var t = this;
+
+        let itemIndex = 0;
+        let itemCount = 0;
+
+        function recursiveSet() {
+            t.setResult(collection[itemIndex], (err, response)=>{
+                if(err){
+                    log('error', err);
+                    cb(err);
+                }
+
+                log('trace', 'record set', response.id);
+                log('trace', 'updated collection index', itemIndex);
+
+                itemIndex++;
+
+                if(collection[itemIndex]) {
+
+                    setTimeout(()=>{
+                        recursiveSet();
+                    }, RECURSIVE_SET_TIMEOUT)
+                
+                } else {
+                    cb(null, true);
+                }
+            });
+        }
+
+        recursiveSet();
+    }
+
     getResult(id, cb) {
 
         var params = {};
@@ -117,41 +198,52 @@ class DbDriverDynamo {
         });
     }
 
-    setResult(record, cb) {
-
-        var setResultParam = {
-            TableName: driverInstance.config.table,
-            Item : record
-        };  
-
-        this.docClient.put(setResultParam, (err, data)=>{
-            if (err) this.handleError(err)
-            else cb(err, data);
-        });
-    }
-
     getResults(filter, cb) {
 
-        var RESULTS_CACHE_KEY = 'table-results-cache';
 
-        var params = {
-            TableName: this.config.table,
-            ProjectionExpression: "id, body",
-            KeyConditions: {
-                id: {
-                    ComparisonOperator: 'NE',
-                    AttributeValueList: [false]
-                },
-            },
-        };
 
-        var cachedResults = cache.get(RESULTS_CACHE_KEY);
+        function getResults(){
+            //TEMP UNTIL DATA PIPELINE IS WIRED
+            var fullDBJSON = require(TEMP_DB);
+            var data = {};
+            data.count = 13159;
+            data.body = fullDBJSON.items;
+
+            return data.body;
+        }
+
+        this.addResults(getResults());
+        this.processResults(this.tempCollection, filter, cb);
+
+
+        /*
+
+
+
+        let cachedResults = cache.get(RESULTS_CACHE_KEY);
 
         if(cachedResults){
+        //if(false){
 
             this.processResults(cachedResults, filter, cb);
 
         } else {
+            
+            var params = {
+                TableName: this.config.table,
+                ProjectionExpression: "id, person_name, person_age, person_race, person_gender, death_cause, death_location_state, death_date",
+                KeyConditions: {
+                    id: {
+                        ComparisonOperator: 'NE',
+                        AttributeValueList: [false]
+                    },
+                },
+            };
+
+            if(filter.LastEvaluatedKey){
+                params.ExclusiveStartKey = filter.LastEvaluatedKey;
+            }
+
             this.docClient.scan(params, (err, data)=>{
                 if (err) {
                     
@@ -159,22 +251,36 @@ class DbDriverDynamo {
 
                 } else {
 
-                    if(!cache.get(RESULTS_CACHE_KEY)){
-                        cache.put(RESULTS_CACHE_KEY, data.Items);
+                    console.log('=======================');
+                    console.log(data.Items.length);
+                    console.log(data.LastEvaluatedKey);
+
+                    if(data.LastEvaluatedKey){
+                        filter.LastEvaluatedKey = data.LastEvaluatedKey;
+
+                        this.addResults(data.Items);
+
+                        setTimeout(()=>{
+                            this.getResults(filter, cb);
+                        }, SET_PAGINATION_TIMEOUT)
+
+                        
+                    } else {
+
+                        this.addResults(data.Items);
+                        this.processResults(this.tempCollection, filter, cb);
+                    
+                        if(!cache.get(RESULTS_CACHE_KEY)){
+                            cache.put(RESULTS_CACHE_KEY, this.tempCollection);
+                        }
                     }
-
-                    this.processResults(data.Items, filter, cb);
                 }
-            });
+            });   
         }
-
-        
+        */
     }
 
-    setResults() {
-        //not implimented yet
-        return false;
-    }
+    
 
     getAggregateCount() {
         
@@ -182,8 +288,6 @@ class DbDriverDynamo {
 }
 
 module.exports = DbDriverDynamo;
-
-
 
 /**
 

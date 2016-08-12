@@ -75,13 +75,6 @@ function buildOptions(name, attributes, d){
 
     _.each(attributes, function(value, i){
 
-        if(name === 'age_from'){
-            console.log(d.filters);
-            console.log(d.filters[name]);
-            console.log(value);
-            console.log(d.filters[name] === value.trim());
-        }
-
         if(value.length) {
             options.push({
                 value: value.trim(),
