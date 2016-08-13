@@ -1,3 +1,4 @@
+var __base = __base || '../../'
 var AWS = require('aws-sdk');
 var _ = require('underscore');
 var log = require('../log')(__dirname);

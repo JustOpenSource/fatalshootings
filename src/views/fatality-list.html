@@ -1,26 +1,37 @@
 <div class="page-content">
     <div class="container">
         <div class="page-header col-md-12">
-            <h1>{{_str.title}} <small>{{ count}} {{^count}} no {{/count}} {{_str.results}}</small></h1>
+            <h1>
+                {{_str.title}} 
+                {{^hideList}}
+                <small>{{ count}} {{^count}} no {{/count}} {{_str.results}}</small>
+                {{/hideList}}
+            </h1>
         </div>
 
         <div class="data-list-controls col-md-12">
             {{{filters}}}
         </div>
 
+        {{^hideList}}
         {{#noResults}}
          <div class="col-md-12 fe-margin-top-md">
             <p>There were no results.  Try removing a filter.</p>
         </div>
         {{/noResults}}
+        {{/hideList}}
+
+        {{#hideList}}
+            <p>Add a filter to see results.</p>
+        {{/hideList}}
+        
         {{^noResults}}
-
-
         <div class="col-md-12">
             {{{pagination}}}
         </div>
 
         <div class="col-md-12">
+            {{^hideList}}
             <ul class="list-group">
                 <li>
                     <!--
@@ -52,6 +63,7 @@
                     <span class="list-item-value list-item-large">Date</span>
                 </li>
             </ul>
+            
 
             <ul class="list-group">
             {{#results}}
@@ -93,10 +105,8 @@
                     {{/admin}}
                 </li>
             {{/results}}
+            {{/hideList}}
             </ul>
-            {{^results}}
-            <p>No results available</p>
-            {{/results}}
         </div>
 
         <div class="col-md-12">

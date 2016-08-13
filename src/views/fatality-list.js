@@ -62,7 +62,7 @@ function main(d, cb) {
             if(body.count < 1){
 
                 cb(null, {
-
+                    hideList: true,
                     noResults: true,
                     filters: data.filterView
                 });
@@ -96,15 +96,16 @@ function main(d, cb) {
             url: filterUrl
         
         });
-
+        
+        /*
         _.each(data.body, function(entry, i){
 
-            /*
+            
             log('trace', 'current entry', entry);
             log('trace', 'current user', d._user);
             log('trace', 'current username', d._user.username);
             log('trace', 'current assignee', entry.assignee);
-            */
+            
 
             if( d._user && d._user.username === entry.assignee ){
                 
@@ -130,11 +131,9 @@ function main(d, cb) {
 
             
         });
-
-        //log('trace', 'current entry', data.body);
+        */
 
         cb(null, {
-
             user: d._user,
             results: data.body,
             count: data.count,

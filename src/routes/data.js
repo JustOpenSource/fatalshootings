@@ -10,6 +10,32 @@ var renderView = require(__base + 'utils/render-view');
 var getFilteredData = require(__base + 'utils/get-filtered-data');
 
 function getResults(data){
+
+    var deferred = q.defer();
+
+    let noFilter = true;
+
+    if( data.filter.name 
+        || data.filter.age_from 
+        || data.filter.age_to
+        || data.filter.sex
+        || data.filter.race){
+
+        noFilter = false;
+    }
+
+    if(noFilter){
+        setTimeout(()=>{
+            data.count = 0;
+            data.body = [];
+            data.hideList = true;
+
+            deferred.resolve(data);
+        }, 50);
+
+    }
+
+
     var deferred = q.defer();
     getFilteredData(data.filter, (err, response)=>{
 
