@@ -9,6 +9,10 @@ var renderView = require(__base + 'utils/render-view');
 router.route('/:id')
 .get(function(req, res){
 
+    res.json({'status' : 'disabled'});
+
+    /*
+
     handleStateAndAssignmentChanges(req, res);
 
     var page_title = 'Details';
@@ -27,6 +31,8 @@ router.route('/:id')
         title: page_title,
         css: ['details']
     });
+
+    */
 })
 
 .post(function(req, res){

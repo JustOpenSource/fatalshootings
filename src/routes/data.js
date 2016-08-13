@@ -18,12 +18,7 @@ function getResults(data){
                 log('error', 'could not get results', err);
                 deferred.reject(err);
             }
-
-            console.log('response ======================');
-            console.log(JSON.parse(response));
-
-
-
+            
             response = JSON.parse(response);
 
             data.count = response.body.count;
