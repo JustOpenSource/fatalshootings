@@ -8,10 +8,34 @@ var renderView = require(__base + 'utils/render-view');
 var router = require('express').Router();
 var renderView = require(__base + 'utils/render-view');
 var Db = require(__base + 'utils/db-drivers/dynamodb');
+var getFilteredData = require(__base + 'utils/get-filtered-data');
 
-const dbInstance = new Db({
-    'table' : 'sdf-test2'
-});
+function getResults(data){
+    var deferred = q.defer();
+    getFilteredData(data.filter, (err, response)=>{
+
+            if(err){
+                log('error', 'could not get results', err);
+                deferred.reject(err);
+            }
+
+            console.log('response ======================');
+            console.log(JSON.parse(response));
+
+
+
+            response = JSON.parse(response);
+
+            data.count = response.body.count;
+            data.body = response.body.items;
+
+            deferred.resolve(data);
+        }
+    );
+    return deferred.promise;
+}
+
+/*
 
 function getResults(data){
     var deferred = q.defer();
@@ -32,6 +56,7 @@ function getResults(data){
     
     return deferred.promise;
 }
+*/
 
 function getResult(data){
     var deferred = q.defer();
