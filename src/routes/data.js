@@ -7,7 +7,6 @@ var filterUtils = require(__base + 'utils/query-filters');
 var renderView = require(__base + 'utils/render-view');
 var router = require('express').Router();
 var renderView = require(__base + 'utils/render-view');
-var Db = require(__base + 'utils/db-drivers/dynamodb');
 var getFilteredData = require(__base + 'utils/get-filtered-data');
 
 function getResults(data){
@@ -18,7 +17,7 @@ function getResults(data){
                 log('error', 'could not get results', err);
                 deferred.reject(err);
             }
-            
+
             response = JSON.parse(response);
 
             data.count = response.body.count;
@@ -53,6 +52,7 @@ function getResults(data){
 }
 */
 
+/*
 function getResult(data){
     var deferred = q.defer();
 
@@ -70,6 +70,7 @@ function getResult(data){
     );
     return deferred.promise;
 }
+*/
 
 /*
 ROOT API
@@ -99,6 +100,7 @@ router.route('/api/:version/')
 
 });
 
+/*
 router.route('/api/:version/details/:record_id')
 .get(function(req, res){
 
@@ -120,6 +122,7 @@ router.route('/api/:version/details/:record_id')
             res.sendStatus(500);
         });
 });
+*/
 
 router.route('/')
 .get(function(req, res){

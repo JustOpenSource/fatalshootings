@@ -13,12 +13,18 @@ var lambda = new AWS.Lambda();
 module.exports = function(filter, cb){
 
     var params = {
-      FunctionName: 'sdf-filter-function', /* required */
-      Payload: JSON.stringify(filter)
+        FunctionName: 'sdf-filter-function', /* required */
+        Payload: JSON.stringify(filter)
     };
 
+    //var d1 = new Date();
+    
     lambda.invoke(params, function(err, data) {
-      if (err) cb(err);
-      else cb(null, data.Payload)         
+        if (err) cb(err);
+        else {
+    //        var d2 = new Date();
+    //        var seconds =  (d2- d1)/1000;
+            cb(null, data.Payload)         
+        }   
     });
 }

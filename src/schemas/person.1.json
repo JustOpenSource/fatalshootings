@@ -21,8 +21,7 @@
             "enum": [
                 "Unknown",
                 "Male", 
-                "Female",
-                "Intersex"
+                "Female"
             ]
         },
 
