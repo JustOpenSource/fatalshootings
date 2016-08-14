@@ -19,6 +19,7 @@ function getResults(data){
         || data.filter.age_from 
         || data.filter.age_to
         || data.filter.sex
+        || data.filter.cause
         || data.filter.race){
 
         noFilter = false;

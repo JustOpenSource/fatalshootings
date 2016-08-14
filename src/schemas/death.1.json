@@ -6,15 +6,10 @@
         "cause" : {
             "enum": [
                 "Unknown",
-                "Asphyxiation",
-                "Assault",
-                "Automobile",
-                "Drug Related",
                 "Gunshot",
-                "Medical Emergency",
-                "Neglect",
-                "Non-Lethal Weapon",
-                "Suicide",
+                "Stabbed",
+                "Undetermined",
+                "Vehicle",
                 "Other"
             ]
         },

@@ -17,7 +17,6 @@ router.route('/')
 
         title: page_title
     });
-
 })
 
 .post(function(req, res){

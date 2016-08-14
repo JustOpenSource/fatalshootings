@@ -164,10 +164,6 @@ function buildFilterURL(rootURL, filter, exclude){
         params += '&age_to=' + filter.age_to;
     }
 
-    if(filter.cause && exclude.cause !== false){
-        params += '&cause=' + filter.cause;
-    }
-
     if(filter.race && exclude.race !== false){
         params += '&race=' + filter.race;
     }
