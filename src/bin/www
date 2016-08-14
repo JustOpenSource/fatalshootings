@@ -154,6 +154,7 @@ function setupServer(){
 	app.use('/details/', require(__base + 'routes/details'));
 	app.use('/login/', require(__base + 'routes/login'));
 	app.use('/user/', require(__base + 'routes/user'));
+	app.use('/charts/', require(__base + 'routes/charts'));
 
 
 	//catch 404 and forward to error handler
