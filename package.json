@@ -35,7 +35,14 @@
     "winston": "1.0.1",
     "fuzzy" : "*",
     "redis" : "*",
-    "google-spreadsheet" : "*"
+    "google-spreadsheet" : "*",
+    "node-chartist" : "*",
+    "co" : "*",
+    "nchart" : "*",
+    "canvas" : "*",
+    "pureimage" : "*",
+    "webpage" : "*",
+    "phantom" : "*"
   },
   "description": "Application to explore data from [Fatal Encounters](http://fatalencounters.org).",
   "main": "SCHEMACONF.js",

@@ -3,16 +3,22 @@
 
 		<title>{{locals.title}}</title>
 
-		<script src="//cdnjs.cloudflare.com/ajax/libs/require.js/2.1.15/require.js"></script>
-        <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 <!--        <script src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.2/js/bootstrap.min.js"></script>
 -->
-        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.1.2/Chart.min.js"></script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/d3/3.5.3/d3.min.js"></script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/topojson/1.6.9/topojson.min.js"></script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/datamaps/0.5.7/datamaps.usa.min.js"></script>
+        <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+
+        <script src="//cdnjs.cloudflare.com/ajax/libs/chartist/0.9.8/chartist.min.js"></script>
+        
 
 		{{#locals.js}}
 		<script src="/js/{{.}}.js"></script>
 		{{/locals.js}}
 
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/chartist/0.9.8/chartist.min.css">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/0.7.1/css/flag-icon.css">

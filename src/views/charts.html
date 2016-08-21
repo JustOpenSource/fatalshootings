@@ -1,64 +1,159 @@
-<div class="page-content">
-    <div class="container">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.5.12/clipboard.min.js"></script>
 
-<div class="col-md-12 page-header">
-    <h1>Charts</h1>
-</div>
-
-<div id="testChartWrap">
-<canvas id="testChart" width="400px" height="400px"></canvas>
-</div>
-<style>
-    #testChartWrap {
-        width: 400px;
-        height: 400px;
-    padding: 15px 15px 15px 15px;
-}
-</style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.1.4/Chart.bundle.min.js"></script>
 
 <script>
-    var ctx = document.getElementById("testChart").getContext("2d");
-    ctx.canvas.width = 300;
-ctx.canvas.height = 300;
-    var myChart = new Chart(ctx, {
-        type: 'bar',
-        data: {
-            labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
-            datasets: [{
-                label: '# of Votes',
-                data: [12, 19, 3, 5, 2, 3],
-                backgroundColor: [
-                    'rgba(255, 99, 132, 0.2)',
-                    'rgba(54, 162, 235, 0.2)',
-                    'rgba(255, 206, 86, 0.2)',
-                    'rgba(75, 192, 192, 0.2)',
-                    'rgba(153, 102, 255, 0.2)',
-                    'rgba(255, 159, 64, 0.2)'
-                ],
-                borderColor: [
-                    'rgba(255,99,132,1)',
-                    'rgba(54, 162, 235, 1)',
-                    'rgba(255, 206, 86, 1)',
-                    'rgba(75, 192, 192, 1)',
-                    'rgba(153, 102, 255, 1)',
-                    'rgba(255, 159, 64, 1)'
-                ],
-                borderWidth: 1
-            }]
-        },
-        options: {
-            maintainAspectRatio: false,
-            responsive: true,
-            scales: {
-                yAxes: [{
-                    ticks: {
-                        beginAtZero:true
-                    }
-                }]
-            }
-        }
+    var clipboard = new Clipboard('.copy-btn');
+
+    clipboard.on('success', function(e) {
+        document.querySelectorAll('.copy-btn').forEach((el)=>{
+            el.innerHTML = 'Copy link to clipboard'
+        });
+
+        e.trigger.innerHTML = 'copied'
+
     });
 </script>
 
-</div>
+<div class="page-content">
+    <div class="container">
+
+        <div class="col-md-12 page-header">
+            <h1>Charts</h1>
+        </div>
+
+        <style>
+            .data-list-controls {
+                margin-bottom: 50px;
+            }
+
+            .fe-chart-section h2 {
+                margin-bottom: 10px;
+            }
+
+            .fe-chart-share {
+                float: right;
+            }
+
+            .fe-chart-share a {
+                font-size: 20px;
+                padding: 6px 10px 10px 10px;
+                border: 1px solid #ccc;
+                border-radius: 4px;
+            }
+
+            .fe-chart-share a:hover {
+                text-decoration: none;
+                background-color: white;
+            }
+
+            .fe-chart-section {
+                border: 1px solid #ccc;
+                padding: 20px;
+                margin: 20px 0 5px;
+            }
+
+            .fe-chart-section h2 {
+                margin: 0;
+                padding: 0;
+            }
+
+            .fe-chart-body {
+                margin: 20px 0;
+            }
+        </style>
+
+        <div class="data-list-controls col-md-12">
+            {{{filterView}}}
+        </div>
+
+        <div class="col-md-12 fe-chart-section">
+
+            
+            <h2>
+                Sex 
+                <span class="fe-chart-share">
+                    <button class="btn copy-btn" data-clipboard-text="/link/to/graph/sex">Copy link to clipboard</button>
+                </span>
+            </h2>
+            <div class="fe-chart-wrap">
+                <div style="width:800px">
+                    <canvas id="sex-bar-chart" class="fe-chart-body">chart</canvas>
+                </div>
+
+                <script>
+var ctx = document.getElementById("sex-bar-chart");
+var myChart = new Chart(ctx, {
+    type: 'horizontalBar',
+    data: {
+        labels: ["Male", "Female"],
+        datasets: [{
+            label: '# of Votes',
+            data: [12, 19, 3, 5, 2, 3],
+            backgroundColor: [
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(255, 206, 86, 0.2)',
+                'rgba(75, 192, 192, 0.2)',
+                'rgba(153, 102, 255, 0.2)',
+                'rgba(255, 159, 64, 0.2)'
+            ],
+            borderColor: [
+                'rgba(255,99,132,1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(255, 159, 64, 1)'
+            ],
+            borderWidth: 1
+        }]
+    },
+    options: {
+        scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero:true
+                }
+            }]
+        }
+    }
+});
+</script>
+
+                <a href="#">data source</a>
+                
+            </div>
+        </div>
+
+        <div class="col-md-12 fe-chart-section">
+            <h2>
+                Race 
+                <span class="fe-chart-share">
+                    <button class="btn copy-btn" data-clipboard-text="/link/to/graph/race">Copy link to clipboard</button>
+                </span>
+            </h2>
+            <div class="fe-chart-wrap">
+                <div class="fe-chart-body">chart</div>
+                <a href="#">data source</a>
+                
+            </div>
+        </div>
+
+        <div class="col-md-12 fe-chart-section">
+            <h2>
+                Age 
+                <span class="fe-chart-share">
+                    <button class="btn copy-btn" data-clipboard-text="/link/to/graph/age">Copy link to clipboard</button>
+                </span>
+            </h2>
+            <div class="fe-chart-wrap">
+                <div class="fe-chart-body">chart</div>
+                <a href="#">data source</a>
+                
+            </div>
+        </div>
+
+        </div>
+    </div>
 </div>

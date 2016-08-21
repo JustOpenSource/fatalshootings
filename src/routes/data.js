@@ -8,6 +8,10 @@ var renderView = require(__base + 'utils/render-view');
 var router = require('express').Router();
 var renderView = require(__base + 'utils/render-view');
 var getFilteredData = require(__base + 'utils/get-filtered-data');
+var getFilteredDataDev = require(__base + 'utils/get-filtered-data-dev');
+
+//TODO: set to run in dev mode
+var getFilteredData = getFilteredDataDev;
 
 function getResults(data){
 
@@ -33,9 +37,7 @@ function getResults(data){
 
             deferred.resolve(data);
         }, 50);
-
     }
-
 
     var deferred = q.defer();
     getFilteredData(data.filter, (err, response)=>{
@@ -50,12 +52,14 @@ function getResults(data){
             data.count = response.body.count;
             data.body = response.body.items;
 
-            deferred.resolve(data);
+            setTimeout(()=>{
+                deferred.resolve(data);
+            }, 50);
         }
     );
+
     return deferred.promise;
 }
-
 /*
 
 function getResults(data){
