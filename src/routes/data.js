@@ -11,7 +11,7 @@ var getFilteredData = require(__base + 'utils/get-filtered-data');
 var getFilteredDataDev = require(__base + 'utils/get-filtered-data-dev');
 
 //TODO: set to run in dev mode
-var getFilteredData = getFilteredDataDev;
+//var getFilteredData = getFilteredDataDev;
 
 function getResults(data){
 
