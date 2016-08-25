@@ -285,12 +285,6 @@ function formatDetails(details, str, user){
         'options' : causeOfDeathOptions
       },
       {
-        'label' : str.section.death.cause_notes.label, 
-        'value' : details.value.death_description, 
-        'name' : 'death_cause_notes',
-        'input-textarea' : true
-      },
-      {
         'label' : str.section.death.responsible_agency.label,
         'value' : details.value.death_agency, 
         'name' : 'death_responsible_agency',
