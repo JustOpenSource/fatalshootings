@@ -86,9 +86,8 @@ var ctx = document.getElementById("sex-bar-chart");
 var myChart = new Chart(ctx, {
     type: 'horizontalBar',
     data: {
-        labels: ["Male", "Female"],
+        labels: ["Female", "Male"],
         datasets: [{
-            label: '# of Votes',
             data: [12, 19, 3, 5, 2, 3],
             backgroundColor: [
                 'rgba(255, 99, 132, 0.2)',
@@ -110,6 +109,9 @@ var myChart = new Chart(ctx, {
         }]
     },
     options: {
+        legend: {
+            display: false,
+        },
         scales: {
             yAxes: [{
                 ticks: {

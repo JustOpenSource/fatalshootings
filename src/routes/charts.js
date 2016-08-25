@@ -21,7 +21,7 @@ router.route('/')
 
 .post(function(req, res){
 
-    log('trace', 'post date', req.body);
+    res.json({disabled:true});
 
 });
 
