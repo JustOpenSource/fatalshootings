@@ -1,9 +1,7 @@
-#ATTENTION
-This code is a shifting work in progress and is not stable.   
-
 Application to explore data from [Fatal Encounters](http://fatalencounters.org).
 
-The project has recently moved onto heroku and requires updated onboarding instructions.
+#ATTENTION
+This code is a shifting work in progress and is not stable.   
 
 ##Table of Contents
 
