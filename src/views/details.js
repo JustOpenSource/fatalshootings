@@ -173,7 +173,7 @@ function countryOptions(selected){
 
 function formatDetails(details, str, user){
 
-    log('trace', 'details.value!!!!!!!!!!!!!!!!!!!!!!!!!!!!!', details.value);
+    log('trace', 'details.value!!!!!!!!!!!!!!!!!!!!!!!!!!!!!', details);
 
     function processSectionInputs(section){
 

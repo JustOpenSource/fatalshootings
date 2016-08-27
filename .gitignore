@@ -6,3 +6,4 @@ _keys
 .env
 npm-debug.log
 /**/*.css
+src/email-pass.js
