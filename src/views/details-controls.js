@@ -88,6 +88,7 @@ function setButtons(d){
 
     d.suggestEdits = function(){
 
+        /*
         if( (assignedToOther
             || assignedToNobody)
             && d.state !== 'published' ){
@@ -103,6 +104,9 @@ function setButtons(d){
         }
 
         return false;
+        */
+
+        return d.edit ? false : true;
 
     }
 

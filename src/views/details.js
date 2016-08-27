@@ -380,10 +380,11 @@ function generateControls(d, body){
     return d.renderView('details-controls', {
         "id": d.id,
         "edit": body.edit,
-        "new" : body.isNew,
+        //"new" : body.isNew,
         "user" : d._user,
-        "state" : body.record_state,
-        "assignee" : body.assignee
+        //"state" : body.record_state,
+        //"assignee" : body.assignee,
+        "suggestEdits" : body.edit
     });
 }
 
@@ -394,10 +395,10 @@ function generateSubmit(d, body){
     var submit = d.renderView('details-submit', {
         "id": d.id,
         "edit": body.edit,
-        "new" : body.isNew,
+        //"new" : body.isNew,
         "user" : d._user,
-        "state" : body.record_state,
-        "assignee" : body.assignee
+        //"state" : body.record_state,
+        //"assignee" : body.assignee
     });
 
     return submit;

@@ -11,12 +11,12 @@
     <span class="fe-details-form-submit-col col-xs-12 col-md-10">
 
         {{#suggestEdits}}
-        <form action="/details/{{id}}?edit=true" method="POST" class="fe-details-user-controls pull-right">
+        <a href="/details/{{id}}?edit=true" class="fe-details-user-controls pull-right">
             <button class="btn btn-default" type="submit">
                 {{_str.suggest_edits}}
                 <i class="fa fa-pencil"></i>
             </button>
-        </form>
+        </a>
         {{/suggestEdits}}
 
         {{#removeAssignment}}
@@ -37,9 +37,11 @@
         </form>
         {{/addAssignment}}
 
+        <!--
         {{#alreadyAssigned}}
             <span class="pull-right"><i class="fa fa-lock"></i> This record is already assigned to another user. <a href="/list">Return to the list.</a></span>
         {{/alreadyAssigned}}
+        -->
 
     </span>
 </div>

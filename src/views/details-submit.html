@@ -1,29 +1,25 @@
+{{#edit}}
 <span class="fe-details-form-submit-section fe-details-section">
-    <span class="col-xs-12 col-md-4"></span>
+    
 
-    <span class="fe-details-form-submit-col col-xs-12 col-md-2">
-        {{#state}}
-        <select class="form-control"  name="changeState">
-            {{#options}}
-                <option value="{{value}}" {{#selected}}selected{{/selected}}>{{title}}</option>
-            {{/options}}
-        </select>
-        {{/state}}
-    </span>
+    <span class="col-xs-12 col-md-4"></span>
     
     <span class="fe-details-form-submit-col col-xs-12 col-md-2">
-        <input type="text" class="form-control" placeholder="{{_str.contact_info.name.label}}" name="suggest-edit-name" />
+        <input type="text" class="form-control" placeholder="your name" name="suggest-edit-name" />
     </span>
 
     <span class="fe-details-form-submit-col col-xs-12 col-md-2">
-        <input type="text" class="form-control" placeholder="{{_str.contact_info.email.label}}" name="suggest-edit-email" />
+        <input type="text" class="form-control" placeholder="your email" name="suggest-edit-email" />
     </span>
+    
     
     <span class="fe-details-form-submit-col col-xs-12 col-md-2">
         <button class="btn btn-primary fe-details-form-submit" type="submit" form="saveEdits" value="Save">
-            {{^new}}{{_str.submit.suggest_edits}}{{/new}}
+            {{^new}}Suggest Edits{{/new}}
             {{#new}}{{_str.submit.save}}{{/new}}
             <i class="fa fa-arrow-right"></i>
         </button>
     </span>
+    
 </span>
+{{/edit}}
