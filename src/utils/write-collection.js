@@ -35,30 +35,3 @@ function compressJSON(items){
 
     });
 }
-
-/*
-
-function getResults(data){
-    
-    data.filter = {};
-    dbInstance.getResults(data.filter, (err, response)=>{
-
-            if(err){
-                log('error', 'could not get results', err);
-                deferred.reject(err);
-            }
-
-            data.count = response.count;
-            data.body = response.Items;
-
-            log('trace', 'results', data.count);
-            log('trace', 'results', dbInstance.tempCollection);
-
-            writeResults(dbInstance.tempCollection);
-        }
-    );
-}
-*/
-
-compressJSON([])
-//getResults({});

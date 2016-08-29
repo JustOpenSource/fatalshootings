@@ -1,8 +1,4 @@
 <form class="form-inline" action="{{postURL}}" method="post">
-
-    
-
-    
     <!--
     <div class="col-md-12 fe-margin-bottom-sm fe-user-filters">
         {{#userFilter}}
@@ -24,24 +20,25 @@
         </div>
         
     </div>
-    
     -->
 
-
     <div class="col-md-12">
-        <div class="form-group">
-            <input type="text" class="form-control" name="name" placeholder="{{_str.input_default_name}}" value="{{name}}">
-        </div>
 
         <input type="hidden" name="limit" value="{{limit}}">
 
         {{#publicFilter}}
         <div class="form-group">
+            {{#input_type_select}}
             <select name="{{name}}" class="form-control">
                 {{#options}}
                 <option value="{{value}}" {{selected}}>{{text}}</option>
                 {{/options}}
             </select>
+            {{/input_type_select}}
+        
+            {{#input_type_text}}
+            <input type="text" class="form-control" name="{{name}}" placeholder="{{placeholder}}" value="{{value}}">
+            {{/input_type_text}}
         </div>
         {{/publicFilter}}
         
@@ -53,12 +50,4 @@
             <a href="/list">Clear Filter</a>
         </div>
     </div>
-
-    <!--
-    <div class="col-md-12">
-        <div class="form-group">
-            <a href="/list?filters=all">More filters</a>
-        </div>
-    </div>
-    -->
 </form>

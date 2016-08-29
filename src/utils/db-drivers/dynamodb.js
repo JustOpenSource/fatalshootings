@@ -202,25 +202,6 @@ class DbDriverDynamo {
     getResults(filter, cb) {
 
 
-
-        function getResults(){
-            //TEMP UNTIL DATA PIPELINE IS WIRED
-            var fullDBJSON = require(TEMP_DB);
-            var data = {};
-            data.count = 13159;
-            data.body = fullDBJSON.items;
-
-            return data.body;
-        }
-
-        this.addResults(getResults());
-        this.processResults(this.tempCollection, filter, cb);
-
-
-        /*
-
-
-
         let cachedResults = cache.get(RESULTS_CACHE_KEY);
 
         if(cachedResults){
@@ -232,7 +213,17 @@ class DbDriverDynamo {
             
             var params = {
                 TableName: this.config.table,
-                ProjectionExpression: "id, person_name, person_age, person_race, person_gender, death_cause, death_location_state, death_date",
+                ProjectionExpression: [
+                    'id', 
+                    'person_name', 
+                    'person_age', 
+                    'person_race', 
+                    'person_gender', 
+                    'death_cause', 
+                    'death_location_state', 
+                    'death_location_zip',
+                    'death_date'
+                ].join(','),
                 KeyConditions: {
                     id: {
                         ComparisonOperator: 'NE',
@@ -278,7 +269,7 @@ class DbDriverDynamo {
                 }
             });   
         }
-        */
+        
     }
 
     

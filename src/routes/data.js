@@ -17,7 +17,8 @@ const dbInstance = new Db({
 
 //TODO: Uncomment this to run in dev mode
 //TODO: make this actually run based on NODE_ENV='development';
-//var getFilteredData = getFilteredDataDev;
+//getFilteredData = getFilteredDataDev;
+
 function getResults(data){
 
     var deferred = q.defer();
@@ -29,6 +30,11 @@ function getResults(data){
         || data.filter.age_to
         || data.filter.sex
         || data.filter.cause
+        || data.filter.cause
+        || data.filter.year
+        || data.filter.month
+        || data.filter.state
+        || data.filter.zip
         || data.filter.race){
 
         noFilter = false;
