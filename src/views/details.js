@@ -33,6 +33,12 @@ function main(d, cb) {
     locationLangOptions = getSchemaLang('location', d._str._lang);
     ageLangDefaultOption = d._str.section.person.age.option_default;
 
+    var missing_submitter_data;
+
+    if(d.error && d.name_or_email_missing){
+        missing_submitter_data = true;
+    }
+
     if(d.id === 'new'){
 
         var details = null;
@@ -44,7 +50,11 @@ function main(d, cb) {
             }
         }
 
+        
+
         cb(null, {
+            'missing_submitter_data' : missing_submitter_data,
+            'new' : true,
             'edit' : true,
             'missing' : d.missing,
             'controls' : generateControls(d, {
@@ -77,12 +87,14 @@ function main(d, cb) {
             }
 
             cb(null, {
+                'missing_submitter_data' : missing_submitter_data,
                 'edit' : d.edit,
                 'id' : d.id,
                 'controls' : generateControls(d, body),
                 'submit' : generateSubmit(d, body),
                 'sections' : formatDetails(body, d._str, d._user),
-                'action' : '/details/' + d.id + '?edit=true'
+                'action' : '/details/' + d.id + '?edit=true',
+                'success' : d.success,
             });
         });
     }
@@ -149,6 +161,14 @@ function sexOptions(selected){
 function orientationOptions(selected){
 
     return generateOptions(feSchema.properties.person.type.schema.properties.orientation.enum, personLangOptions.orientation, selected);
+}
+
+function mentalIllnessOptions(selected){
+
+    return generateOptions([
+        "Unknown",
+        "Yes"
+    ], personLangOptions.mental_illness, selected);
 }
 
 function raceOptions(selected){
@@ -250,9 +270,9 @@ function formatDetails(details, str, user){
       {
         'label' : str.section.person.mental_illness.label, 
         'value' : details.value.person_mentalillness, 
-        'name' : 'subject_orientation',
+        'name' : 'subject_mentalIllness',
         'input-select' : true,
-        'options' : orientationOptions
+        'options' : mentalIllnessOptions
       },
       {
         'label' : str.section.person.transgender.label,
@@ -395,7 +415,7 @@ function generateSubmit(d, body){
     var submit = d.renderView('details-submit', {
         "id": d.id,
         "edit": body.edit,
-        //"new" : body.isNew,
+        "new" : body.isNew,
         "user" : d._user,
         //"state" : body.record_state,
         //"assignee" : body.assignee

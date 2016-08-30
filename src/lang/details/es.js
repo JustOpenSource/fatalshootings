@@ -1,4 +1,4 @@
-module.exports = {
+report_another_link_textmodule.exports = {
 	"title" : "Spanish Details",
 	"section" : {
 		"person" : {
@@ -105,7 +105,7 @@ module.exports = {
 	"success" : {
 		"title" : "Spanish Success",
 		"message" : "Spanish Once the submission is reviewed for accuracy, it will be published to the list.",
-		"report_another_link_text" : "Spanish Report another death" 
+		"report_another_link_text" : "Spanish Report another" 
 	},
 
 	"missing" : "Spanish Missing required values."

@@ -3,12 +3,23 @@
     <div class="container">
 		<h1 class="page-header">{{_str.title}}</h1>
 
-
-		<!--
+		{{#missing_submitter_data}}
+		<p>Name and email are required.</p>
+		{{/missing_submitter_data}}
+		
 		{{#success}}
 		<h2>{{_str.success.title}}</h2>
+
+		{{#new}}
 		<p>{{_str.success.message}}</p>
 		<p><a href="/details/new">{{_str.success.report_another_link_text}}</a></p>
+		{{/new}}
+
+		{{^new}}
+		<p>Thank you for suggesting these changes.</p>
+		<p><a href="/details/{{id}}">Return to the record you were viewing.</a></p>
+		{{/new}}
+		
 		{{/success}}
 
 		{{#missing}}
@@ -18,7 +29,6 @@
 		{{^success}}
 		
 		
-		-->
 		{{{controls}}}
 
 

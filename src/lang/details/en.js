@@ -105,7 +105,7 @@ module.exports = {
 	"success" : {
 		"title" : "Success",
 		"message" : "Once the submission is reviewed for accuracy, it will be published to the list.",
-		"report_another_link_text" : "Report another death" 
+		"report_another_link_text" : "Report another" 
 	},
 
 	"missing" : "Missing required values."

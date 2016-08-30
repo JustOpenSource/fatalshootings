@@ -20,5 +20,10 @@ module.exports = {
 		"Hispanic/Latino" : "Hispanic/Latino",
 		"Asian" : "Asian",
 		"Race unspecified" : "Race unspecified"
+	},
+
+	"mental_illness" : {
+		"Unknown" : "Unknown",
+	    "Yes" : "Yes",
 	}
 }

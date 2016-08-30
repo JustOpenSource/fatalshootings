@@ -27,14 +27,6 @@ module.exports = {
 
 	"mental_illness" : {
 		"Unknown" : "Unknown",
-	    "Schizophrenia" : "Schizophrenia",
-	    "Manic Depression/Bi-Polar" : "Manic Depression/Bi-Polar",
-	    "Borderline Personality Disorder" : "Borderline Personality Disorder",
-	    "Depression" : "Depression",
-	    "Anger Problems" : "Anger Problems",
-	    "Anxiety" : "Anxiety",
-	    "Sociopathy" : "Sociopathy",
-	    "Psychopathy" : "Psychopathy",
-	    "Other" : "Other"
+	    "Yes" : "Yes",
 	}
 }

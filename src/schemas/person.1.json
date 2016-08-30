@@ -56,7 +56,8 @@
             "type" : "array",
             "items" : { 
                 "enum": [
-                    "Unknown"
+                    "Unknown",
+                    "Yes"
                 ]
             }
         },

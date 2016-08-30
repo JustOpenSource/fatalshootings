@@ -4,6 +4,7 @@ var log = require(__base + 'utils/log')('routes/details');
 var _ = require('underscore');
 var router = require('express').Router();
 var renderView = require(__base + 'utils/render-view');
+var sendEmail = require(__base + 'utils/send-email');
 
 // url/details/
 router.route('/:id')
@@ -16,7 +17,8 @@ router.route('/:id')
     var page_title = 'Details';
 
     renderView(req, res, 'details', {
-  
+        "name_or_email_missing" : req.query.name_or_email_missing,
+        "error" : req.query.error,
         "id" : req.params.id,
         "edit" : req.query.edit,
         "missing" : req.query.missing,
@@ -33,6 +35,29 @@ router.route('/:id')
 
 .post(function(req, res){
 
+    delete req.body['original-'];
+
+    if(!req.body['suggest-edit-name'] || !req.body['suggest-edit-email']){
+        res.redirect('/details/' + req.params.id + '?error=true&name_or_email_missing=true');
+    }
+
+    var subject = req.params.id === 'new' ? 'New Record Submission' : 'Record Edit Suggestion # ' + req.params.id;
+
+    sendEmail({
+        subject: subject,
+        message: JSON.stringify(req.body),
+        name: req.body['suggest-edit-name'],
+        email: req.body['suggest-edit-email']
+    }, (err, message)=>{
+        if(err){
+            res.redirect('/details/' + req.params.id + '?error=true');
+        } else {
+            res.redirect('/details/' + req.params.id + '?success=true');
+        }
+    });
+
+    /*
+
     var report = formatEntryForDatabase(req.body);
     var required = testForRequiredValues(report);
 
@@ -43,23 +68,12 @@ router.route('/:id')
     } else {
 
         //TODO: adjust to edit current entry
+        //res.redirect('/details/new?error=true');
+        //res.redirect('/details/new?success=true');
 
-        req._db.fatalities.insert({
-            'value' : report
-        }, function(err, body){
-
-            if(err){
-                
-                res.redirect('/details/new?error=true');
-            
-            } else {
-
-                log('trace', 'new entry added');
-
-                res.redirect('/details/new?success=true');
-            }
-        });
+        
     }
+    */
 });
 
 function handleStateAndAssignmentChanges(req, res){
@@ -104,6 +118,9 @@ function handleStateAndAssignmentChanges(req, res){
 }
 
 function formatEntryForDatabase(entry){
+
+    console.log('formatEntryForDatabase');
+    console.log(entry);
 
     var formattedEntry = {
         "submitted_by_name" : entry.reporter_name,
