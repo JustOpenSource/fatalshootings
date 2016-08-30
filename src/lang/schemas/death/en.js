@@ -16,6 +16,7 @@ module.exports = {
         "Tasered" : "Tasered",
         "Vehicle" : "Vehicle",
         "Undetermined" : "Undetermined",
+        "Beaten/Bludgeoned with instrument":"Beaten/Bludgeoned with instrument"
     },
 
     "disposition" : {

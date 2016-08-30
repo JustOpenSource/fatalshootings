@@ -39,6 +39,7 @@ router.route('/:id')
 
     if(!req.body['suggest-edit-name'] || !req.body['suggest-edit-email']){
         res.redirect('/details/' + req.params.id + '?error=true&name_or_email_missing=true');
+        return;
     }
 
     var subject = req.params.id === 'new' ? 'New Record Submission' : 'Record Edit Suggestion # ' + req.params.id;
