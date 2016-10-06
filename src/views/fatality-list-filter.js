@@ -376,12 +376,14 @@ module.exports = function(d, cb) {
             options: buildOptions('assignee', ASSIGNEE_ATTRIBUTES, d)
         });
 
-        filterModel.publicFilter.push({
-            input_type_text: true,
-            name: 'name',
-            value: d.filters['name'],
-            placeholder: 'Name',
-        });
+        if(!d.charts){
+            filterModel.publicFilter.push({
+                input_type_text: true,
+                name: 'name',
+                value: d.filters['name'],
+                placeholder: 'Name',
+            });
+        }
 
         filterModel.publicFilter.push({
             input_type_select: true,
@@ -447,6 +449,8 @@ module.exports = function(d, cb) {
         filterModel.limit = d.filters.limit;
 
         filterModel.user = d._user;
+
+        filterModel.chart = d.chart;
 
         cb(null, filterModel);
     }

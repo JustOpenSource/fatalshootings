@@ -3,7 +3,7 @@ var c = require(__base + 'constants');
 var log = require(__base + 'utils/log')('routes/contact');
 var router = require('express').Router();
 var renderView = require(__base + 'utils/render-view');
-
+var filterUtils = require(__base + 'utils/query-filters');
 
 // url/list/
 router.route('/')
@@ -44,7 +44,9 @@ router.route('/')
 
 .post(function(req, res){
 
-    res.json({disabled:true});
+    log('trace', 'list filter post data', req.body);
+
+    res.redirect(filterUtils.buildFilterURL(req.app.locals.url_root + '/charts', req.body));
 
 });
 

@@ -24,7 +24,13 @@
 
     <div class="col-md-12">
 
+        {{#chart}}
+        <input type="hidden" name="chart" value="true">
+        {{/chart}}
+        {{^chart}}
         <input type="hidden" name="limit" value="{{limit}}">
+        {{/chart}}
+        
 
         {{#publicFilter}}
         <div class="form-group">
@@ -47,7 +53,7 @@
         </div>
 
         <div class="form-group">
-            <a href="/list">Clear Filter</a>
+            <a href="{{postURL}}">Clear Filter</a>
         </div>
     </div>
 </form>

@@ -7,7 +7,8 @@ module.exports = function(d, cb) {
         //_user: d._user,
         url_current: d.locals.url_current,
         url_distinct: d.locals.url_distinct,
-        filters: filter
+        filters: filter,
+        charts: true
     
     }, function(err, data) {
 

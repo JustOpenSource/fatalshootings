@@ -125,7 +125,7 @@ class DbDriverDynamo {
     /* PUBLIC METHODS */
     setResult(record, cb) {
 
-        if(!record.id){
+        if(!record || !record.id){
             cb(null, true);
             return;
         }

@@ -1,4 +1,8 @@
 var __base = __base || '../';
+
+require('babel-register');
+
+
 var c = require(__base + 'constants');
 var log = require(__base + 'utils/log')('routes/details');
 var _ = require('underscore');

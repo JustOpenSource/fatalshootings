@@ -1,16 +1,17 @@
-var feJSON = require('../../fe.json');
+var feJSON = require('../../data/fe.json');
 var GoogleSpreadsheet = require('google-spreadsheet');
 var _ = require('underscore');
 
 var GOOGLE_DOC_ID = '1dKmaV_JiWcG8XBoRgP8b4e9Eopkpgt7FL7nyspvzAsE';
 var GOOGLE_WORKSHEET_INDEX = 0;
 
+var fs = require('fs');
+
 class ImportGoogleDoc {
     constructor() {
         this.doc = new GoogleSpreadsheet(GOOGLE_DOC_ID);
-        this.originalCollection = require(__dirname + '/../../googledump.json');
+        this.originalCollection = [];
         this.transformedCollection = [];
-        this.transformModel();
     }
 
     getMapping(key) {
@@ -42,42 +43,60 @@ class ImportGoogleDoc {
         return map[key];
     }
 
-    getRows(sheet) {
-        sheet.getRows({
-            offset: 0,
-        },(err, rows)=>{
-            this.originalCollection = rows;
-        });
-    }
+    getDoc(cb) {
 
-    getDoc() {
-        this.doc.getInfo((err, data)=>{
+        cb(require(__dirname + "/../../data/temp.json"));
+
+        return;
+
+        var t = this;
+
+        function getRows(sheet, cb) {
+            sheet.getRows({
+                offset: 0,
+            },(err, rows)=>{
+                t.originalCollection = rows;
+                cb(transformModel());
+            });
+        }
+
+        function transformModel() {
+            t.originalCollection.forEach((item, index)=>{
+
+                t.transformedCollection[index] = {};
+
+                Object.keys(item).forEach((key)=>{
+
+                    const mapping = t.getMapping(key); 
+
+                    if(item[key] === ''){
+                        item[key] = null;
+                    }
+
+                    if(mapping){
+                        t.transformedCollection[index][t.getMapping(key)] = item[key];
+                    }
+                })
+            });
+
+            /*
+            fs.writeFile(__dirname + "/../../data/temp.json", JSON.stringify(t.transformedCollection), function(err) {
+                if(err) {
+                    return console.log(err);
+                }
+
+                console.log("The file was saved!");
+            });
+            */
+
+            
+            return t.transformedCollection;
+        }
+
+        t.doc.getInfo((err, data)=>{
             var mainSheet = data.worksheets[GOOGLE_WORKSHEET_INDEX];
-            getRows(mainSheet);
+            getRows(mainSheet, cb);
         });
-    }
-
-    transformModel() {
-
-        this.originalCollection.forEach((item, index)=>{
-
-            this.transformedCollection[index] = {};
-
-            Object.keys(item).forEach((key)=>{
-
-                const mapping = this.getMapping(key); 
-
-                if(item[key] === ''){
-                    item[key] = null;
-                }
-
-                if(mapping){
-                    this.transformedCollection[index][this.getMapping(key)] = item[key];
-                }
-            })
-        });
-
-        return this.transformedCollection[0];
     }
 }
 

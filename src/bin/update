@@ -11,14 +11,19 @@ var db = new Db({
 
 var startIndex = 1500;
 var sliceTo;
-var doc = doc.transformedCollection;
-var length = doc.length;
+var length;
 
-function recursivePush() {
+var docData = new Doc();
+docData.getDoc(function(collection){
+    length = collection.length;
+    recursivePush(collection);
+});
+
+function recursivePush(collection) {
 
     sliceTo = (sliceTo >= length) ? length : startIndex + BATCH_LENGTH;
 
-    let sliceOfCollection = doc.slice(startIndex, sliceTo);
+    let sliceOfCollection = collection.slice(startIndex, sliceTo);
 
     db.setResults(sliceOfCollection, (err, response)=>{
 
@@ -30,9 +35,7 @@ function recursivePush() {
 
         if(sliceTo !== length){
             startIndex = sliceTo + 1;
-            recursivePush();
+            recursivePush(collection);
         }
     });
 }
-
-recursivePush();
