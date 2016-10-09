@@ -1,8 +1,7 @@
 
 <div class="page-content">
     <div class="container">
-		<h1 class="page-header">{{_str.title}}</h1>
-
+    	<br /><br />
 		{{#missing_submitter_data}}
 		<p>Name and email are required.</p>
 		{{/missing_submitter_data}}
@@ -28,8 +27,11 @@
 
 		{{^success}}
 		
-		
+		<div class="fe-details-form-controls-section row">
+		{{^new}}
 		{{{controls}}}
+		{{/new}}
+		</div>
 
 
 		<form id="saveEdits" action="{{action}}" method="POST" class="row">

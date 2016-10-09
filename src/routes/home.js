@@ -8,6 +8,9 @@ var renderView = require(__base + 'utils/render-view');
 router.route('/')
 .get(function(req, res){
 
+    res.redirect('/list');
+    return;
+
     var page_title = 'Fatal Encounters';
 
     renderView(req, res, 'home', {
