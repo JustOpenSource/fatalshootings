@@ -183,7 +183,11 @@ function causeOfDeathOptions(selected){
 
 function dispositionOptions(selected){
 
-    return generateOptions(feSchema.properties.death.type.schema.properties.disposition.enum, deathLangOptions.disposition, selected);
+    console.log('dispositionOptions');
+    
+    var options = generateOptions(['Unknown', 'Justified', 'Homocide', 'Other'], deathLangOptions.disposition, selected);
+    console.log(options);
+    return options;
 }
 
 function countryOptions(selected){
@@ -192,8 +196,6 @@ function countryOptions(selected){
 }
 
 function formatDetails(details, str, user){
-
-    log('trace', 'details.value!!!!!!!!!!!!!!!!!!!!!!!!!!!!!', details);
 
     function processSectionInputs(section){
 

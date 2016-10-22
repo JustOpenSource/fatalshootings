@@ -16,13 +16,13 @@
         {{^hideList}}
         {{#noResults}}
          <div class="col-md-12 fe-margin-top-md">
-            <p>There were no results.  Try removing a filter.</p>
+            <p class="no-results">There were no results.  Try removing a filter.</p>
         </div>
         {{/noResults}}
         {{/hideList}}
 
         {{#hideList}}
-            <p>Add a filter to see results.</p>
+            <p class="no-results ">Add a filter to see results.</p>
         {{/hideList}}
         
         {{^noResults}}
@@ -32,9 +32,10 @@
 
         <div class="col-md-12">
             {{^hideList}}
+
+            <!--
             <ul class="list-group">
                 <li>
-                    <!--
                     {{#assigned}}
                     <span class="list-item-value list-item-assigned-{{state}} list-item-xtra-small">
                         Admin
@@ -44,7 +45,7 @@
                     <span class="list-item-value list-item-assigned-{{state}} list-item-xtra-small">
                         Admin
                     </span>
-                    -->
+                    
                     
                     <span class="list-item-value list-item-large">
                         Name
@@ -63,6 +64,7 @@
                     <span class="list-item-value list-item-large">Date</span>
                 </li>
             </ul>
+            -->
             
 
             <ul class="list-group">

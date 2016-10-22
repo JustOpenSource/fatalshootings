@@ -15,7 +15,7 @@ var writeSchemaCache = require(__base + 'utils/schema-write-cache');
 
 var KEYS_DIR = __dirname + '/' + __base + '../_keys/';
 var DEFAULT_LANG = 'en';
-var PORT = 3000;
+var PORT = 8080;
 var SESSION_SECRET = 'thisisasecret';
 
 app.set('port', PORT);
@@ -169,50 +169,7 @@ function setupServer(){
 
 	log('trace', 'creating http server');
 
-	var httpServer = http.createServer(app).listen(app.get('port'));
-
-	
-	log('trace', 'getting key and cert');
-
-	var key, cert;
-
-	try{
-
-		key = fs.readFileSync(KEYS_DIR + 'key.pem');
-	
-	} catch(e){
-
-		log('error', 'cannot get key', e);
-	
-	}
-
-	try{
-	
-		cert = fs.readFileSync(KEYS_DIR + 'cert.pem');
-	
-	} catch(e){
-	
-		log('error', 'cannot get cert', e);
-	
-	}
-
-	if(key && cert){
-	
-		log('trace', 'creating https options');
-
-		var options = {
-  			"key" : key,
-  			"cert" : cert
-		};
-
-		log('trace', 'creating https server');
-
-		var httpsServer = https.createServer(options, app).listen(8000);
-	} else {
-
-		log('error', 'could not start https server')
-	
-	}
+	var httpServer = http.createServer(app).listen(app.get('port'), '0.0.0.0');
 }
 
 
