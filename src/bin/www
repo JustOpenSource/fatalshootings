@@ -15,7 +15,7 @@ var writeSchemaCache = require(__base + 'utils/schema-write-cache');
 
 var KEYS_DIR = __dirname + '/' + __base + '../_keys/';
 var DEFAULT_LANG = 'en';
-var PORT = 8080;
+var PORT = 80;
 var SESSION_SECRET = 'thisisasecret';
 
 app.set('port', PORT);
